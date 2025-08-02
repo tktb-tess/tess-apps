@@ -1,6 +1,20 @@
 'use client';
-
+import { Metadata } from 'next';
 import { useEffect } from 'react';
+
+const ogDesc = 'Something went wrong';
+const ogTitle = '500 Internal Server Error';
+
+export const metadata: Metadata = {
+  title: ogTitle,
+  description: ogDesc,
+  openGraph: {
+    description: ogDesc,
+    url: 'https://apps.tktb-tess.dev',
+    siteName: 'τὰ συστήματα',
+    images: '/link-card.png'
+  },
+}
 
 type ErrorProps = {
   error: Error & { digest?: string };
@@ -20,6 +34,7 @@ const Error = ({ error, reset }: ErrorProps) => {
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
+        className='btn-1'
       >
         Try again
       </button>

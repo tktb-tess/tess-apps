@@ -1,8 +1,18 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata = {
-  title: '404 Not Found',
-  description: 'お探しのページが見つかりませんでした。移動または削除された可能性があります。',
+const ogDesc = 'お探しのページが見つかりませんでした。移動または削除された可能性があります。';
+const ogTitle = '404 Not Found';
+
+export const metadata: Metadata = {
+  title: ogTitle,
+  description: ogDesc,
+  openGraph: {
+    description: ogDesc,
+    url: 'https://apps.tktb-tess.dev',
+    siteName: 'τὰ συστήματα',
+    images: '/link-card.png'
+  },
 }
 
 const NotFound = () => {
