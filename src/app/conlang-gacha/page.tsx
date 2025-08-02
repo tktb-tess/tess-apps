@@ -61,7 +61,7 @@ const App = async () => {
           </p>
         </section>
         <p>
-          最終更新日時: <code>{updatedDate.toLocaleString()} (日本時間)</code>
+          最終更新日時: <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
         </p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
         <Gacha langs={langs} />

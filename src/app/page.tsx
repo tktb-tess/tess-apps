@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(`https://apps.tktb-tess.dev`),
   description: ogDesc,
   openGraph: {
-    title: { default: ogTitle, template: `%s - ${ogTitle}` },
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
     siteName: ogTitle,
+    images: '/link-card.png'
   },
 };
 

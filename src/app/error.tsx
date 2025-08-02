@@ -14,7 +14,7 @@ const Error = ({ error, reset }: ErrorProps) => {
 
   return (
     <div className='flex flex-col gap-5 justify-center items-center min-h-screen'>
-      <h2 className='font-extralight text-6xl xl:text-7xl'>Something went wrong!</h2>
+      <h2 className='font-extralight text-5xl xl:text-6xl'>Something went wrong!</h2>
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment
