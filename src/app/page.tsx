@@ -2,17 +2,14 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { EB_Garamond } from 'next/font/google';
 
-const ogTitle = 'τά συστήματα';
+const ogTitle = 'τὰ συστήματα';
 const ogDesc = '作ったアプリたち';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`https://apps.tktb-tess.dev`),
   description: ogDesc,
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
-    siteName: ogTitle,
-    images: '/link-card.png'
   },
 };
 

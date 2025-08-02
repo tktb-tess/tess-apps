@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: ogTitle,
   description: ogDesc,
   openGraph: {
-    title: ogTitle,
     description: ogDesc,
+    url: 'https://apps.tktb-tess.dev/conlang-gacha',
   },
 };
 

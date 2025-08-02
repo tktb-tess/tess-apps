@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(`https://apps.tktb-tess.dev`),
   openGraph: {
     title: { default: ogTitle, template: `%s - ${ogTitle}` },
-    url: 'https://apps.tktb-tess.dev',
     siteName: ogTitle,
+    images: '/link-card.png'
   },
 }
 
