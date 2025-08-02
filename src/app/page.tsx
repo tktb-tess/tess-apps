@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
+    siteName: 'τὰ συστήματα',
+    images: '/link-card.png'
   },
 };
 
