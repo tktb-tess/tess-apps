@@ -19,10 +19,10 @@ export const metadata: Metadata = {
 
 const Home = () => {
   return (
-    <div className="grid place-content-center h-screen">
-      <ul>
-        <li><Link href='/conlang-gacha'>Conlang Gacha</Link></li>
-      </ul>
+    <div className="flex flex-col justify-center items-center *:max-w-full min-h-screen">
+      <Link href='/conlang-gacha' className="no-underline bg-sky-300 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow">
+        <p className="text-3xl">人工言語ガチャ</p>
+      </Link>
     </div>
   );
 };

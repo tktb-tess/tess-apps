@@ -1,8 +1,11 @@
 import ExtLink from '@/lib/comp/extLink';
+import Link from 'next/link';
 import { Cotec } from '@/lib/mod/decl';
+import { TZDate } from '@date-fns/tz';
 
 const fetchCtcJson = async () => {
-  const url = 'https://tktb-tess.github.io/cotec-json-data/parsed-from-conlinguistics-wiki-list.ctc.json';
+  const url =
+    'https://tktb-tess.github.io/cotec-json-data/parsed-from-conlinguistics-wiki-list.ctc.json';
   return fetch(url, { method: 'GET' }).then<Cotec>((resp) => {
     if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
 
@@ -11,25 +14,26 @@ const fetchCtcJson = async () => {
 };
 
 const App = async () => {
-  const { metadata,  } = await fetchCtcJson();
+  const { metadata, contents } = await fetchCtcJson();
+
+  const updatedDate = new TZDate(metadata.date_last_updated);
 
   return (
     <>
       <header className='flow-root'>
-        <h1 className='font-serif font-bold text-center my-15'>
-          人工言語ガチャ
-        </h1>
+        <h1 className='font-sans text-center my-15'>人工言語ガチャ</h1>
       </header>
       <main className='flex flex-col min-h-[90vh] gap-3'>
         <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
-          <h2 id='setsumei' className='text-center font-serif'>
+          <h2 id='setsumei' className='text-center'>
             – 説明 –
           </h2>
           <p>
             <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
               かえるさん (kaeru2193) のリポジトリ
             </ExtLink>
-            にて管理されている <code>conlinguistics-wiki-list.ctc</code> からデータを取得し、ランダムで1つ言語を選んで情報を表示します。
+            にて管理されている <code>conlinguistics-wiki-list.ctc</code>{' '}
+            からデータを取得し、ランダムで1つ言語を選んで情報を表示します。
           </p>
           <p>
             <code>conlinguistics-wiki-list.ctc</code> とは、人工言語学Wikiの
@@ -42,8 +46,15 @@ const App = async () => {
             </ExtLink>
           </p>
         </section>
-        <p className='break-words'>{JSON.stringify(metadata)}</p>
+        <p>最終更新日時: <code>{updatedDate.toLocaleString()} (日本時間)</code></p>
+        <h3 className='text-center'>計 {contents.length} 語</h3>
+        <p className='text-center'>準備中……</p>
       </main>
+      
+      <Link href='/' className='block self-center btn-1'>
+        戻る
+      </Link>
+      <div className='h-10'></div>
     </>
   );
 };
