@@ -1,19 +1,17 @@
-import type { Metadata } from 'next';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'ἅ πεποιῆκα συστήματα',
-  description: '作ったアプリたち',
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
+type LayoutProps = Readonly<{
   children: React.ReactNode;
-}>) {
+}>;
+
+const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang='ja'>
-      <body>{children}</body>
+      <body>
+        <div className='px-2 w-full max-w-384 mx-auto'>{children}</div>
+      </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

@@ -3,125 +3,188 @@
 /* font-face settings */
 
 @font-face {
-	font-family: 'Inter-Variable';
-	font-style: normal;
-	src:
-		local('Inter'),
-		url('/woff2/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations');
+  font-family: 'Inter-Variable';
+  font-style: normal;
+  src: local('Inter'),
+    url('/woff2/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations');
 }
 
 @font-face {
-	font-family: 'Inter-Variable';
-	font-style: italic;
-	src:
-		local('Inter Italic'),
-		url('/woff2/Inter-Italic-VariableFont_opsz,wght.woff2') format('woff2-variations');
+  font-family: 'Inter-Variable';
+  font-style: italic;
+  src: local('Inter Italic'),
+    url('/woff2/Inter-Italic-VariableFont_opsz,wght.woff2')
+      format('woff2-variations');
 }
 
 @font-face {
-	font-family: 'Charis-SIL';
-	font-weight: 100 500;
-	font-style: normal;
-	src:
-		local('Charis SIL'),
-		url('/woff2/CharisSIL-Regular.woff2') format('woff2');
+  font-family: 'Charis-SIL';
+  font-weight: 100 500;
+  font-style: normal;
+  src: local('Charis SIL'),
+    url('/woff2/CharisSIL-Regular.woff2') format('woff2');
 }
 
 @font-face {
-	font-family: 'Charis-SIL';
-	font-weight: 100 500;
-	font-style: italic;
-	src:
-		local('Charis SIL Italic'),
-		url('/woff2/CharisSIL-Italic.woff2') format('woff2');
+  font-family: 'Charis-SIL';
+  font-weight: 100 500;
+  font-style: italic;
+  src: local('Charis SIL Italic'),
+    url('/woff2/CharisSIL-Italic.woff2') format('woff2');
 }
 
 @font-face {
-	font-family: 'Charis-SIL';
-	font-weight: 600 900;
-	font-style: normal;
-	src:
-		local('Charis SIL Bold'),
-		url('/woff2/CharisSIL-Bold.woff2') format('woff2');
+  font-family: 'Charis-SIL';
+  font-weight: 600 900;
+  font-style: normal;
+  src: local('Charis SIL Bold'),
+    url('/woff2/CharisSIL-Bold.woff2') format('woff2');
 }
 
 @font-face {
-	font-family: 'Charis-SIL';
-	font-weight: 600 900;
-	font-style: italic;
-	src:
-		local('Charis SIL Bold Italic'),
-		url('/woff2/CharisSIL-BoldItalic.woff2') format('woff2');
+  font-family: 'Charis-SIL';
+  font-weight: 600 900;
+  font-style: italic;
+  src: local('Charis SIL Bold Italic'),
+    url('/woff2/CharisSIL-BoldItalic.woff2') format('woff2');
 }
 
 @theme {
-	--font-sans:
-		'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP', 'BIZ UDPGothic',
-		'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif, 'Segoe UI', 'Yu Gothic UI', system-ui;
-	--font-serif:
-		'Charis-SIL', 'Times New Roman', 'Noto Serif JP', 'BIZ UDPMincho', 'Hiragino Mincho',
-		'Hiragino Serif', serif, 'Segoe UI', 'Yu Gothic UI', system-ui;
-	--font-ipa: 'Charis-SIL', 'Times New Roman', serif, system-ui;
-	--color-mnlila: oklch(0.18 0.0957 296);
-	--color-title-s: oklch(0.3 0.1469 316);
-	--color-title-e: oklch(0.3 0.1469 276);
-	--color-llila: oklch(0.91 0.0488 296);
-	--color-llila-2: oklch(0.85 0.0836 296);
-	--link-transition-dur: 120ms;
-	--tracking-ultra: 3rem;
+  --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
+    'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
+    'Segoe UI', 'Yu Gothic UI', system-ui;
+  --font-serif: 'Charis-SIL', 'Times New Roman', 'Noto Serif JP',
+    'BIZ UDPMincho', 'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI',
+    'Yu Gothic UI', system-ui;
+  --font-ipa: 'Charis-SIL', 'Times New Roman', serif, system-ui;
+  --color-mnlila: oklch(0.18 0.0957 296);
+  --color-title-s: oklch(0.3 0.1469 316);
+  --color-title-e: oklch(0.3 0.1469 276);
+  --color-llila: oklch(0.91 0.0488 296);
+  --color-llila-2: oklch(0.85 0.0836 296);
+  --link-transition-dur: 120ms;
+  --tracking-ultra: 3rem;
+
+  @keyframes slidein {
+    from {
+      transform: translateY(-20px);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
 }
 
 @utility user-select-* {
-	user-select: --value('none', 'auto', 'all', 'text');
-	-webkit-user-select: --value('none', 'auto', 'all', 'text');
+  user-select: --value('none', 'auto', 'all', 'text');
+  -webkit-user-select: --value('none', 'auto', 'all', 'text');
 }
 
 @utility table-container {
-	@apply overflow-x-auto my-8;
-	scrollbar-width: thin;
+  @apply overflow-x-auto my-8;
+  scrollbar-width: thin;
 }
 
 @utility link-disabled {
-	@apply pointer-events-none text-neutral-600 any-hover:no-underline;
+  @apply pointer-events-none text-neutral-600 any-hover:no-underline;
 }
 
 @utility grid-cols-auto-* {
-	grid-template-columns: repeat(--value(integer), auto);
+  grid-template-columns: repeat(--value(integer), auto);
 }
 
 @utility btn-1 {
-	@apply bg-mnlila any-hover:bg-mnlila/70 transition-colors rounded text-white px-2;
+  @apply bg-mnlila any-hover:bg-mnlila/70 transition-colors rounded text-white px-2;
 }
 
 @utility btn-2 {
-	@apply bg-white any-hover:bg-llila transition-colors border border-slate-300 rounded px-2;
+  @apply bg-white any-hover:bg-llila transition-colors border border-slate-300 rounded px-2;
 }
 
 @custom-variant any-hover {
-	&:hover {
-		@media (any-hover: hover) {
-			@slot;
-		}
-	}
+  &:hover {
+    @media (any-hover: hover) {
+      @slot;
+    }
+  }
 }
 
 @layer base {
-	* {
-		font-optical-sizing: auto;
-	}
+  * {
+    font-optical-sizing: auto;
+  }
 
-	html,
-	:host {
-		-webkit-tap-highlight-color: revert;
-	}
+  html,
+  :host {
+    -webkit-tap-highlight-color: revert;
+  }
 
-	body {
-		@apply bg-mnlila text-white antialiased font-sans flex flex-col gap-2 min-h-screen;
-	}
+  body {
+    @apply bg-mnlila text-white antialiased font-sans flex flex-col gap-2 min-h-screen;
+  }
 
-	h1 {
-		@apply text-2xl md:text-3xl xl:text-4xl;
-	}
+  a {
+    @apply text-cyan-500 any-hover:underline;
+  }
 
-	
+  button,
+  input[type='button'] {
+    @apply cursor-pointer;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  input[type='url'],
+  textarea {
+    @apply font-mono border bg-neutral-700 border-white rounded px-1;
+
+    &:disabled {
+      @apply bg-neutral-500;
+    }
+  }
+
+  h1 {
+    @apply text-3xl lg:text-4xl xl:text-5xl;
+  }
+
+  h2,
+  h3,
+  p,
+  ul,
+  ol {
+    @apply leading-[1.5];
+  }
+
+  li > ul {
+    @apply mb-0;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  ul {
+    list-style: '\2023';
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  :is(ul, ol) > li {
+    @apply ms-3 ps-1;
+  }
+
+  textarea {
+    @apply resize-none;
+  }
+
+  code {
+    @apply bg-black rounded border border-white/60 px-1;
+  }
 }
