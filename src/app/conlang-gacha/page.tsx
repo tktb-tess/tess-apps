@@ -32,7 +32,7 @@ const fetchCtcJson = async () => {
 const App = async () => {
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
-  const updatedDate = new TZDate(ctcMetadata.date_last_updated);
+  const updatedDate = new TZDate(ctcMetadata.date_last_updated, 'Asia/Tokyo');
 
   return (
     <>
