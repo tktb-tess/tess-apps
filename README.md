@@ -15,7 +15,7 @@ npm run dev
 
 `v2.0.0`
 
-[https://conlang-gacha.tktb-tess.dev](https://conlang-gacha.tktb-tess.dev) より移動。
+[https://github.com/tktb-tess/conlang_gacha](https://github.com/tktb-tess/conlang_gacha) より移動。
 
 ### 説明
 
