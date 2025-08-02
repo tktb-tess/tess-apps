@@ -1,36 +1,50 @@
-import ExtLink from '@/lib/comp/extLink';
+import ExtLink from '@/lib/components/extLink';
 import Link from 'next/link';
 import { Cotec } from '@/lib/mod/decl';
 import { TZDate } from '@date-fns/tz';
+import { Metadata } from 'next';
+import Gacha from './gacha';
+
+const ogTitle = '人工言語ガチャ',
+  ogDesc = 'wiki掲載の人工言語のガチャ。';
+
+export const metadata: Metadata = {
+  title: ogTitle,
+  description: ogDesc,
+  openGraph: {
+    title: ogTitle,
+    description: ogDesc,
+  },
+};
 
 const fetchCtcJson = async () => {
   const url =
     'https://tktb-tess.github.io/cotec-json-data/parsed-from-conlinguistics-wiki-list.ctc.json';
-  return fetch(url, { method: 'GET' }).then<Cotec>((resp) => {
+  return fetch(url, { method: 'GET' }).then((resp) => {
     if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
 
-    return resp.json();
+    return resp.json() as Promise<Cotec>;
   });
 };
 
 const App = async () => {
-  const { metadata, contents } = await fetchCtcJson();
+  const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
-  const updatedDate = new TZDate(metadata.date_last_updated);
+  const updatedDate = new TZDate(ctcMetadata.date_last_updated);
 
   return (
     <>
       <header className='flow-root'>
         <h1 className='font-sans text-center my-15'>人工言語ガチャ</h1>
       </header>
-      <main className='flex flex-col min-h-[90vh] gap-3'>
+      <main className='flex flex-col min-h-[80vh] gap-3'>
         <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
           <h2 id='setsumei' className='text-center'>
             – 説明 –
           </h2>
           <p>
             <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
-              かえるさん (kaeru2193) のリポジトリ
+              かえる (kaeru2193) さんのリポジトリ
             </ExtLink>
             にて管理されている <code>conlinguistics-wiki-list.ctc</code>{' '}
             からデータを取得し、ランダムで1つ言語を選んで情報を表示します。
@@ -46,11 +60,13 @@ const App = async () => {
             </ExtLink>
           </p>
         </section>
-        <p>最終更新日時: <code>{updatedDate.toLocaleString()} (日本時間)</code></p>
-        <h3 className='text-center'>計 {contents.length} 語</h3>
-        <p className='text-center'>準備中……</p>
+        <p>
+          最終更新日時: <code>{updatedDate.toLocaleString()} (日本時間)</code>
+        </p>
+        <h3 className='text-center'>計 {langs.length} 語</h3>
+        <Gacha langs={langs} />
       </main>
-      
+
       <Link href='/' className='block self-center btn-1'>
         戻る
       </Link>

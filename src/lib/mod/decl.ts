@@ -35,7 +35,7 @@ export const isMoyune = (str: string): str is MoyuneClass => {
   return false;
 };
 
-export type CotecMetadata = {
+export type CotecMetadata = Readonly<{
   datasize: [number, number];
   title: string;
   author: string[];
@@ -45,7 +45,7 @@ export type CotecMetadata = {
   advanced: number;
   label: string[];
   type: string[];
-};
+}>;
 
 export type CotecContent = Readonly<{
   messier: unknown;
@@ -73,8 +73,8 @@ export type CotecContent = Readonly<{
 }>;
 
 export type Cotec = {
-  metadata: Readonly<CotecMetadata>;
-  contents: readonly Readonly<CotecContent>[];
+  metadata: CotecMetadata;
+  contents: readonly CotecContent[];
 };
 
 export type CTCCache = {
