@@ -48,8 +48,7 @@ const Gacha = ({ langs, expires }: Props) => {
 
   const tableRef = useRef<HTMLTableElement | null>(null);
 
-  const handleBtn = () => {
-    setIndex(() => getRndInt(0, langs.length));
+  const tableAnimation = () => {
     tableRef.current?.classList.remove('fade-slide-in');
     tableRef.current?.classList.replace('opacity-100', 'opacity-0');
 
@@ -59,22 +58,23 @@ const Gacha = ({ langs, expires }: Props) => {
     }, 10);
   };
 
+  const handleBtn = () => {
+    const newIndex = getRndInt(0, langs.length);
+    setIndex(() => newIndex);
+    localStorage.setItem(keys.lastLangID, langs[newIndex].name.join(','));
+    tableAnimation();
+  };
+
   useEffect(() => {
     if (expires < Date.now()) return;
-
     const lastLang = localStorage.getItem(keys.lastLangID);
-
     if (!lastLang) return;
-
     const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
     if (index > -1) {
       setIndex(() => index);
+      tableAnimation();
     }
   }, [expires, langs]);
-
-  useEffect(() => {
-    localStorage.setItem(keys.lastLangID, name.join(','));
-  }, [name]);
 
   return (
     <>
