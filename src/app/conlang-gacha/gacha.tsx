@@ -1,7 +1,12 @@
 'use client';
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const keys = {
+  lastLangID: 'last-lang-id',
+  expires: 'expires',
+} as const;
 
 type Props = {
   langs: readonly CotecContent[];
@@ -51,6 +56,10 @@ const Gacha = ({ langs }: Props) => {
       tableRef.current?.classList.replace('opacity-0', 'opacity-100');
     }, 10);
   };
+
+  useEffect(() => {
+    localStorage.setItem(keys.lastLangID, name[0]);
+  }, [name]);
 
   
   return (

@@ -68,6 +68,7 @@ const App = async () => {
         <p>
           最終更新日時: <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
         </p>
+        <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
         <Gacha langs={langs} />
       </main>
