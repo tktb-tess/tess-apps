@@ -13,7 +13,7 @@ npm run dev
 
 ## 人工言語ガチャ
 
-`v2.0.0`
+`v2.0.1`
 
 [https://github.com/tktb-tess/conlang_gacha](https://github.com/tktb-tess/conlang_gacha) より移動。
 
@@ -26,6 +26,10 @@ npm run dev
 Cotec形式については [こちら](https://migdal.jp/cl_kiita/cotec-conlang-table-expression-powered-by-csv-clakis-rfc-2h86) を読んでください。
 
 ### 更新履歴
+
+- v2.0.1
+  - 前回結果保持機能を追加
+  - テーブルの項目に一部ダブりがあったのを修正
 
 - v2.0.0
   - ドメインを移動
