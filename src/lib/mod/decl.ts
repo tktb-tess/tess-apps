@@ -73,8 +73,8 @@ export type CotecContent = Readonly<{
 }>;
 
 export type Cotec = {
-  metadata: CotecMetadata;
-  contents: readonly CotecContent[];
+  readonly metadata: CotecMetadata;
+  readonly contents: readonly CotecContent[];
 };
 
 export type CTCCache = {

@@ -1,4 +1,5 @@
 'use client';
+
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
 import { useEffect, useRef, useState } from 'react';
@@ -18,6 +19,35 @@ const getRndInt = (min: number, max: number) => {
 
 const Gacha = ({ langs, expires }: Props) => {
   const [index, setIndex] = useState(0);
+  const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const tableAnimation = () => {
+    tableRef.current?.classList.remove('fade-slide-in');
+    tableRef.current?.classList.add('opacity-0');
+
+    setTimeout(() => {
+      tableRef.current?.classList.add('fade-slide-in');
+      tableRef.current?.classList.remove('opacity-0');
+    }, 10);
+  };
+
+  const handleBtn = () => {
+    const newIndex = getRndInt(0, langs.length);
+    setIndex(() => newIndex);
+    localStorage.setItem(keys.lastLangID, langs[newIndex].name.join(','));
+    tableAnimation();
+  };
+
+  useEffect(() => {
+    if (expires < Date.now()) return;
+    const lastLang = localStorage.getItem(keys.lastLangID);
+    if (!lastLang) return;
+    const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
+    if (index > -1) {
+      setIndex(() => index);
+      tableAnimation();
+    }
+  }, [langs, expires]);
 
   const {
     name,
@@ -46,36 +76,6 @@ const Gacha = ({ langs, expires }: Props) => {
     ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
   );
 
-  const tableRef = useRef<HTMLTableElement | null>(null);
-
-  const tableAnimation = () => {
-    tableRef.current?.classList.remove('fade-slide-in');
-    tableRef.current?.classList.replace('opacity-100', 'opacity-0');
-
-    setTimeout(() => {
-      tableRef.current?.classList.add('fade-slide-in');
-      tableRef.current?.classList.replace('opacity-0', 'opacity-100');
-    }, 10);
-  };
-
-  const handleBtn = () => {
-    const newIndex = getRndInt(0, langs.length);
-    setIndex(() => newIndex);
-    localStorage.setItem(keys.lastLangID, langs[newIndex].name.join(','));
-    tableAnimation();
-  };
-
-  useEffect(() => {
-    if (expires < Date.now()) return;
-    const lastLang = localStorage.getItem(keys.lastLangID);
-    if (!lastLang) return;
-    const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
-    if (index > -1) {
-      setIndex(() => index);
-      tableAnimation();
-    }
-  }, [expires, langs]);
-
   return (
     <>
       <button
@@ -92,7 +92,7 @@ const Gacha = ({ langs, expires }: Props) => {
         <table
           className='
           grid-cols-1 md:grid-cols-auto-2 place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
-          opacity-100 fade-slide-in
+          opacity-0
         '
           ref={tableRef}
         >
@@ -187,7 +187,6 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-
             {world.length > 0 && (
               <tr>
                 <th>架空世界</th>

@@ -6,8 +6,8 @@ import { Metadata } from 'next';
 import Gacha from './gacha';
 import { addMonths } from 'date-fns';
 
-const ogTitle = '人工言語ガチャ',
-  ogDesc = 'wiki掲載の人工言語のガチャ。';
+const ogTitle = '人工言語ガチャ';
+const ogDesc = 'wiki掲載の人工言語のガチャ。';
 
 export const metadata: Metadata = {
   title: ogTitle,
@@ -16,11 +16,11 @@ export const metadata: Metadata = {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev/conlang-gacha',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
-    images: '/link-card.png'
+    images: '/link-card.png',
   },
   twitter: {
-    card: 'summary'
-  }
+    card: 'summary',
+  },
 };
 
 const fetchCtcJson = async () => {
@@ -69,7 +69,8 @@ const App = async () => {
           </p>
         </section>
         <p>
-          最終更新日時: <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
+          最終更新日時:{' '}
+          <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
