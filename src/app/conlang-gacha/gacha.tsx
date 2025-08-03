@@ -5,18 +5,19 @@ import { useEffect, useRef, useState } from 'react';
 
 const keys = {
   lastLangID: 'last-lang-id',
-  expires: 'expires',
 } as const;
 
 type Props = {
   langs: readonly CotecContent[];
+  expires: number;
 };
 
 const getRndInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const Gacha = ({ langs }: Props) => {
+const Gacha = ({ langs, expires }: Props) => {
+
   const [index, setIndex] = useState(0);
 
   const {
@@ -42,7 +43,9 @@ const Gacha = ({ langs }: Props) => {
     ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
   );
 
-  const category_a = category.filter(({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3'));
+  const category_a = category.filter(
+    ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
+  );
 
   const tableRef = useRef<HTMLTableElement | null>(null);
 
@@ -58,13 +61,16 @@ const Gacha = ({ langs }: Props) => {
   };
 
   useEffect(() => {
-    localStorage.setItem(keys.lastLangID, name[0]);
-  }, [name]);
+    localStorage.setItem(keys.lastLangID, name.concat(kanji).join(','));
+  }, [name, kanji]);
 
-  
   return (
     <>
-      <button type='button' className='text-xl btn-1 self-center' onClick={handleBtn}>
+      <button
+        type='button'
+        className='text-xl btn-1 self-center'
+        onClick={handleBtn}
+      >
         回す！
       </button>
       <section aria-labelledby='result' className='my-5'>

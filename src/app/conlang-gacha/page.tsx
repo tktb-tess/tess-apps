@@ -4,6 +4,7 @@ import { Cotec } from '@/lib/mod/decl';
 import { TZDate } from '@date-fns/tz';
 import { Metadata } from 'next';
 import Gacha from './gacha';
+import { addMonths } from 'date-fns';
 
 const ogTitle = '人工言語ガチャ',
   ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -36,6 +37,8 @@ const App = async () => {
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
   const updatedDate = new TZDate(ctcMetadata.date_last_updated, 'Asia/Tokyo');
+
+  const expires = addMonths(updatedDate, 1).getTime();
 
   return (
     <>
@@ -70,7 +73,7 @@ const App = async () => {
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
-        <Gacha langs={langs} />
+        <Gacha langs={langs} expires={expires} />
       </main>
 
       <Link href='/' className='block self-center btn-1 text-xl'>
