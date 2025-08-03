@@ -1,19 +1,53 @@
 'use client';
+
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
 import { useEffect, useRef, useState } from 'react';
 
+const keys = {
+  lastLangID: 'last-lang-id',
+} as const;
+
 type Props = {
   langs: readonly CotecContent[];
+  expires: number;
 };
 
 const getRndInt = (min: number, max: number) => {
-	return Math.floor(Math.random() * (max - min) + min);
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
-const Gacha = ({ langs }: Props) => {
-
+const Gacha = ({ langs, expires }: Props) => {
   const [index, setIndex] = useState(0);
+  const tableRef = useRef<HTMLTableElement | null>(null);
+
+  const tableAnimation = () => {
+    tableRef.current?.classList.remove('fade-slide-in');
+    tableRef.current?.classList.add('opacity-0');
+
+    setTimeout(() => {
+      tableRef.current?.classList.add('fade-slide-in');
+      tableRef.current?.classList.remove('opacity-0');
+    }, 10);
+  };
+
+  const handleBtn = () => {
+    const newIndex = getRndInt(0, langs.length);
+    setIndex(() => newIndex);
+    localStorage.setItem(keys.lastLangID, langs[newIndex].name.join(','));
+    tableAnimation();
+  };
+
+  useEffect(() => {
+    if (expires < Date.now()) return;
+    const lastLang = localStorage.getItem(keys.lastLangID);
+    if (!lastLang) return;
+    const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
+    if (index > -1) {
+      setIndex(() => index);
+      tableAnimation();
+    }
+  }, [langs, expires]);
 
   const {
     name,
@@ -34,25 +68,21 @@ const Gacha = ({ langs }: Props) => {
     script,
   } = langs[index];
 
-  const tableRef = useRef<HTMLTableElement | null>(null);
+  const site_a = site.filter(
+    ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
+  );
 
-  const handleBtn = () => {
-    setIndex(() => getRndInt(0, langs.length));
-    tableRef.current?.classList.replace('opacity-100', 'opacity-0');
-    tableRef.current?.classList.remove('fade-slide-in');
+  const category_a = category.filter(
+    ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
+  );
 
-    setTimeout(() => {
-      tableRef.current?.classList.add('fade-slide-in');
-      tableRef.current?.classList.replace('opacity-0', 'opacity-100');
-    }, 10);
-  };
-
-  useEffect(() => {
-    console.log(langs[index]);
-  }, [index, langs]);
   return (
     <>
-      <button type='button' className='btn-1 self-center' onClick={handleBtn}>
+      <button
+        type='button'
+        className='text-xl btn-1 self-center'
+        onClick={handleBtn}
+      >
         回す！
       </button>
       <section aria-labelledby='result' className='my-5'>
@@ -62,7 +92,7 @@ const Gacha = ({ langs }: Props) => {
         <table
           className='
           grid-cols-1 md:grid-cols-auto-2 place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
-          opacity-100 fade-slide-in
+          opacity-0
         '
           ref={tableRef}
         >
@@ -93,11 +123,11 @@ const Gacha = ({ langs }: Props) => {
                 <td>{period}</td>
               </tr>
             )}
-            {site.length > 0 && (
+            {site_a.length > 0 && (
               <tr>
                 <th>サイト</th>
                 <td>
-                  {site.map(({ name, url }, i) => {
+                  {site_a.map(({ name, url }, i) => {
                     if (name) {
                       return (
                         <p key={`${index}-${i}`}>
@@ -157,18 +187,17 @@ const Gacha = ({ langs }: Props) => {
                 </td>
               </tr>
             )}
-
             {world.length > 0 && (
               <tr>
                 <th>架空世界</th>
                 <td>{world.join(', ')}</td>
               </tr>
             )}
-            {category.length > 0 && (
+            {category_a.length > 0 && (
               <tr>
                 <th>分類</th>
                 <td>
-                  {category.map(({ name, content }, i) => (
+                  {category_a.map(({ name, content }, i) => (
                     <p key={`${index}-${i}`}>
                       {content ? `${name}: ${content}` : `${name}`}
                     </p>

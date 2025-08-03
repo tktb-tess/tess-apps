@@ -1,3 +1,4 @@
+import TessIcon from '@/lib/components/tessIcon';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -10,21 +11,24 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
-    siteName: 'τὰ συστήματα',
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png'
   },
+  twitter: {
+    card: 'summary'
+  }
 }
 
 const NotFound = () => {
   return (
-    <div className='flex flex-col gap-5 justify-center items-center w-full *:max-w-full min-h-screen'>
+    <main className='flex flex-col gap-5 justify-center items-center w-full *:max-w-full min-h-screen'>
+      <TessIcon className='block size-40 fill-white animate-[spin_30s_linear_infinite]' />
       <h2 className='font-extralight text-5xl xl:text-6xl'>Hoppla!</h2>
-      <h2>404 Not Found</h2>
       <p>
         お探しのページは見つかりませんでした。移動または削除された可能性があります。
       </p>
       <Link href='/' className='block btn-1'>トップに戻る</Link>
-    </div>
+    </main>
   );
 };
 

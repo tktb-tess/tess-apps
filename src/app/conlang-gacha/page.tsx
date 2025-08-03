@@ -4,9 +4,10 @@ import { Cotec } from '@/lib/mod/decl';
 import { TZDate } from '@date-fns/tz';
 import { Metadata } from 'next';
 import Gacha from './gacha';
+import { addMonths } from 'date-fns';
 
-const ogTitle = '人工言語ガチャ',
-  ogDesc = 'wiki掲載の人工言語のガチャ。';
+const ogTitle = '人工言語ガチャ';
+const ogDesc = 'wiki掲載の人工言語のガチャ。';
 
 export const metadata: Metadata = {
   title: ogTitle,
@@ -14,8 +15,11 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev/conlang-gacha',
-    siteName: 'τὰ συστήματα',
-    images: '/link-card.png'
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    images: '/link-card.png',
+  },
+  twitter: {
+    card: 'summary',
   },
 };
 
@@ -33,6 +37,8 @@ const App = async () => {
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
   const updatedDate = new TZDate(ctcMetadata.date_last_updated, 'Asia/Tokyo');
+
+  const expires = addMonths(updatedDate, 1).getTime();
 
   return (
     <>
@@ -63,13 +69,15 @@ const App = async () => {
           </p>
         </section>
         <p>
-          最終更新日時: <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
+          最終更新日時:{' '}
+          <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
         </p>
+        <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
-        <Gacha langs={langs} />
+        <Gacha langs={langs} expires={expires} />
       </main>
 
-      <Link href='/' className='block self-center btn-1'>
+      <Link href='/' className='block self-center btn-1 text-xl'>
         戻る
       </Link>
       <div className='h-10'></div>

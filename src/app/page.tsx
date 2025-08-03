@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { EB_Garamond } from 'next/font/google';
 
-const ogTitle = 'τὰ συστήματα';
 const ogDesc = '作ったアプリたち';
 
 export const metadata: Metadata = {
@@ -10,8 +9,11 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
-    siteName: 'τὰ συστήματα',
-    images: '/link-card.png'
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    images: '/link-card.png',
+  },
+  twitter: {
+    card: 'summary',
   },
 };
 
@@ -23,15 +25,21 @@ const ebGaramond = EB_Garamond({
 const Home = () => {
   return (
     <>
-      <h1 className={`${ebGaramond.className} text-center my-10`}>{ogTitle}</h1>
-      <div className='flex flex-col justify-center items-center min-h-[70vh] *:max-w-full gap-5'>
-        <Link
-          href='/conlang-gacha'
-          className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
-        >
-          <p className='text-3xl'>人工言語ガチャ</p>
-        </Link>
-      </div>
+      <header>
+        <h1 className={`${ebGaramond.className} text-center my-10`}>
+          {process.env.NEXT_PUBLIC_SITE_NAME!}
+        </h1>
+      </header>
+      <main>
+        <div className='flex flex-col justify-center items-center min-h-[70vh] *:max-w-full gap-5'>
+          <Link
+            href='/conlang-gacha'
+            className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+          >
+            <p className='text-3xl'>人工言語ガチャ</p>
+          </Link>
+        </div>
+      </main>
     </>
   );
 };
