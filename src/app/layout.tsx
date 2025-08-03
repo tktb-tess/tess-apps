@@ -5,17 +5,15 @@ type LayoutProps = {
   readonly children: React.ReactNode;
 };
 
-const ogTitle = 'τὰ συστήματα';
-
 export const viewport: Viewport = {
   themeColor: 'black',
 }
 
 export const metadata: Metadata = {
-  title: { default: ogTitle, template: `%s - ${ogTitle}` },
+  title: { default: process.env.NEXT_PUBLIC_SITE_NAME!, template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
   metadataBase: new URL(`https://apps.tktb-tess.dev`),
   openGraph: {
-    title: { default: ogTitle, template: `%s - ${ogTitle}` },
+    title: { default: process.env.NEXT_PUBLIC_SITE_NAME!, template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
   },
 }
 

@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { EB_Garamond } from 'next/font/google';
 
-const ogTitle = 'τὰ συστήματα';
 const ogDesc = '作ったアプリたち';
 
 export const metadata: Metadata = {
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
-    siteName: 'τὰ συστήματα',
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png'
   },
 };
@@ -23,7 +22,7 @@ const ebGaramond = EB_Garamond({
 const Home = () => {
   return (
     <>
-      <h1 className={`${ebGaramond.className} text-center my-10`}>{ogTitle}</h1>
+      <h1 className={`${ebGaramond.className} text-center my-10`}>{process.env.NEXT_PUBLIC_SITE_NAME!}</h1>
       <div className='flex flex-col justify-center items-center min-h-[70vh] *:max-w-full gap-5'>
         <Link
           href='/conlang-gacha'
