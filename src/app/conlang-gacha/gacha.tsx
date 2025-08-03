@@ -17,7 +17,6 @@ const getRndInt = (min: number, max: number) => {
 };
 
 const Gacha = ({ langs, expires }: Props) => {
-
   const [index, setIndex] = useState(0);
 
   const {
@@ -61,8 +60,21 @@ const Gacha = ({ langs, expires }: Props) => {
   };
 
   useEffect(() => {
-    localStorage.setItem(keys.lastLangID, name.concat(kanji).join(','));
-  }, [name, kanji]);
+    if (expires < Date.now()) return;
+
+    const lastLang = localStorage.getItem(keys.lastLangID);
+
+    if (!lastLang) return;
+
+    const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
+    if (index > -1) {
+      setIndex(() => index);
+    }
+  }, [expires, langs]);
+
+  useEffect(() => {
+    localStorage.setItem(keys.lastLangID, name.join(','));
+  }, [name]);
 
   return (
     <>
