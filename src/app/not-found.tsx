@@ -10,9 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: 'https://apps.tktb-tess.dev',
-    siteName: 'τὰ συστήματα',
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png'
   },
+  twitter: {
+    card: 'summary'
+  }
 }
 
 const NotFound = () => {

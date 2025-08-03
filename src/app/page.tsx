@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png'
   },
+  twitter: {
+    card: 'summary'
+  }
 };
 
 const ebGaramond = EB_Garamond({
