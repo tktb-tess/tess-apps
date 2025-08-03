@@ -126,11 +126,11 @@
   }
 
   body {
-    @apply bg-black text-blue-200 antialiased font-sans min-h-screen;
+    @apply bg-black text-blue-200 antialiased font-sans;
   }
 
   a {
-    @apply text-[#e700e7] any-hover:underline;
+    @apply text-[#ff58ff] any-hover:underline;
   }
 
   button,

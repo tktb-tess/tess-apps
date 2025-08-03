@@ -1,18 +1,17 @@
 'use client';
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 type Props = {
   langs: readonly CotecContent[];
 };
 
 const getRndInt = (min: number, max: number) => {
-	return Math.floor(Math.random() * (max - min) + min);
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 const Gacha = ({ langs }: Props) => {
-
   const [index, setIndex] = useState(0);
 
   const {
@@ -34,12 +33,18 @@ const Gacha = ({ langs }: Props) => {
     script,
   } = langs[index];
 
+  const site_a = site.filter(
+    ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
+  );
+
+  const category_a = category.filter(({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3'));
+
   const tableRef = useRef<HTMLTableElement | null>(null);
 
   const handleBtn = () => {
     setIndex(() => getRndInt(0, langs.length));
-    tableRef.current?.classList.replace('opacity-100', 'opacity-0');
     tableRef.current?.classList.remove('fade-slide-in');
+    tableRef.current?.classList.replace('opacity-100', 'opacity-0');
 
     setTimeout(() => {
       tableRef.current?.classList.add('fade-slide-in');
@@ -47,12 +52,10 @@ const Gacha = ({ langs }: Props) => {
     }, 10);
   };
 
-  useEffect(() => {
-    console.log(langs[index]);
-  }, [index, langs]);
+  
   return (
     <>
-      <button type='button' className='btn-1 self-center' onClick={handleBtn}>
+      <button type='button' className='text-xl btn-1 self-center' onClick={handleBtn}>
         回す！
       </button>
       <section aria-labelledby='result' className='my-5'>
@@ -93,11 +96,11 @@ const Gacha = ({ langs }: Props) => {
                 <td>{period}</td>
               </tr>
             )}
-            {site.length > 0 && (
+            {site_a.length > 0 && (
               <tr>
                 <th>サイト</th>
                 <td>
-                  {site.map(({ name, url }, i) => {
+                  {site_a.map(({ name, url }, i) => {
                     if (name) {
                       return (
                         <p key={`${index}-${i}`}>
@@ -164,11 +167,11 @@ const Gacha = ({ langs }: Props) => {
                 <td>{world.join(', ')}</td>
               </tr>
             )}
-            {category.length > 0 && (
+            {category_a.length > 0 && (
               <tr>
                 <th>分類</th>
                 <td>
-                  {category.map(({ name, content }, i) => (
+                  {category_a.map(({ name, content }, i) => (
                     <p key={`${index}-${i}`}>
                       {content ? `${name}: ${content}` : `${name}`}
                     </p>

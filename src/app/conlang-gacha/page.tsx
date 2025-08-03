@@ -72,7 +72,7 @@ const App = async () => {
         <Gacha langs={langs} />
       </main>
 
-      <Link href='/' className='block self-center btn-1'>
+      <Link href='/' className='block self-center btn-1 text-xl'>
         戻る
       </Link>
       <div className='h-10'></div>
