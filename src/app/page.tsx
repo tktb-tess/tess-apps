@@ -27,7 +27,7 @@ export default function Home() {
     <>
       <header>
         <h1 className={`${ebGaramond.className} text-center my-10`}>
-          {process.env.NEXT_PUBLIC_SITE_NAME!}
+          {process.env.NEXT_PUBLIC_SITE_NAME}
         </h1>
       </header>
       <main>
@@ -40,9 +40,9 @@ export default function Home() {
           </Link>
           <Link
             href='/temperament-research'
-            className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+            className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 hidden place-content-center rounded-xl transition-shadow any-hover:glow'
           >
-            <p className='text-3xl'>準備中</p>
+            <p className='text-3xl'>音律探索</p>
           </Link>
         </div>
       </main>
