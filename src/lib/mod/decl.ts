@@ -78,4 +78,20 @@ export type Cotec = {
   readonly contents: readonly CotecContent[];
 };
 
+export type CommaData = {
+  readonly name: string;
+  readonly colorName: readonly [string, string];
+  readonly monzo: readonly (readonly [number, number])[];
+  readonly namedBy?: string;
+  readonly ratio?: string;
+};
 
+export type CommaMetadata = {
+  readonly lastUpdate: string;
+  readonly numberOf: number;
+};
+
+export type Commas = {
+  readonly metadata: CommaMetadata;
+  readonly commas: readonly CommaData[];
+};

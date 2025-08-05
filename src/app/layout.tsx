@@ -10,10 +10,10 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: { default: process.env.NEXT_PUBLIC_SITE_NAME!, template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
+  title: { default: process.env.NEXT_PUBLIC_SITE_NAME ?? '', template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
   metadataBase: new URL(`https://apps.tktb-tess.dev`),
   openGraph: {
-    title: { default: process.env.NEXT_PUBLIC_SITE_NAME!, template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
+    title: { default: process.env.NEXT_PUBLIC_SITE_NAME ?? '', template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}` },
   },
 }
 
