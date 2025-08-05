@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   }
 }
 
-const NotFound = () => {
+export default function NotFound() {
   return (
     <main className='flex flex-col gap-5 justify-center items-center w-full *:max-w-full min-h-screen'>
       <TessIcon className='block size-40 fill-white animate-[spin_30s_linear_infinite]' />
@@ -31,5 +31,3 @@ const NotFound = () => {
     </main>
   );
 };
-
-export default NotFound;
