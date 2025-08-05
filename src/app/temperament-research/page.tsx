@@ -1,4 +1,22 @@
 import type { Commas } from '@/lib/mod/decl';
+import { Metadata } from 'next';
+
+const ogTitle = '音律探索';
+const ogDesc = 'Regular temperament の探索';
+
+export const metadata: Metadata = {
+  title: ogTitle,
+  description: ogDesc,
+  openGraph: {
+    description: ogDesc,
+    url: '/temperament-research',
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    images: '/link-card.png',
+  },
+  twitter: {
+    card: 'summary',
+  },
+};
 
 const fetchCommas = async () => {
   const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL ?? '', {
@@ -16,7 +34,7 @@ export default async function TemperamentSearch() {
   return (
     <>
       <header className='flow-root'>
-        <h1 className='font-sans text-center my-15'>Title</h1>
+        <h1 className='font-sans text-center my-15'>{ogTitle}</h1>
       </header>
       <main className='flex flex-col min-h-[80vh] gap-3'>
         {commas.map(({ monzo, name, ratio }) => {

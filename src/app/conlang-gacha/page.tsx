@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: 'https://apps.tktb-tess.dev/conlang-gacha',
+    url: '/conlang-gacha',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png',
   },
@@ -32,7 +32,7 @@ const fetchCtcJson = async () => {
   });
 };
 
-const App = async () => {
+export default async function App() {
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
   const updatedDate = new TZDate(ctcMetadata.date_last_updated, 'Asia/Tokyo');
@@ -83,5 +83,3 @@ const App = async () => {
     </>
   );
 };
-
-export default App;

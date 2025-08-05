@@ -17,7 +17,7 @@ const getRndInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-const Gacha = ({ langs, expires }: Props) => {
+export default function Gacha({ langs, expires }: Props) {
   const [index, setIndex] = useState(0);
   const tableRef = useRef<HTMLTableElement | null>(null);
 
@@ -252,5 +252,3 @@ const Gacha = ({ langs, expires }: Props) => {
     </>
   );
 };
-
-export default Gacha;
