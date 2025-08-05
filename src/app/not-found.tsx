@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
+    url: '/',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png'
   },
