@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: 'https://apps.tktb-tess.dev',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png',
   },
@@ -22,7 +21,7 @@ const ebGaramond = EB_Garamond({
   subsets: ['greek', 'greek-ext'],
 });
 
-const Home = () => {
+export default function Home() {
   return (
     <>
       <header>
@@ -50,4 +49,3 @@ const Home = () => {
   );
 };
 
-export default Home;

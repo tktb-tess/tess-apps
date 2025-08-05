@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: 'https://apps.tktb-tess.dev/conlang-gacha',
+    url: '/conlang-gacha',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png',
   },

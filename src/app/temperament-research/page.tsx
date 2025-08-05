@@ -1,4 +1,22 @@
 import type { Commas } from '@/lib/mod/decl';
+import { Metadata } from 'next';
+
+const ogTitle = 'テンペラメント探索';
+const ogDesc = 'Regular temperament の探索';
+
+export const metadata: Metadata = {
+  title: ogTitle,
+  description: ogDesc,
+  openGraph: {
+    description: ogDesc,
+    url: '/temperament-research',
+    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    images: '/link-card.png',
+  },
+  twitter: {
+    card: 'summary',
+  },
+};
 
 const fetchCommas = async () => {
   const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL ?? '', {
