@@ -31,39 +31,117 @@ const fetchCommas = async () => {
 export default async function TemperamentSearch() {
   const { commas } = await fetchCommas();
 
+  const data = commas.map(({ name, monzo, namedBy, ratio: r_ }) => {
+    const cents = (() => {
+      if (monzo.length === 0) {
+        return undefined;
+      }
+      const pre = monzo
+        .map(([b, v]) => 1200 * Math.log2(b) * v)
+        .reduce((prev, cur) => prev + cur);
+
+      return pre < 0.1 ? pre.toExponential(5) : pre.toFixed(5);
+    })();
+
+    const TENorm = (() => {
+      if (monzo.length === 0) {
+        return undefined;
+      }
+      const pre = Math.sqrt(
+        monzo
+          .map(([b, v]) => (Math.log2(b) * v) ** 2)
+          .reduce((prev, cur) => prev + cur)
+      );
+
+      return pre >= 1000 ? pre.toExponential(5) : pre.toFixed(5);
+    })();
+
+    const monzoStr = (() => {
+      if (monzo.length === 0) {
+        return undefined;
+      }
+      const basisStr = monzo.map(([b]) => b).join('.');
+      const vecStr = '[' + monzo.map(([, v]) => v).join(' ') + '\u27e9';
+
+      return [basisStr, vecStr] as const;
+    })();
+
+    const ratio = (() => {
+      if (monzo.length === 0) {
+        return r_;
+      }
+
+      const num = monzo
+        .map(([b, v]) => (v > 0 ? BigInt(b) ** BigInt(v) : 1n))
+        .reduce((prev, cur) => prev * cur)
+        .toString();
+      const denom = monzo
+        .map(([b, v]) => (v <= 0 ? BigInt(b) ** BigInt(-v) : 1n))
+        .reduce((prev, cur) => prev * cur)
+        .toString();
+
+      const [num_s, denom_s] = [num, denom].map((n) => {
+        if (n.length > 10) {
+          return n.slice(0, 4) + '…' + n.slice(-4);
+        } else return n;
+      });
+      return `${num_s} / ${denom_s}`;
+    })();
+
+    return {
+      name,
+      monzoStr,
+      cents,
+      TENorm,
+      namedBy,
+      ratio,
+    } as const;
+  });
+
   return (
     <>
       <header className='flow-root'>
         <h1 className='font-sans text-center my-15'>{ogTitle}</h1>
       </header>
       <main className='flex flex-col min-h-[80vh] gap-3'>
-        {commas.map(({ monzo, name, ratio }) => {
-          const cents = monzo
-            .map(([basis, value]) => 1200 * Math.log2(basis) * value)
-            .reduce((prev, current) => prev + current, 0);
-          const monzo_basis = monzo.map(([basis]) => basis).join('.');
-          const monzo_vector =
-            '[' + monzo.map(([, value]) => value).join(' ') + '\u27e9';
-          const TENorm = Math.sqrt(
-            monzo
-              .map(([basis, value]) => (Math.log2(basis) * value) ** 2)
-              .reduce((prev, cur) => prev + cur, 0)
-          );
-          return (
-            <ul key={`${name}`}>
-              <li>name: {name}</li>
-              {monzo.length > 0 ? (
-                <li>
-                  monzo: {monzo_basis} {monzo_vector}
-                </li>
-              ) : (
-                <li>ratio: {ratio}</li>
+        <div className='table-container'>
+          <table className='grid-cols-auto-6 gap-x-2 gap-y-1'>
+            <thead>
+              <tr>
+                <th>Comma name</th>
+                <th>Monzo</th>
+                <th>Ratio</th>
+                <th>Cents</th>
+                <th>TE norm</th>
+                <th>Named by</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map(
+                ({ name, monzoStr, ratio, cents, TENorm, namedBy }, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{name}</td>
+                      <td>
+                        {monzoStr && (
+                          <>
+                            {monzoStr[0]}
+                            <br />
+                            {monzoStr[1]}
+                          </>
+                        )}
+                      </td>
+                      <td>{ratio}</td>
+                      <td>{cents}</td>
+                      <td>{TENorm}</td>
+                      <td>{namedBy}</td>
+                    </tr>
+                  );
+                }
               )}
-              {cents > 0 && <li>cents: {cents} ¢</li>}
-              {TENorm > 0 && <li>TE norm: {TENorm}</li>}
-            </ul>
-          );
-        })}
+            </tbody>
+          </table>
+        </div>
       </main>
     </>
   );
