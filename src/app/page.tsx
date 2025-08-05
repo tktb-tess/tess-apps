@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    url: '/',
     images: '/link-card.png',
   },
   twitter: {
