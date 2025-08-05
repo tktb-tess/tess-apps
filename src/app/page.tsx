@@ -38,6 +38,12 @@ const Home = () => {
           >
             <p className='text-3xl'>人工言語ガチャ</p>
           </Link>
+          <Link
+            href='/temperament-research'
+            className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+          >
+            <p className='text-3xl'>準備中</p>
+          </Link>
         </div>
       </main>
     </>
