@@ -23,18 +23,18 @@ const Gacha = ({ langs, expires }: Props) => {
 
   const tableAnimation = () => {
     tableRef.current?.classList.remove('fade-slide-in');
-    tableRef.current?.classList.add('opacity-0');
+    tableRef.current?.classList.add('invisible');
 
     setTimeout(() => {
       tableRef.current?.classList.add('fade-slide-in');
-      tableRef.current?.classList.remove('opacity-0');
+      tableRef.current?.classList.remove('invisible');
     }, 10);
   };
 
   const handleBtn = () => {
     const newIndex = getRndInt(0, langs.length);
     setIndex(() => newIndex);
-    localStorage.setItem(keys.lastLangID, langs[newIndex].name.join(','));
+    localStorage.setItem(keys.lastLangID, langs[newIndex].id);
     tableAnimation();
   };
 
@@ -42,7 +42,7 @@ const Gacha = ({ langs, expires }: Props) => {
     if (expires < Date.now()) return;
     const lastLang = localStorage.getItem(keys.lastLangID);
     if (!lastLang) return;
-    const index = langs.findIndex(({ name }) => name.join(',') === lastLang);
+    const index = langs.findIndex(({ id }) => id === lastLang);
     if (index > -1) {
       setIndex(() => index);
       tableAnimation();
@@ -68,11 +68,11 @@ const Gacha = ({ langs, expires }: Props) => {
     script,
   } = langs[index];
 
-  const site_a = site.filter(
+  const site_a = site?.filter(
     ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
   );
 
-  const category_a = category.filter(
+  const category_a = category?.filter(
     ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
   );
 
@@ -92,7 +92,7 @@ const Gacha = ({ langs, expires }: Props) => {
         <table
           className='
           grid-cols-1 md:grid-cols-auto-2 place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
-          opacity-0
+          invisible
         '
           ref={tableRef}
         >
@@ -123,7 +123,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 <td>{period}</td>
               </tr>
             )}
-            {site_a.length > 0 && (
+            {site_a && (
               <tr>
                 <th>サイト</th>
                 <td>
@@ -145,7 +145,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {twitter.length > 0 && (
+            {twitter && (
               <tr>
                 <th>𝕏 (旧Twitter)</th>
                 <td>
@@ -159,7 +159,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {dict.length > 0 && (
+            {dict && (
               <tr>
                 <th>辞書</th>
                 <td>
@@ -173,7 +173,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {grammar.length > 0 && (
+            {grammar && (
               <tr>
                 <th>文法</th>
                 <td>
@@ -187,13 +187,13 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {world.length > 0 && (
+            {world && (
               <tr>
                 <th>架空世界</th>
                 <td>{world.join(', ')}</td>
               </tr>
             )}
-            {category_a.length > 0 && (
+            {category_a && (
               <tr>
                 <th>分類</th>
                 <td>
@@ -205,7 +205,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {moyune.length > 0 && (
+            {moyune && (
               <tr>
                 <th>モユネ分類</th>
                 <td>{moyune.join('/')}</td>
@@ -226,7 +226,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 <td>{part}</td>
               </tr>
             )}
-            {example.length > 0 && (
+            {example && (
               <tr>
                 <th>例文</th>
                 <td>
@@ -236,7 +236,7 @@ const Gacha = ({ langs, expires }: Props) => {
                 </td>
               </tr>
             )}
-            {script.length > 0 && (
+            {script && (
               <tr>
                 <th>表記</th>
                 <td>

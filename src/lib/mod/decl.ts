@@ -48,28 +48,29 @@ export type CotecMetadata = Readonly<{
 }>;
 
 export type CotecContent = Readonly<{
+  id: string;
   messier: unknown;
   name: readonly string[];
   kanji: readonly string[];
   desc: readonly string[];
   creator: readonly string[];
-  period: string | null;
-  site: { name: string | null; url: string }[];
-  twitter: readonly string[];
-  dict: readonly string[];
-  grammar: readonly string[];
-  world: readonly string[];
-  category: readonly Readonly<{ name: string; content: string | null }>[];
-  moyune: readonly MoyuneClass[];
-  clav3: Readonly<{
+  period?: string;
+  site?: { name?: string; url: string }[];
+  twitter?: readonly string[];
+  dict?: readonly string[];
+  grammar?: readonly string[];
+  world?: readonly string[];
+  category?: readonly Readonly<{ name: string; content?: string }>[];
+  moyune?: readonly MoyuneClass[];
+  clav3?: Readonly<{
     dialect: string;
     language: string;
     family: string;
     creator: string;
-  }> | null;
-  part: string | null;
-  example: readonly string[];
-  script: readonly string[];
+  }>;
+  part?: string;
+  example?: readonly string[];
+  script?: readonly string[];
 }>;
 
 export type Cotec = {
@@ -77,7 +78,4 @@ export type Cotec = {
   readonly contents: readonly CotecContent[];
 };
 
-export type CTCCache = {
-  cache: Cotec;
-  expires: number;
-};
+

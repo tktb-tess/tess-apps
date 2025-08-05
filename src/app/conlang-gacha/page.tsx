@@ -24,9 +24,8 @@ export const metadata: Metadata = {
 };
 
 const fetchCtcJson = async () => {
-  const url =
-    'https://tktb-tess.github.io/cotec-json-data/parsed-from-conlinguistics-wiki-list.ctc.json';
-  return fetch(url, { method: 'GET' }).then((resp) => {
+  
+  return fetch(process.env.NEXT_PUBLIC_COTEC_URL ?? '', { method: 'GET' }).then((resp) => {
     if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
 
     return resp.json() as Promise<Cotec>;
