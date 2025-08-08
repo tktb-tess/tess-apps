@@ -35,9 +35,9 @@ const fetchCtcJson = async () => {
 export default async function App() {
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
-  const updatedDate = new TZDate(ctcMetadata.lastUpdate, 'Asia/Tokyo');
+  const lastUpdate = new TZDate(ctcMetadata.lastUpdate, 'Asia/Tokyo');
 
-  const expires = addMonths(updatedDate, 1).getTime();
+  const expires = addMonths(lastUpdate, 1).getTime();
 
   return (
     <>
@@ -69,7 +69,7 @@ export default async function App() {
         </section>
         <p>
           最終更新日時:{' '}
-          <code>{updatedDate.toLocaleString('ja-JP')} (日本時間)</code>
+          <code>{lastUpdate.toLocaleString('ja-JP')} (日本時間)</code>
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
