@@ -44,7 +44,7 @@ export default async function App() {
       <header className='flow-root'>
         <h1 className='font-sans text-center my-15'>人工言語ガチャ</h1>
       </header>
-      <main className='flex flex-col min-h-[80vh] gap-3'>
+      <main className='flex flex-col gap-3'>
         <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
           <h2 id='setsumei' className='text-center'>
             – 説明 –
