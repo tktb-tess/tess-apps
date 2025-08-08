@@ -39,8 +39,8 @@ export type CotecMetadata = Readonly<{
   datasize: [number, number];
   title: string;
   author: string[];
-  date_created: string;
-  date_last_updated: string;
+  createdDate: string;
+  lastUpdate: string;
   license: { name: string; content: string };
   advanced: number;
   label: string[];
