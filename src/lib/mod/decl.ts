@@ -78,10 +78,12 @@ export type Cotec = {
   readonly contents: readonly CotecContent[];
 };
 
+export type Monzo = readonly (readonly [number, number])[];
+
 export type CommaData = {
   readonly name: string;
   readonly colorName: readonly [string, string];
-  readonly monzo: readonly (readonly [number, number])[];
+  readonly monzo: Monzo;
   readonly namedBy?: string;
   readonly ratio?: string;
 };
@@ -95,3 +97,4 @@ export type Commas = {
   readonly metadata: CommaMetadata;
   readonly commas: readonly CommaData[];
 };
+

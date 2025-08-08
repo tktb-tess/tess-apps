@@ -11,14 +11,14 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: process.env.NEXT_PUBLIC_SITE_NAME ?? '',
-    template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}`,
+    default: process.env.NEXT_PUBLIC_SITE_NAME!,
+    template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME}`,
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
   openGraph: {
     title: {
-      default: process.env.NEXT_PUBLIC_SITE_NAME ?? '',
-      template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME!}`,
+      default: process.env.NEXT_PUBLIC_SITE_NAME!,
+      template: `%s - ${process.env.NEXT_PUBLIC_SITE_NAME}`,
     },
   },
 };
