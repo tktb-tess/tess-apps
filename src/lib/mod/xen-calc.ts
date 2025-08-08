@@ -90,11 +90,11 @@ export const getRational = (monzo: Monzo): [bigint, bigint] => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
   const numerator = monzo
-    .map(([basis, value]) => (value > 0 ? BigInt(basis) ** BigInt(value) : 0n))
-    .reduce((prev, cur) => prev + cur);
+    .map(([basis, value]) => (value > 0 ? BigInt(basis) ** BigInt(value) : 1n))
+    .reduce((prev, cur) => prev * cur, 1n);
   const denominator = monzo
-    .map(([basis, value]) => (value < 0 ? BigInt(basis) ** BigInt(-value) : 0n))
-    .reduce((prev, cur) => prev + cur);
+    .map(([basis, value]) => (value < 0 ? BigInt(basis) ** BigInt(-value) : 1n))
+    .reduce((prev, cur) => prev * cur, 1n);
 
   return [numerator, denominator];
 };
