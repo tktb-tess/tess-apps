@@ -1,5 +1,4 @@
-import type { Commas } from '@/lib/mod/decl';
-import { getCents, getMonzoVector } from '@/lib/mod/xen-calc';
+import { getCents, getMonzoVector, fetchCommas } from '@/lib/mod/xen-calc';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -20,17 +19,6 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCommas = async () => {
-  const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
-    method: 'GET',
-  });
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  return resp.json() as Promise<Commas>;
-};
-
 export default async function TemperamentSearch() {
   const { commas, metadata } = await fetchCommas();
   const update = new Date(metadata.lastUpdate).getTime();
@@ -43,7 +31,7 @@ export default async function TemperamentSearch() {
       <header className='flow-root'>
         <h1 className='font-sans text-center my-15'>{ogTitle}</h1>
       </header>
-      <main className='flex flex-col min-h-[80vh] gap-3'>
+      <main className='flex flex-col gap-3'>
         <div className='table-container'>
           <table className='grid-cols-auto-3'>
             <thead>

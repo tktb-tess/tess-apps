@@ -1,4 +1,4 @@
-import { Monzo } from './decl';
+import { Commas, Monzo } from './decl';
 import { isEqArray, millerRabin } from './util';
 
 const pList: readonly number[] = Array(100000)
@@ -6,6 +6,18 @@ const pList: readonly number[] = Array(100000)
     .map((_, i) => BigInt(i + 1))
     .filter((n) => millerRabin(n))
     .map((p) => Number(p));
+
+
+export const fetchCommas = async () => {
+  const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
+    method: 'GET',
+  });
+  if (!resp.ok) {
+    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+  }
+
+  return resp.json() as Promise<Commas>;
+};
 
 export const generatePrimeList = (length: number) => {
 
