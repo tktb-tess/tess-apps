@@ -5,6 +5,6 @@ type Props = {
 export default async function CommaDetail({ params }: Props) {
     const { commaName } = await params;
 
-    return <p>{commaName}</p>
+    return <p>{decodeURIComponent(commaName)}</p>
 }
 

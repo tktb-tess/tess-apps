@@ -1,11 +1,33 @@
 import { Monzo } from './decl';
+import { isEqArray, millerRabin } from './util';
 
+const pList: readonly number[] = Array(100000)
+    .fill(0)
+    .map((_, i) => BigInt(i + 1))
+    .filter((n) => millerRabin(n))
+    .map((p) => Number(p));
+
+export const generatePrimeList = (length: number) => {
+
+  if (pList.length >= length) {
+    return pList.slice(0, length);
+  } else {
+    throw Error('length exceeds limit');
+  }
+};
+
+/**
+ * @description `edo` で指定した平均律のpatent valのうち、`basis` で指定した基底の値を返す
+ * @param edo EDO
+ * @param basis 基底の素数
+ * @returns
+ */
 export const getPatentVal = (edo: number, basis: number) => {
   return Math.floor(edo * Math.log2(basis) + 0.5);
 };
 
 /**
- *
+ * @description `monzo`をテンパーアウトするEDOの配列を返す
  * @param monzo モンゾ
  * @param maxEdo 最大EDO (デフォルト10000)
  * @returns
@@ -18,7 +40,7 @@ export const getTemperingOutEDOs = (monzo: Monzo, maxEdo = 10000) => {
   for (let edo = 1; edo < maxEdo + 1; edo++) {
     const braket = monzo
       .map(([basis, v]) => getPatentVal(edo, basis) * v)
-      .reduce((prev, cur) => prev + cur, 0);
+      .reduce((prev, cur) => prev + cur);
 
     if (braket === 0) edos.push(edo);
   }
@@ -52,7 +74,7 @@ export const getTENorm = (monzo: Monzo) => {
   );
 };
 
-export const getRational = (monzo: Monzo) => {
+export const getRational = (monzo: Monzo): [bigint, bigint] => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
   const numerator = monzo
@@ -62,6 +84,15 @@ export const getRational = (monzo: Monzo) => {
     .map(([basis, value]) => (value < 0 ? BigInt(basis) ** BigInt(-value) : 0n))
     .reduce((prev, cur) => prev + cur);
 
+  return [numerator, denominator];
+};
 
-  return [numerator, denominator] as const;
+export const getMonzoVector = (monzo: Monzo) => {
+  const bases = monzo.map(([b]) => b);
+  const values = monzo.map(([, v]) => v);
+
+  const pList = generatePrimeList(bases.length);
+  return isEqArray(bases, pList)
+    ? `[${values.join(' ')}\u27e9`
+    : `${bases.join('.')} [${values.join(' ')}\u27e9`;
 };
