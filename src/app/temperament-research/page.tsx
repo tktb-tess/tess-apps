@@ -1,5 +1,6 @@
-import type { Commas } from '@/lib/mod/decl';
+import { getCents, getMonzoVector, fetchCommas } from '@/lib/mod/xen-calc';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 const ogTitle = '音律探索';
 const ogDesc = 'Regular temperament の探索';
@@ -18,52 +19,56 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCommas = async () => {
-  const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL ?? '', {
-    method: 'GET',
-  });
-  if (!resp.ok)
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-
-  return resp.json() as Promise<Commas>;
-};
-
 export default async function TemperamentSearch() {
-  const { commas } = await fetchCommas();
+  const { commas, metadata } = await fetchCommas();
+  const update = new Date(metadata.lastUpdate).getTime();
+  const nameMonzos = commas
+    .filter(({ monzo }) => monzo.length > 0)
+    .map(({ name, colorName, monzo }) => {
+      return [
+        name || colorName[0],
+        getMonzoVector(monzo),
+        getCents(monzo),
+      ] as const;
+    });
 
   return (
     <>
       <header className='flow-root'>
         <h1 className='font-sans text-center my-15'>{ogTitle}</h1>
       </header>
-      <main className='flex flex-col min-h-[80vh] gap-3'>
-        {commas.map(({ monzo, name, ratio }) => {
-          const cents = monzo
-            .map(([basis, value]) => 1200 * Math.log2(basis) * value)
-            .reduce((prev, current) => prev + current, 0);
-          const monzo_basis = monzo.map(([basis]) => basis).join('.');
-          const monzo_vector =
-            '[' + monzo.map(([, value]) => value).join(' ') + '\u27e9';
-          const TENorm = Math.sqrt(
-            monzo
-              .map(([basis, value]) => (Math.log2(basis) * value) ** 2)
-              .reduce((prev, cur) => prev + cur, 0)
-          );
-          return (
-            <ul key={`${name}`}>
-              <li>name: {name}</li>
-              {monzo.length > 0 ? (
-                <li>
-                  monzo: {monzo_basis} {monzo_vector}
-                </li>
-              ) : (
-                <li>ratio: {ratio}</li>
-              )}
-              {cents > 0 && <li>cents: {cents} ¢</li>}
-              {TENorm > 0 && <li>TE norm: {TENorm}</li>}
-            </ul>
-          );
-        })}
+      <main className='flex flex-col gap-3'>
+        <Link href='/' className='block self-center btn-1 text-xl'>
+          戻る
+        </Link>
+        <div className='table-container'>
+          <table className='grid-cols-auto-3 max-w-300 mx-auto place-content-center gap-x-8 gap-y-3'>
+            <thead>
+              <tr>
+                <th>Comma name</th>
+                <th>Monzo</th>
+                <th>Cents (¢)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {nameMonzos.map(([name, monzo, cents], i) => (
+                <tr key={`${update}-${i}`}>
+                  <td>
+                    <Link
+                      href={`/temperament-research/${encodeURIComponent(name)}`}
+                    >
+                      {name}
+                    </Link>
+                  </td>
+                  <td>{monzo}</td>
+                  <td>
+                    {cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </main>
     </>
   );

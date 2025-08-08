@@ -3,6 +3,7 @@
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
 import { useEffect, useRef, useState } from 'react';
+import { getRndInt } from '@/lib/mod/util';
 
 const keys = {
   lastLangID: 'last-lang-id',
@@ -11,10 +12,6 @@ const keys = {
 type Props = {
   langs: readonly CotecContent[];
   expires: number;
-};
-
-const getRndInt = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min) + min);
 };
 
 export default function Gacha({ langs, expires }: Props) {
