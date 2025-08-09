@@ -87,6 +87,12 @@ export default async function CommaDetail({ params }: Props) {
         <h1 className='font-sans text-center my-15'>{rows[0][1]}</h1>
       </header>
       <main className='flex flex-col gap-3'>
+        <Link
+          href='/temperament-research'
+          className='block self-center btn-1 text-xl'
+        >
+          戻る
+        </Link>
         <div className='table-container'>
           <table className='grid-cols-auto-2 max-w-200 mx-auto place-content-center gap-x-8 gap-y-3'>
             <thead>
@@ -105,12 +111,7 @@ export default async function CommaDetail({ params }: Props) {
             </tbody>
           </table>
         </div>
-        <Link
-          href='/temperament-research'
-          className='block self-center btn-1 text-xl'
-        >
-          戻る
-        </Link>
+
         <div className='h-10'></div>
       </main>
     </>
