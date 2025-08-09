@@ -14,8 +14,8 @@ type Props = {
   params: Promise<{ commaName: string }>;
 };
 
-const ogTitle = '音律探索';
-const ogDesc = 'Regular temperament の探索';
+const ogTitle = 'コンマ';
+const ogDesc = 'コンマ詳細';
 
 export const metadata: Metadata = {
   title: ogTitle,
@@ -31,18 +31,19 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCommaData = async (name_: string) => {
+const fetchCommaData = async (id: string) => {
   const { commas } = await fetchCommas();
-  return commas.find(({ name }) => name === name_);
+  return commas[id];
 };
 
 export default async function CommaDetail({ params }: Props) {
-  const commaName = decodeURIComponent((await params).commaName);
-  const commaData = await fetchCommaData(commaName);
-  if (!commaData) {
+  const commaID = decodeURIComponent((await params).commaName);
+  const commaData = await fetchCommaData(commaID);
+  if (!commaData || commaData.commaType === 'irrational') {
     notFound();
   }
-  const { monzo, colorName, namedBy } = commaData;
+
+  const { name, monzo, colorName, namedBy } = commaData;
   const monzoStr = getMonzoVector(monzo);
   const cents = getCents(monzo);
   const centsStr =
@@ -70,6 +71,7 @@ export default async function CommaDetail({ params }: Props) {
   })();
 
   const rows = [
+    ['Name', name.join(', ')],
     ['Color name', colorName[0] ? colorName.join(', ') : colorName[1]],
     ['Named by', namedBy ?? '[NO DATA]'],
     ['Monzo', monzoStr],
@@ -82,7 +84,7 @@ export default async function CommaDetail({ params }: Props) {
   return (
     <>
       <header>
-        <h1 className='font-sans text-center my-15'>{commaName}</h1>
+        <h1 className='font-sans text-center my-15'>{rows[0][1]}</h1>
       </header>
       <main className='flex flex-col gap-3'>
         <div className='table-container'>

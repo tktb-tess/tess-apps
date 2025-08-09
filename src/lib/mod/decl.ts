@@ -1,3 +1,5 @@
+// Cotec types
+
 const moyunes = [
   'INT',
   'ART',
@@ -80,12 +82,20 @@ export type Cotec = {
 
 export type Monzo = readonly (readonly [number, number])[];
 
-export type CommaData = {
-  readonly name: string;
+type CommaType =
+  | {
+      readonly commaType: 'rational';
+      readonly monzo: Monzo;
+    }
+  | {
+      readonly commaType: 'irrational';
+      readonly ratio: string;
+    };
+
+export type CommaData = CommaType & {
+  readonly name: string[];
   readonly colorName: readonly [string, string];
-  readonly monzo: Monzo;
   readonly namedBy?: string;
-  readonly ratio?: string;
 };
 
 export type CommaMetadata = {
@@ -93,8 +103,9 @@ export type CommaMetadata = {
   readonly numberOf: number;
 };
 
+export type UUID = ReturnType<typeof crypto.randomUUID>;
+
 export type Commas = {
   readonly metadata: CommaMetadata;
-  readonly commas: readonly CommaData[];
+  readonly commas: Record<UUID, CommaData>;
 };
-
