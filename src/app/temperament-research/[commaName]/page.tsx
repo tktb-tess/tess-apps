@@ -104,7 +104,7 @@ export default async function CommaDetail({ params }: Props) {
   return (
     <>
       <header>
-        <h1 className='font-sans text-center my-15'>{rows[0][1]}</h1>
+        <h1 className='font-sans text-center my-15'>{name[0]}</h1>
       </header>
       <main className='flex flex-col gap-3'>
         <Link
