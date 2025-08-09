@@ -22,15 +22,19 @@ export const metadata: Metadata = {
 export default async function TemperamentSearch() {
   const { commas, metadata } = await fetchCommas();
   const update = new Date(metadata.lastUpdate).getTime();
-  const nameMonzos = commas
-    .filter(({ monzo }) => monzo.length > 0)
-    .map(({ name, colorName, monzo }) => {
-      return [
-        name || colorName[0],
-        getMonzoVector(monzo),
-        getCents(monzo),
-      ] as const;
-    });
+  const nameMonzos = Object.entries(commas).map(([id, comma]) => {
+    if (comma.commaType === 'irrational') {
+      return undefined;
+    }
+
+    const { name, colorName, monzo } = comma;
+    return [
+      name[0] || colorName[0],
+      getMonzoVector(monzo),
+      getCents(monzo),
+      id,
+    ] as const;
+  });
 
   return (
     <>
@@ -51,21 +55,25 @@ export default async function TemperamentSearch() {
               </tr>
             </thead>
             <tbody>
-              {nameMonzos.map(([name, monzo, cents], i) => (
-                <tr key={`${update}-${i}`}>
-                  <td>
-                    <Link
-                      href={`/temperament-research/${encodeURIComponent(name)}`}
-                    >
-                      {name}
-                    </Link>
-                  </td>
-                  <td>{monzo}</td>
-                  <td>
-                    {cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)}
-                  </td>
-                </tr>
-              ))}
+              {nameMonzos.map((data, i) => {
+                if (!data) return undefined;
+                const [name, monzo, cents, id] = data;
+                return (
+                  <tr key={`${update}-${i}`}>
+                    <td>
+                      <Link
+                        href={`/temperament-research/${encodeURIComponent(id)}`}
+                      >
+                        {name}
+                      </Link>
+                    </td>
+                    <td>{monzo}</td>
+                    <td>
+                      {cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
