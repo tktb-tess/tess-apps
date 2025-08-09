@@ -23,16 +23,17 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCtcJson = async () => {
-  
-  return fetch(process.env.NEXT_PUBLIC_COTEC_URL ?? '', { method: 'GET' }).then((resp) => {
-    if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
-
-    return resp.json() as Promise<Cotec>;
-  });
-};
-
 export default async function App() {
+  const fetchCtcJson = async () => {
+    return fetch(process.env.NEXT_PUBLIC_COTEC_URL!, {
+      method: 'GET',
+      cache: 'no-cache'
+    }).then((resp) => {
+      if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
+
+      return resp.json() as Promise<Cotec>;
+    });
+  };
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
   const lastUpdate = new TZDate(ctcMetadata.lastUpdate, 'Asia/Tokyo');
@@ -82,4 +83,4 @@ export default async function App() {
       <div className='h-10'></div>
     </>
   );
-};
+}
