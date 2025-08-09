@@ -1,6 +1,5 @@
-import { CommaData } from '@/lib/mod/decl';
-import { getCents, getMonzoVector, fetchCommas } from '@/lib/mod/xen-calc';
-import { UUID } from 'crypto';
+import { Commas } from '@/lib/mod/decl';
+import { getCents, getMonzoVector } from '@/lib/mod/xen-calc';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -22,17 +21,26 @@ export const metadata: Metadata = {
 };
 
 export default async function TemperamentSearch() {
+  const fetchCommas = async () => {
+    const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
+      method: 'GET',
+      cache: 'no-cache'
+    });
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+    }
+
+    return resp.json() as Promise<Commas>;
+  };
   const { commas, metadata } = await fetchCommas();
   const update = new Date(metadata.lastUpdate).getTime();
 
-  const maps = Object.entries(commas) as [UUID, CommaData][];
-
-  const nameMonzos = maps.map(([id, comma]) => {
+  const nameMonzos = commas.map((comma) => {
     if (comma.commaType === 'irrational') {
       return undefined;
     }
 
-    const { name, colorName, monzo } = comma;
+    const { name, colorName, monzo, id } = comma;
     return [
       name[0] || colorName[0],
       getMonzoVector(monzo),

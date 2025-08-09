@@ -1,12 +1,11 @@
+import { Commas } from '@/lib/mod/decl';
 import {
-  fetchCommas,
   getCents,
   getMonzoVector,
   getRational,
   getTemperingOutEDOs,
   getTENorm,
 } from '@/lib/mod/xen-calc';
-import { UUID } from 'crypto';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -32,14 +31,22 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCommaData = async (id: UUID) => {
-  const { commas } = await fetchCommas();
-  return commas[id];
-};
-
 export default async function CommaDetail({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaName) as UUID;
+  const fetchCommaData = async (id_: string) => {
+    const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
+      method: 'GET',
+      cache: 'no-store',
+    });
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+    }
+    const { commas } = (await resp.json()) as Commas;
+    return commas.find(({ id }) => id === id_);
+  };
+
+  const commaID = decodeURIComponent((await params).commaName);
   const commaData = await fetchCommaData(commaID);
+
   if (!commaData || commaData.commaType === 'irrational') {
     notFound();
   }
@@ -71,9 +78,21 @@ export default async function CommaDetail({ params }: Props) {
     return `${numStr}/${denomStr}`;
   })();
 
+  const colorNameStr = (() => {
+    if (colorName[0] && colorName[1]) {
+      return colorName.join(', ');
+    } else if (colorName[0]) {
+      return colorName[0];
+    } else if (colorName[1]) {
+      return colorName[1];
+    } else {
+      return '[NO DATA]';
+    }
+  })();
+
   const rows = [
     ['Name', name.join(', ')],
-    ['Color name', colorName[0] ? colorName.join(', ') : colorName[1]],
+    ['Color name', colorNameStr],
     ['Named by', namedBy ?? '[NO DATA]'],
     ['Monzo', monzoStr],
     ['Ratio', ratioStr],
@@ -96,16 +115,10 @@ export default async function CommaDetail({ params }: Props) {
         </Link>
         <div className='table-container'>
           <table className='grid-cols-auto-2 max-w-200 mx-auto place-content-center gap-x-8 gap-y-3'>
-            <thead>
-              <tr>
-                <th>性質</th>
-                <th>値</th>
-              </tr>
-            </thead>
             <tbody>
               {rows.map(([key, value]) => (
                 <tr key={key}>
-                  <td className='text-right'>{key}</td>
+                  <th className='text-right'>{key}</th>
                   <td>{value}</td>
                 </tr>
               ))}
