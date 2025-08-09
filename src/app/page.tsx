@@ -40,7 +40,7 @@ export default function Home() {
           </Link>
           <Link
             href='/temperament-research'
-            className='no-underline bg-gradient-to-b from-violet-300 to-violet-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+            className='no-underline bg-gradient-to-b from-violet-300 to-violet-400 text-black w-100 h-20 hidden place-content-center rounded-xl transition-shadow any-hover:glow'
           >
             <p className='text-3xl'>音律探索</p>
           </Link>

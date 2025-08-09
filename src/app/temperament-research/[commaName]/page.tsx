@@ -6,6 +6,7 @@ import {
   getTemperingOutEDOs,
   getTENorm,
 } from '@/lib/mod/xen-calc';
+import { UUID } from 'crypto';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -31,13 +32,13 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchCommaData = async (id: string) => {
+const fetchCommaData = async (id: UUID) => {
   const { commas } = await fetchCommas();
   return commas[id];
 };
 
 export default async function CommaDetail({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaName);
+  const commaID = decodeURIComponent((await params).commaName) as UUID;
   const commaData = await fetchCommaData(commaID);
   if (!commaData || commaData.commaType === 'irrational') {
     notFound();

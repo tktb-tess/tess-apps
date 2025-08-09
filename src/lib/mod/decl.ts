@@ -1,5 +1,5 @@
 // Cotec types
-
+import { UUID } from "crypto";
 const moyunes = [
   'INT',
   'ART',
@@ -102,8 +102,6 @@ export type CommaMetadata = {
   readonly lastUpdate: string;
   readonly numberOf: number;
 };
-
-export type UUID = ReturnType<typeof crypto.randomUUID>;
 
 export type Commas = {
   readonly metadata: CommaMetadata;
