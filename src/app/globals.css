@@ -144,11 +144,11 @@
   }
 
   body {
-    @apply bg-black text-slate-100 antialiased font-sans;
+    @apply bg-black text-white antialiased font-sans;
   }
 
   a {
-    @apply text-purple-400 any-hover:underline;
+    @apply text-cyan-300 any-hover:underline;
   }
 
   button,
