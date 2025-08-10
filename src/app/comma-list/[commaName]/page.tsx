@@ -101,21 +101,21 @@ export default async function CommaDetail({ params }: Props) {
   })();
 
   const rows = [
-    ['Name', name.join(', ')],
-    ['Color name', colorNameStr],
-    ['Named by', namedBy ?? '[NO DATA]'],
-    ['Monzo', monzoStr],
-    ['Ratio', ratioStr],
-    ['Cents', centsStr],
-    ['Tenney height', THeightStr],
-    ['Tenney–Euclidean Norm', TENormStr],
-    ['EDOs tempering it out up to 10000', temperingOutEDOs],
+    ['名前', name.join(', ')],
+    ['カラーネーム', colorNameStr],
+    ['命名者', namedBy ?? '[NO DATA]'],
+    ['モンゾ', monzoStr],
+    ['比率', ratioStr],
+    ['セント', centsStr],
+    ['Tenney高さ', THeightStr],
+    ['Tenney–Euclideanノルム', TENormStr],
+    ['緩和する10000以下の平均律', temperingOutEDOs],
   ] as const;
 
   return (
     <>
       <header>
-        <h1 className='font-sans text-center my-15'>{name[0]}</h1>
+        <h1 className='font-sans text-center font-extralight my-15'>{name[0]}</h1>
       </header>
       <main className='flex flex-col gap-3'>
         <div className='table-container'>
