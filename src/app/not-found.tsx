@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className='flex flex-col gap-5 justify-center items-center w-full *:max-w-full min-h-screen'>
-      <div className='animate-[up-down_1s_cubic-bezier(.4,0,.6,1)_infinite_alternate]'>
-        <TessIcon className='block size-40 fill-white animate-[spin_30s_linear_infinite]' />
+      <div className='animate-[up-down_1.5s_cubic-bezier(.4,0,.6,1)_infinite_alternate]'>
+        <TessIcon className='block size-40 fill-white animate-[rot-y_20s_linear_infinite]' />
       </div>
       <h2 className='font-extralight text-5xl xl:text-6xl'>Hoppla!</h2>
       <p>

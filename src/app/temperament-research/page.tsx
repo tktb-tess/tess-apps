@@ -24,7 +24,7 @@ export default async function TemperamentSearch() {
   const fetchCommas = async () => {
     const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
       method: 'GET',
-      cache: 'no-cache'
+      next: { revalidate: 86400 }
     });
     if (!resp.ok) {
       throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);

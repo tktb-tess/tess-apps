@@ -84,6 +84,15 @@
       transform: translateY(15px);
     }
   }
+
+  @keyframes rot-y {
+    from {
+      transform: rotateY(0);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
 }
 
 @utility user-select-* {
@@ -139,7 +148,7 @@
   }
 
   a {
-    @apply text-[#ff58ff] any-hover:underline;
+    @apply text-purple-400 any-hover:underline;
   }
 
   button,
