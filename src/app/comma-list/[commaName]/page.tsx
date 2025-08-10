@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props) {
   }
 
   const { name, colorName } = commaData;
-  const description = name.join(', ').concat(colorName.join(', '));
+  const description = name.concat(colorName).join(', ');
 
   return {
     title: commaData.name[0],
