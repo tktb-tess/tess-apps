@@ -88,7 +88,7 @@ export default function Gacha({ langs, expires }: Props) {
         </h2>
         <table
           className='
-          grid-cols-1 md:grid-cols-auto-2 place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
+          grid-cols-1 md:grid-cols-auto-2 md:place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
           invisible
         '
           ref={tableRef}
@@ -96,11 +96,11 @@ export default function Gacha({ langs, expires }: Props) {
           <tbody>
             <tr>
               <th>言語名</th>
-              <td>{name.concat(kanji).join(', ') || '[NO DATA]'}</td>
+              <td className='text-center md:text-start'>{name.concat(kanji).join(', ') || '[NO DATA]'}</td>
             </tr>
             <tr>
               <th>作者</th>
-              <td>{creator.join(', ') || '[NO DATA]'}</td>
+              <td className='text-center md:text-start'>{creator.join(', ') || '[NO DATA]'}</td>
             </tr>
             <tr>
               <th>説明</th>
@@ -117,28 +117,30 @@ export default function Gacha({ langs, expires }: Props) {
             {period && (
               <tr>
                 <th>年代</th>
-                <td>{period}</td>
+                <td className='text-center md:text-start'>{period}</td>
               </tr>
             )}
             {site_a && (
               <tr>
                 <th>サイト</th>
                 <td>
-                  {site_a.map(({ name, url }, i) => {
-                    if (name) {
-                      return (
-                        <p key={`${index}-${i}`}>
-                          <ExtLink href={url}>{name}</ExtLink>
-                        </p>
-                      );
-                    } else {
-                      return (
-                        <p key={`${index}-${i}`}>
-                          <ExtLink href={url}>{url}</ExtLink>
-                        </p>
-                      );
-                    }
-                  })}
+                  <ul>
+                    {site_a.map(({ name, url }, i) => {
+                      if (name) {
+                        return (
+                          <li key={`${index}-${i}`}>
+                            <ExtLink href={url}>{name}</ExtLink>
+                          </li>
+                        );
+                      } else {
+                        return (
+                          <li key={`${index}-${i}`}>
+                            <ExtLink href={url}>{url}</ExtLink>
+                          </li>
+                        );
+                      }
+                    })}
+                  </ul>
                 </td>
               </tr>
             )}
@@ -146,13 +148,15 @@ export default function Gacha({ langs, expires }: Props) {
               <tr>
                 <th>𝕏 (旧Twitter)</th>
                 <td>
-                  {twitter.map((url, i) => {
-                    return (
-                      <p key={`${index}-${i}`}>
-                        <ExtLink href={url}>{url}</ExtLink>
-                      </p>
-                    );
-                  })}
+                  <ul>
+                    {twitter.map((url, i) => {
+                      return (
+                        <li key={`${index}-${i}`}>
+                          <ExtLink href={url}>{url}</ExtLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </td>
               </tr>
             )}
@@ -160,13 +164,15 @@ export default function Gacha({ langs, expires }: Props) {
               <tr>
                 <th>辞書</th>
                 <td>
-                  {dict.map((url, i) => {
-                    return (
-                      <p key={`${index}-${i}`}>
-                        <ExtLink href={url}>{url}</ExtLink>
-                      </p>
-                    );
-                  })}
+                  <ul>
+                    {dict.map((url, i) => {
+                      return (
+                        <li key={`${index}-${i}`}>
+                          <ExtLink href={url}>{url}</ExtLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </td>
               </tr>
             )}
@@ -174,26 +180,28 @@ export default function Gacha({ langs, expires }: Props) {
               <tr>
                 <th>文法</th>
                 <td>
-                  {grammar.map((url, i) => {
-                    return (
-                      <p key={`${index}-${i}`}>
-                        <ExtLink href={url}>{url}</ExtLink>
-                      </p>
-                    );
-                  })}
+                  <ul>
+                    {grammar.map((url, i) => {
+                      return (
+                        <li key={`${index}-${i}`}>
+                          <ExtLink href={url}>{url}</ExtLink>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </td>
               </tr>
             )}
             {world && (
               <tr>
                 <th>架空世界</th>
-                <td>{world.join(', ')}</td>
+                <td className='text-center md:text-start'>{world.join(', ')}</td>
               </tr>
             )}
             {category_a && (
               <tr>
                 <th>分類</th>
-                <td>
+                <td className='text-center md:text-start'>
                   {category_a.map(({ name, content }, i) => (
                     <p key={`${index}-${i}`}>
                       {content ? `${name}: ${content}` : `${name}`}
@@ -205,13 +213,13 @@ export default function Gacha({ langs, expires }: Props) {
             {moyune && (
               <tr>
                 <th>モユネ分類</th>
-                <td>{moyune.join('/')}</td>
+                <td className='text-center md:text-start'>{moyune.join('/')}</td>
               </tr>
             )}
             {clav3 && (
               <tr>
                 <th>CLA v3</th>
-                <td>
+                <td className='text-center md:text-start'>
                   {clav3.dialect}_{clav3.language}_{clav3.family}_
                   {clav3.creator}
                 </td>
@@ -220,7 +228,7 @@ export default function Gacha({ langs, expires }: Props) {
             {part && (
               <tr>
                 <th>part</th>
-                <td>{part}</td>
+                <td className='text-center md:text-start'>{part}</td>
               </tr>
             )}
             {example && (
@@ -236,7 +244,7 @@ export default function Gacha({ langs, expires }: Props) {
             {script && (
               <tr>
                 <th>表記</th>
-                <td>
+                <td className='text-center md:text-start'>
                   {script.map((ex, i) => (
                     <p key={`${index}-${i}`}>{ex}</p>
                   ))}
@@ -248,4 +256,4 @@ export default function Gacha({ langs, expires }: Props) {
       </section>
     </>
   );
-};
+}

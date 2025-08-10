@@ -27,7 +27,7 @@ export default async function App() {
   const fetchCtcJson = async () => {
     return fetch(process.env.NEXT_PUBLIC_COTEC_URL!, {
       method: 'GET',
-      cache: 'no-cache'
+      next: { revalidate: 86400 },
     }).then((resp) => {
       if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
 

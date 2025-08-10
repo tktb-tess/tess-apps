@@ -114,12 +114,12 @@ export default async function CommaDetail({ params }: Props) {
           戻る
         </Link>
         <div className='table-container'>
-          <table className='grid-cols-auto-2 max-w-200 mx-auto place-content-center gap-x-8 gap-y-3'>
+          <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
             <tbody>
               {rows.map(([key, value]) => (
                 <tr key={key}>
-                  <th className='text-right'>{key}</th>
-                  <td>{value}</td>
+                  <th className='md:text-right'>{key}</th>
+                  <td className='text-center md:text-left md:max-w-240'>{value}</td>
                 </tr>
               ))}
             </tbody>
