@@ -98,7 +98,7 @@ export default async function CommaDetail({ params }: Props) {
     ['Ratio', ratioStr],
     ['Cents', centsStr],
     ['Tenney–Euclidean Norm', TENormStr],
-    ['Tempering out EDOs up to 10000', temperingOutEDOs],
+    ['EDOs tempering it out up to 10000', temperingOutEDOs],
   ] as const;
 
   return (
