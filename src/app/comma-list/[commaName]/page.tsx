@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: '/temperament-research',
+    url: '/comma-list',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png',
   },
@@ -35,7 +35,7 @@ export default async function CommaDetail({ params }: Props) {
   const fetchCommaData = async (id_: string) => {
     const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
       method: 'GET',
-      cache: 'no-store',
+      next: { revalidate: 86400 }
     });
     if (!resp.ok) {
       throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
@@ -51,7 +51,7 @@ export default async function CommaDetail({ params }: Props) {
     notFound();
   }
 
-  const { name, monzo, colorName, namedBy } = commaData;
+  const { name, monzo, colorName, namedBy, id } = commaData;
   const monzoStr = getMonzoVector(monzo);
   const cents = getCents(monzo);
   const centsStr =
@@ -98,7 +98,7 @@ export default async function CommaDetail({ params }: Props) {
     ['Ratio', ratioStr],
     ['Cents', centsStr],
     ['Tenney–Euclidean Norm', TENormStr],
-    ['Tempering out EDOs', temperingOutEDOs],
+    ['Tempering out EDOs up to 10000', temperingOutEDOs],
   ] as const;
 
   return (
@@ -108,7 +108,7 @@ export default async function CommaDetail({ params }: Props) {
       </header>
       <main className='flex flex-col gap-3'>
         <Link
-          href='/temperament-research'
+          href={`/comma-list#${id}`}
           className='block self-center btn-1 text-xl'
         >
           戻る

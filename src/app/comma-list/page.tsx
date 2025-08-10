@@ -3,15 +3,15 @@ import { getCents, getMonzoVector } from '@/lib/mod/xen-calc';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-const ogTitle = '音律探索';
-const ogDesc = 'Regular temperament の探索';
+const ogTitle = 'コンマ一覧';
+const ogDesc = 'コンマの一覧';
 
 export const metadata: Metadata = {
   title: ogTitle,
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: '/temperament-research',
+    url: '/comma-list',
     siteName: process.env.NEXT_PUBLIC_SITE_NAME,
     images: '/link-card.png',
   },
@@ -72,10 +72,10 @@ export default async function TemperamentSearch() {
                 if (!data) return undefined;
                 const [name, monzo, cents, id] = data;
                 return (
-                  <tr key={`${update}-${i}`}>
+                  <tr key={`${update}-${i}`} id={encodeURIComponent(id)}>
                     <td>
                       <Link
-                        href={`/temperament-research/${encodeURIComponent(id)}`}
+                        href={`/comma-list/${encodeURIComponent(id)}`}
                       >
                         {name}
                       </Link>
