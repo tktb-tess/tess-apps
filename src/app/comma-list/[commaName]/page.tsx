@@ -4,58 +4,68 @@ import {
   getMonzoVector,
   getRational,
   getTemperingOutEDOs,
+  getTenneyHeight,
   getTENorm,
 } from '@/lib/mod/xen-calc';
-import { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type Props = {
   params: Promise<{ commaName: string }>;
 };
 
-const ogTitle = 'コンマ';
-const ogDesc = 'コンマ詳細';
 
-export const metadata: Metadata = {
-  title: ogTitle,
-  description: ogDesc,
-  openGraph: {
-    description: ogDesc,
-    url: '/comma-list',
-    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
-    images: '/link-card.png',
-  },
-  twitter: {
-    card: 'summary',
-  },
-};
+export async function generateMetadata({ params }: Props) {
+  const commaID = decodeURIComponent((await params).commaName);
+  const { commas }: Commas = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
+    next: { revalidate: 86400 },
+  }).then((r) => r.json());
+  const commaData = commas.find((c) => c.id === commaID);
+  if (!commaData) {
+    return {
+      title: undefined,
+    };
+  }
+
+  const { name, colorName } = commaData;
+  const description = name.concat(colorName).join(', ');
+
+  return {
+    title: commaData.name[0],
+    description,
+    openGraph: {
+      description,
+      url: '/comma-list',
+      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+      images: '/link-card.png',
+    },
+    twitter: {
+      card: 'summary',
+    },
+  };
+}
 
 export default async function CommaDetail({ params }: Props) {
-  const fetchCommaData = async (id_: string) => {
-    const resp = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
-      method: 'GET',
-      next: { revalidate: 86400 }
-    });
-    if (!resp.ok) {
-      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-    }
-    const { commas } = (await resp.json()) as Commas;
-    return commas.find(({ id }) => id === id_);
-  };
-
   const commaID = decodeURIComponent((await params).commaName);
-  const commaData = await fetchCommaData(commaID);
+  const { commas }: Commas = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
+    next: { revalidate: 86400 },
+  }).then((r) => r.json());
+
+  const commaData = commas.find((c) => c.id === commaID);
 
   if (!commaData || commaData.commaType === 'irrational') {
     notFound();
   }
 
-  const { name, monzo, colorName, namedBy, id } = commaData;
+  const { name, monzo, colorName, namedBy } = commaData;
+
   const monzoStr = getMonzoVector(monzo);
   const cents = getCents(monzo);
   const centsStr =
     cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+
+  const THeight = getTenneyHeight(monzo);
+  const THeightStr =
+    THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
   const TENorm = getTENorm(monzo);
   const TENormStr = TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
   const temperingOutEDOs = getTemperingOutEDOs(monzo).join(', ');
@@ -97,6 +107,7 @@ export default async function CommaDetail({ params }: Props) {
     ['Monzo', monzoStr],
     ['Ratio', ratioStr],
     ['Cents', centsStr],
+    ['Tenney height', THeightStr],
     ['Tenney–Euclidean Norm', TENormStr],
     ['EDOs tempering it out up to 10000', temperingOutEDOs],
   ] as const;
@@ -107,19 +118,15 @@ export default async function CommaDetail({ params }: Props) {
         <h1 className='font-sans text-center my-15'>{name[0]}</h1>
       </header>
       <main className='flex flex-col gap-3'>
-        <Link
-          href={`/comma-list#${id}`}
-          className='block self-center btn-1 text-xl'
-        >
-          戻る
-        </Link>
         <div className='table-container'>
           <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
             <tbody>
               {rows.map(([key, value]) => (
                 <tr key={key}>
                   <th className='md:text-right'>{key}</th>
-                  <td className='text-center md:text-left md:max-w-240'>{value}</td>
+                  <td className='text-center md:text-left md:max-w-240'>
+                    {value}
+                  </td>
                 </tr>
               ))}
             </tbody>
