@@ -45,7 +45,7 @@ export default async function TemperamentSearch() {
       name[0] || colorName[0],
       getMonzoVector(monzo),
       getCents(monzo),
-      id,
+      encodeURIComponent(id),
     ] as const;
   });
 
@@ -72,10 +72,10 @@ export default async function TemperamentSearch() {
                 if (!data) return undefined;
                 const [name, monzo, cents, id] = data;
                 return (
-                  <tr key={`${update}-${i}`} id={encodeURIComponent(id)}>
+                  <tr key={`${update}-${i}`}>
                     <td>
                       <Link
-                        href={`/comma-list/${encodeURIComponent(id)}`}
+                        href={`/comma-list/${id}`}
                       >
                         {name}
                       </Link>
