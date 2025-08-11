@@ -49,7 +49,7 @@ export default async function Page({ searchParams }: Props) {
   });
 
   const resultData = resultCommas.map(
-    (comma): [string, string, string, string] | undefined => {
+    (comma): [string, string[], string, string] | undefined => {
       switch (comma.commaType) {
         case 'rational': {
           const { id, name, monzo } = comma;
@@ -58,7 +58,7 @@ export default async function Page({ searchParams }: Props) {
           const centsStr =
             (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-          return [encodeURIComponent(id), name.join(', '), monzoStr, centsStr];
+          return [encodeURIComponent(id), name, monzoStr, centsStr];
         }
         case 'irrational': {
           return undefined;
@@ -89,7 +89,9 @@ export default async function Page({ searchParams }: Props) {
                 return (
                   <tr key={id}>
                     <td>
-                      <Link href={`/comma/detail/${id}`}>{name}</Link>
+                      <Link href={`/comma/detail/${id}`}>
+                        {name.map((n, i) => <p key={`${id}-${i}`}>{n}</p>)}
+                      </Link>
                     </td>
                     <td>{ramon}</td>
                     <td>{cents}</td>
