@@ -12,8 +12,8 @@ const pList: readonly number[] = Array(100000)
 
 /**
  * 素数リストを返す (10000未満まで)
- * @param length 
- * @returns 
+ * @param length
+ * @returns
  */
 export const generatePrimeList = (length: number) => {
   if (pList.length >= length) {
@@ -39,7 +39,7 @@ export const getPatentVal = (edo: number, basis: number) => {
  * @param maxEdo 最大EDO (デフォルト10000)
  * @returns
  */
-export const getTemperingOutEDOs = (monzo: Monzo, maxEdo = 10000) => {
+export const getTemperOutEDOs = (monzo: Monzo, maxEdo = 10000) => {
   if (!Number.isFinite(maxEdo)) throw Error('invalid number');
   if (monzo.length === 0) throw Error('empty monzo array');
   const edos: number[] = [];
@@ -58,33 +58,33 @@ export const getTemperingOutEDOs = (monzo: Monzo, maxEdo = 10000) => {
 /**
  * モンゾのセント値を返す
  * @param monzo モンゾ
- * @returns 
+ * @returns
  */
 export const getCents = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
   return monzo
     .map(([basis, value]) => 1200 * Math.log2(basis) * value)
-    .reduce((prev, cur) => prev + cur);
+    .reduce((prev, cur) => prev + cur, 0);
 };
 
 /**
  * モンゾのテニー高さを返す
  * @param monzo モンゾ
- * @returns 
+ * @returns
  */
 export const getTenneyHeight = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
   return monzo
     .map(([basis, value]) => Math.log2(basis) * Math.abs(value))
-    .reduce((prev, cur) => prev + cur);
+    .reduce((prev, cur) => prev + cur, 0);
 };
 
 /**
  * モンゾのテニー=ユークリッドノルムを返す
  * @param monzo モンゾ
- * @returns 
+ * @returns
  */
 export const getTENorm = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
@@ -92,14 +92,14 @@ export const getTENorm = (monzo: Monzo) => {
   return Math.sqrt(
     monzo
       .map(([basis, value]) => (Math.log2(basis) * value) ** 2)
-      .reduce((prev, cur) => prev + cur)
+      .reduce((prev, cur) => prev + cur, 0)
   );
 };
 
 /**
- * モンゾの比率分数表記 `string` を返す
+ * モンゾの比率分数表記を [分子, 分母] の形式で返す
  * @param monzo モンゾ
- * @returns 
+ * @returns
  */
 export const getRational = (monzo: Monzo): [bigint, bigint] => {
   if (monzo.length === 0) throw Error('empty monzo array');
@@ -131,13 +131,13 @@ export const getMonzoVector = (monzo: Monzo): [string | null, string] => {
 };
 
 /**
- * 与えられた平均律が緩和するコンマの配列を返す
- * @param edo 平均律
+ * 与えられた平均律たちが共通で緩和するコンマの配列を返す
+ * @param edos 平均律の配列
  * @param commas コンマの配列
- * @returns 
+ * @returns
  */
 export const getTemperOutCommas = (
-  edo: number,
+  edos: number[],
   commas: readonly CommaData[]
 ) => {
   return commas.filter((comma) => {
@@ -145,9 +145,11 @@ export const getTemperOutCommas = (
       return false;
     }
     const { monzo } = comma;
-    const braket = monzo
-      .map(([b, v]) => getPatentVal(edo, b) * v)
-      .reduce((prev, cur) => prev + cur, 0);
-    return braket === 0;
+    const brakets = edos.map((edo) =>
+      monzo
+        .map(([b, v]) => getPatentVal(edo, b) * v)
+        .reduce((prev, cur) => prev + cur, 0)
+    );
+    return brakets.every((braket) => braket === 0);
   });
 };

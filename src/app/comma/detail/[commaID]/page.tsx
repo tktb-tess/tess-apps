@@ -3,7 +3,7 @@ import {
   getCents,
   getMonzoVector,
   getRational,
-  getTemperingOutEDOs,
+  getTemperOutEDOs,
   getTenneyHeight,
   getTENorm,
 } from '@/lib/mod/xen-calc';
@@ -43,9 +43,9 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function CommaDetail({ params }: Props) {
   const commaID = decodeURIComponent((await params).commaID);
-  const { commas }: Commas = await fetch(
+  const { commas } = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then((r) => r.json());
+  ).then<Commas>((r) => r.json());
   
   const commaData = commas.find((c) => c.id === commaID);
 
@@ -65,7 +65,7 @@ export default async function CommaDetail({ params }: Props) {
     THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
   const TENorm = getTENorm(monzo);
   const TENormStr = TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
-  const temperingOutEDOs = getTemperingOutEDOs(monzo).join(', ');
+  const temperingOutEDOs = getTemperOutEDOs(monzo).join(', ');
 
   const ratioStr = (() => {
     const [num, denom] = getRational(monzo);
