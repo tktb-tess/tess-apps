@@ -46,9 +46,8 @@ export default async function CommaDetail({ params }: Props) {
   const { commas }: Commas = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
   ).then((r) => r.json());
-  console.log(commaID);
-  const commaData = commas.find((c) => c.id === commaID);
   
+  const commaData = commas.find((c) => c.id === commaID);
 
   if (!commaData || commaData.commaType === 'irrational') {
     notFound();
@@ -120,8 +119,11 @@ export default async function CommaDetail({ params }: Props) {
         </h1>
       </header>
       <main className='flex flex-col gap-3'>
-        <Link href='/comma' className='btn-1 self-center text-center block text-xl'>
-        戻る
+        <Link
+          href='/comma'
+          className='btn-1 self-center text-center block text-xl'
+        >
+          戻る
         </Link>
         <div className='table-container'>
           <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
@@ -130,7 +132,11 @@ export default async function CommaDetail({ params }: Props) {
                 <tr key={key}>
                   <th className='md:text-right'>{key}</th>
                   <td className='text-center md:text-left md:max-w-240 text-balance'>
-                    {value}
+                    {typeof value === 'string'
+                      ? value
+                      : value.map((v, i) =>
+                          v === null ? null : <p key={`${name[0]}-${i}`}>{v}</p>
+                        )}
                   </td>
                 </tr>
               ))}
