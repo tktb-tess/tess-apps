@@ -22,7 +22,7 @@ export default async function Page() {
   return (
     <div className='flex flex-col items-center gap-4'>
       <p>コンマを検索できます。</p>
-      <p>現在名前前方一致限定です。今後機能を拡充していく予定です。</p>
+      <p>現在名前部分一致限定です。今後機能を拡充していく予定です。</p>
     </div>
   );
 }

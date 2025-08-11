@@ -123,6 +123,10 @@
 
 @utility btn-1 {
   @apply bg-gradient-to-b from-white to-sky-300 any-hover:opacity-80 transition-opacity rounded px-2 text-lg no-underline text-black;
+
+  &:disabled {
+    @apply opacity-80;
+  }
 }
 
 @custom-variant any-hover {
@@ -154,6 +158,10 @@
   button,
   input[type='button'] {
     @apply cursor-pointer;
+
+    &:disabled {
+      @apply pointer-events-none;
+    }
   }
 
   input[type='text'],
