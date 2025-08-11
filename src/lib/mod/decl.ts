@@ -110,3 +110,22 @@ export type Commas = {
   readonly metadata: CommaMetadata;
   readonly commas: readonly CommaData[];
 };
+
+export type Correspondence = 'exact' | 'forward' | 'backward' | 'partial';
+
+export type CommaKind = 'name' | 'monzo' | 'cent' | 'person';
+
+export const isCorre = (str: string) => {
+  return (
+    str === 'forward' ||
+    str === 'backward' ||
+    str === 'partial' ||
+    str === 'exact'
+  );
+};
+
+export const isKind = (str: string) => {
+  return (
+    str === 'name' || str === 'monzo' || str === 'cent' || str === 'person'
+  );
+};
