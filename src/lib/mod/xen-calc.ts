@@ -2,13 +2,12 @@ import { Monzo } from './decl';
 import { isEqArray, millerRabin } from './util';
 
 const pList: readonly number[] = Array(100000)
-    .fill(0)
-    .map((_, i) => BigInt(i + 1))
-    .filter((n) => millerRabin(n))
-    .map((p) => Number(p));
+  .fill(0)
+  .map((_, i) => BigInt(i + 1))
+  .filter((n) => millerRabin(n))
+  .map((p) => Number(p));
 
 export const generatePrimeList = (length: number) => {
-
   if (pList.length >= length) {
     return pList.slice(0, length);
   } else {
@@ -87,12 +86,12 @@ export const getRational = (monzo: Monzo): [bigint, bigint] => {
   return [numerator, denominator];
 };
 
-export const getMonzoVector = (monzo: Monzo) => {
+export const getMonzoVector = (monzo: Monzo): [string | null, string] => {
   const bases = monzo.map(([b]) => b);
   const values = monzo.map(([, v]) => v);
 
   const pList = generatePrimeList(bases.length);
   return isEqArray(bases, pList)
-    ? `[${values.join(' ')}\u27e9`
-    : `${bases.join('.')} [${values.join(' ')}\u27e9`;
+    ? [null, `[${values.join(' ')}\u27e9`]
+    : [`${bases.join('.')}`, `[${values.join(' ')}\u27e9`];
 };

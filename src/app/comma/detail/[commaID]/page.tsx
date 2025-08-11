@@ -7,6 +7,7 @@ import {
   getTenneyHeight,
   getTENorm,
 } from '@/lib/mod/xen-calc';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type Props = {
@@ -72,17 +73,19 @@ export default async function CommaDetail({ params }: Props) {
     let numStr = num.toString();
     let denomStr = denom.toString();
 
-    if (numStr.length > 10) {
-      const l = numStr.slice(0, 3);
-      const r = numStr.slice(-3);
-      numStr = l + '…' + r;
+    if (numStr.length > 21) {
+      const l = numStr.slice(0, 10);
+      const r = numStr.slice(-10);
+      const folded = numStr.length - 20;
+      numStr = l + `…(${folded} 桁省略)…` + r;
     }
-    if (denomStr.length > 10) {
-      const l = denomStr.slice(0, 3);
-      const r = denomStr.slice(-3);
-      denomStr = l + '…' + r;
+    if (denomStr.length > 21) {
+      const l = denomStr.slice(0, 10);
+      const r = denomStr.slice(-10);
+      const folded = denomStr.length - 20;
+      denomStr = l + `…(${folded} 桁省略)…` + r;
     }
-    return `${numStr}/${denomStr}`;
+    return `${numStr} / ${denomStr}`;
   })();
 
   const colorNameStr = (() => {
@@ -117,13 +120,16 @@ export default async function CommaDetail({ params }: Props) {
         </h1>
       </header>
       <main className='flex flex-col gap-3'>
+        <Link href='/comma' className='btn-1 self-center text-center block text-xl'>
+        戻る
+        </Link>
         <div className='table-container'>
           <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
             <tbody>
               {rows.map(([key, value]) => (
                 <tr key={key}>
                   <th className='md:text-right'>{key}</th>
-                  <td className='text-center md:text-left md:max-w-240'>
+                  <td className='text-center md:text-left md:max-w-240 text-balance'>
                     {value}
                   </td>
                 </tr>

@@ -39,33 +39,31 @@ export default async function Page({ searchParams }: Props) {
 
   const resultCommas = commas.filter(({ name }) => {
     for (const n of name) {
-      const n1 = n.slice(0, query.length).toLowerCase();
+      const n1 = n.toLowerCase();
       const q1 = query.toLowerCase();
-      if (n1 === q1) {
+      if (n1.includes(q1)) {
         return true;
       }
     }
     return false;
   });
 
-  const resultData = resultCommas.map(
-    (comma): [string, string[], string, string] | undefined => {
-      switch (comma.commaType) {
-        case 'rational': {
-          const { id, name, monzo } = comma;
-          const monzoStr = getMonzoVector(monzo);
-          const cents = getCents(monzo);
-          const centsStr =
-            (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
+  const resultData = resultCommas.map((comma) => {
+    switch (comma.commaType) {
+      case 'rational': {
+        const { id, name, monzo } = comma;
+        const monzoStr = getMonzoVector(monzo);
+        const cents = getCents(monzo);
+        const centsStr =
+          (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-          return [encodeURIComponent(id), name, monzoStr, centsStr];
-        }
-        case 'irrational': {
-          return undefined;
-        }
+        return [encodeURIComponent(id), name, monzoStr, centsStr] as const;
+      }
+      case 'irrational': {
+        return undefined;
       }
     }
-  );
+  });
 
   return (
     <>
@@ -86,14 +84,20 @@ export default async function Page({ searchParams }: Props) {
                   return undefined;
                 }
                 const [id, name, ramon, cents] = res;
+                const [b, v] = ramon;
                 return (
                   <tr key={id}>
                     <td>
                       <Link href={`/comma/detail/${id}`}>
-                        {name.map((n, i) => <p key={`${id}-${i}`}>{n}</p>)}
+                        {name.map((n, i) => (
+                          <p key={`${id}-${i}`}>{n}</p>
+                        ))}
                       </Link>
                     </td>
-                    <td>{ramon}</td>
+                    <td>
+                      {b && <p>{b}</p>}
+                      <p>{v}</p>
+                    </td>
                     <td>{cents}</td>
                   </tr>
                 );
