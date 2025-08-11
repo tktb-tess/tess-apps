@@ -1,12 +1,20 @@
-import { Monzo } from './decl';
+import { CommaData, Monzo } from './decl';
 import { isEqArray, millerRabin } from './util';
 
+/**
+ * 10000未満の素数リスト
+ */
 const pList: readonly number[] = Array(100000)
   .fill(0)
   .map((_, i) => BigInt(i + 1))
   .filter((n) => millerRabin(n))
   .map((p) => Number(p));
 
+/**
+ * 素数リストを返す (10000未満まで)
+ * @param length 
+ * @returns 
+ */
 export const generatePrimeList = (length: number) => {
   if (pList.length >= length) {
     return pList.slice(0, length);
@@ -26,7 +34,7 @@ export const getPatentVal = (edo: number, basis: number) => {
 };
 
 /**
- * @description `monzo`をテンパーアウトするEDOの配列を返す
+ * @description `monzo` をテンパーアウトするEDOの配列を返す
  * @param monzo モンゾ
  * @param maxEdo 最大EDO (デフォルト10000)
  * @returns
@@ -47,6 +55,11 @@ export const getTemperingOutEDOs = (monzo: Monzo, maxEdo = 10000) => {
   return edos;
 };
 
+/**
+ * モンゾのセント値を返す
+ * @param monzo モンゾ
+ * @returns 
+ */
 export const getCents = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
@@ -55,6 +68,11 @@ export const getCents = (monzo: Monzo) => {
     .reduce((prev, cur) => prev + cur);
 };
 
+/**
+ * モンゾのテニー高さを返す
+ * @param monzo モンゾ
+ * @returns 
+ */
 export const getTenneyHeight = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
@@ -63,6 +81,11 @@ export const getTenneyHeight = (monzo: Monzo) => {
     .reduce((prev, cur) => prev + cur);
 };
 
+/**
+ * モンゾのテニー=ユークリッドノルムを返す
+ * @param monzo モンゾ
+ * @returns 
+ */
 export const getTENorm = (monzo: Monzo) => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
@@ -73,6 +96,11 @@ export const getTENorm = (monzo: Monzo) => {
   );
 };
 
+/**
+ * モンゾの比率分数表記 `string` を返す
+ * @param monzo モンゾ
+ * @returns 
+ */
 export const getRational = (monzo: Monzo): [bigint, bigint] => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
@@ -86,7 +114,13 @@ export const getRational = (monzo: Monzo): [bigint, bigint] => {
   return [numerator, denominator];
 };
 
+/**
+ * モンゾを基底と値の文字列配列にして返す
+ * @param monzo モンゾ
+ * @returns [基底の `string` (素数順通りの場合 `null`), 値の `string`]
+ */
 export const getMonzoVector = (monzo: Monzo): [string | null, string] => {
+  if (monzo.length === 0) throw Error('empty monzo array');
   const bases = monzo.map(([b]) => b);
   const values = monzo.map(([, v]) => v);
 
@@ -94,4 +128,26 @@ export const getMonzoVector = (monzo: Monzo): [string | null, string] => {
   return isEqArray(bases, pList)
     ? [null, `[${values.join(' ')}\u27e9`]
     : [`${bases.join('.')}`, `[${values.join(' ')}\u27e9`];
+};
+
+/**
+ * 与えられた平均律が緩和するコンマの配列を返す
+ * @param edo 平均律
+ * @param commas コンマの配列
+ * @returns 
+ */
+export const getTemperOutCommas = (
+  edo: number,
+  commas: readonly CommaData[]
+) => {
+  return commas.filter((comma) => {
+    if (comma.commaType === 'irrational') {
+      return false;
+    }
+    const { monzo } = comma;
+    const braket = monzo
+      .map(([b, v]) => getPatentVal(edo, b) * v)
+      .reduce((prev, cur) => prev + cur, 0);
+    return braket === 0;
+  });
 };
