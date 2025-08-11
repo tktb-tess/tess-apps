@@ -1,5 +1,4 @@
-import SearchBtn from '@/lib/components/search-btn';
-import Form from 'next/form';
+import CommaSearchForm from './comma-search-form';
 import Link from 'next/link';
 
 type LayoutProps = {
@@ -16,13 +15,7 @@ export default async function Layout({ children }: LayoutProps) {
         <Link href='/' className='block self-center btn-1 text-xl'>
           戻る
         </Link>
-        <Form
-          action='/comma/search'
-          className='flex *:min-w-0 justify-center gap-5'
-        >
-          <input name='query' type='text' />
-          <SearchBtn />
-        </Form>
+        <CommaSearchForm />
         {children}
       </main>
     </>
