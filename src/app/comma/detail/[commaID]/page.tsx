@@ -10,31 +10,27 @@ import {
 import { notFound } from 'next/navigation';
 
 type Props = {
-  params: Promise<{ commaName: string }>;
+  params: Promise<{ commaID: string }>;
 };
 
-
 export async function generateMetadata({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaName);
-  const { commas }: Commas = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
-    next: { revalidate: 86400 },
-  }).then((r) => r.json());
+  const commaID = decodeURIComponent((await params).commaID);
+  const { commas }: Commas = await fetch(
+    process.env.NEXT_PUBLIC_COMMAS_URL!
+  ).then((r) => r.json());
   const commaData = commas.find((c) => c.id === commaID);
-  if (!commaData) {
-    return {
-      title: undefined,
-    };
-  }
 
-  const { name, colorName } = commaData;
-  const description = name.concat(colorName).join(', ');
+  const title = commaData ? commaData.name[0] : undefined;
+  const description = commaData
+    ? commaData.name.concat(commaData.colorName).join(', ')
+    : undefined;
 
   return {
-    title: commaData.name[0],
+    title,
     description,
     openGraph: {
       description,
-      url: '/comma-list',
+      url: `/comma-result/${encodeURIComponent(commaID)}`,
       siteName: process.env.NEXT_PUBLIC_SITE_NAME,
       images: '/link-card.png',
     },
@@ -45,12 +41,13 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function CommaDetail({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaName);
-  const { commas }: Commas = await fetch(process.env.NEXT_PUBLIC_COMMAS_URL!, {
-    next: { revalidate: 86400 },
-  }).then((r) => r.json());
-
+  const commaID = decodeURIComponent((await params).commaID);
+  const { commas }: Commas = await fetch(
+    process.env.NEXT_PUBLIC_COMMAS_URL!
+  ).then((r) => r.json());
+  console.log(commaID);
   const commaData = commas.find((c) => c.id === commaID);
+  
 
   if (!commaData || commaData.commaType === 'irrational') {
     notFound();
@@ -115,7 +112,9 @@ export default async function CommaDetail({ params }: Props) {
   return (
     <>
       <header>
-        <h1 className='font-sans text-center font-extralight my-15'>{name[0]}</h1>
+        <h1 className='font-sans text-center font-extralight my-15'>
+          {name[0]}
+        </h1>
       </header>
       <main className='flex flex-col gap-3'>
         <div className='table-container'>

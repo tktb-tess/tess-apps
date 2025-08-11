@@ -160,7 +160,7 @@
   input[type='number'],
   input[type='url'],
   textarea {
-    @apply font-mono border bg-neutral-700 border-white rounded px-1;
+    @apply font-mono bg-white rounded text-black px-1;
 
     &:disabled {
       @apply bg-neutral-500;
