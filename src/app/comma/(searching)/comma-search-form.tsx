@@ -43,10 +43,10 @@ export default function CommaSearchForm() {
         action='/comma/search'
         className='flex flex-col items-center max-w-full gap-5'
       >
-        <div className='flex justify-center gap-2'>
+        
           {kind === 'cent' ? (
-            <>
-              <span className='flex'>
+            <div className='flex justify-center gap-2'>
+              <span className='flex gap-1'>
                 <label htmlFor={ids[8]}>下限</label>
                 <input
                   name='query'
@@ -57,7 +57,7 @@ export default function CommaSearchForm() {
                   className='flex-grow-1'
                 />
               </span>
-              <span className='flex'>
+              <span className='flex gap-1'>
                 <label htmlFor={ids[8]}>上限</label>
                 <input
                   name='query2'
@@ -68,9 +68,9 @@ export default function CommaSearchForm() {
                   className='flex-grow-1'
                 />
               </span>
-            </>
+            </div>
           ) : (
-            <>
+            <div className='flex justify-center gap-1'>
               <label htmlFor={ids[8]}>{label[kind]}</label>
               <input
                 name='query'
@@ -80,9 +80,9 @@ export default function CommaSearchForm() {
                 onChange={(e) => setQuery(() => e.target.value)}
                 className='flex-grow-1'
               />
-            </>
+            </div>
           )}
-        </div>
+        
         <div className='flex justify-center gap-4'>
           <span>
             <input
