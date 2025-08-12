@@ -1,13 +1,19 @@
 'use client';
 import Form from 'next/form';
 import SearchBtn from '@/lib/components/search-btn';
-import { commaSearchQuery, commaCorresp, commaKind } from '@/lib/atoms';
+import {
+  commaSearchQuery,
+  commaSearchQuery2,
+  commaCorresp,
+  commaKind,
+} from '@/lib/atoms';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
-import { isCorre, isKind } from '@/lib/mod/decl';
+import { CommaKind, isCorre, isKind } from '@/lib/mod/decl';
 
 export default function CommaSearchForm() {
   const [query, setQuery] = useAtom(commaSearchQuery);
+  const [query2, setQuery2] = useAtom(commaSearchQuery2);
   const [corre, setCorre] = useAtom(commaCorresp);
   const [kind, setKind] = useAtom(commaKind);
 
@@ -20,7 +26,14 @@ export default function CommaSearchForm() {
     setKind(() => (isKind(value) ? value : 'name'));
   };
 
-  const ids = Array(9)
+  const label: Record<CommaKind, string> = {
+    name: '名前',
+    monzo: 'モンゾ',
+    cent: 'セント',
+    person: '命名者',
+  };
+
+  const ids = Array(10)
     .fill(0)
     .map(() => crypto.randomUUID());
 
@@ -30,12 +43,46 @@ export default function CommaSearchForm() {
         action='/comma/search'
         className='flex flex-col items-center max-w-full gap-5'
       >
-        <input
-          name='query'
-          type='text'
-          value={query}
-          onChange={(e) => setQuery(() => e.target.value)}
-        />
+        <div className='flex justify-center gap-2'>
+          {kind === 'cent' ? (
+            <>
+              <span className='flex'>
+                <label htmlFor={ids[8]}>下限</label>
+                <input
+                  name='query'
+                  type='text'
+                  value={query}
+                  id={ids[8]}
+                  onChange={(e) => setQuery(() => e.target.value)}
+                  className='flex-grow-1'
+                />
+              </span>
+              <span className='flex'>
+                <label htmlFor={ids[8]}>上限</label>
+                <input
+                  name='query2'
+                  type='text'
+                  value={query2}
+                  id={ids[8]}
+                  onChange={(e) => setQuery2(() => e.target.value)}
+                  className='flex-grow-1'
+                />
+              </span>
+            </>
+          ) : (
+            <>
+              <label htmlFor={ids[8]}>{label[kind]}</label>
+              <input
+                name='query'
+                type='text'
+                value={query}
+                id={ids[8]}
+                onChange={(e) => setQuery(() => e.target.value)}
+                className='flex-grow-1'
+              />
+            </>
+          )}
+        </div>
         <div className='flex justify-center gap-4'>
           <span>
             <input
