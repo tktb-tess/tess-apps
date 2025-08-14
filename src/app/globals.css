@@ -93,6 +93,40 @@
       transform: rotateY(360deg);
     }
   }
+
+  @keyframes slide-in {
+    0% {
+      transform: translateY(65px);
+    }
+    30% {
+      transform: translateY(65px);
+    }
+    70% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes thread {
+    0% {
+      visibility: visible;
+      width: 0;
+    }
+    30% {
+      visibility: visible;
+      width: 100%;
+    }
+    70% {
+      visibility: visible;
+      width: 100%;
+    }
+    100% {
+      visibility: visible;
+      width: 0;
+    }
+  }
 }
 
 @utility user-select-* {
