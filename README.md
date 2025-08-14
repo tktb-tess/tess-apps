@@ -44,11 +44,15 @@ Cotec形式については [こちら](https://migdal.jp/cl_kiita/cotec-conlang-
 
 ## コンマ検索
 
-`v1.0.0`
+`v1.0.1`
 
 Xenharmonic wiki の [Unnoticeable comma](https://en.xen.wiki/w/Unnoticeable_comma), [Small comma](https://en.xen.wiki/w/Small_comma), [Medium comma](https://en.xen.wiki/w/Medium_comma), [Large comma](https://en.xen.wiki/w/Large_comma) の4記事に載っているコンマを取得・加工したデータ ([GitHub Pages](https://tktb-tess.github.io/commas)) を利用して、コンマを検索できるようにしたものです。
 
 ### 更新履歴
+
+- v1.0.1
+  - 無理数コンマのセント値の表示対応
+  - 無理数コンマの詳細ページが見れるように対応
 
 - v1.0.0
   - 正式リリース
