@@ -1,3 +1,4 @@
+import ExtLink from '@/lib/components/extLink';
 import { Commas } from '@/lib/mod/decl';
 import {
   getCents,
@@ -52,6 +53,9 @@ export default async function CommaDetail({ params }: Props) {
   if (!commaData) {
     notFound();
   }
+
+  const title = commaData.name[0];
+  const xenWikiUrl = `https://en.xen.wiki/w/${title.replaceAll(/\s/g, '_')}`;
 
   const rows: ReadonlyArray<
     readonly [string, string | readonly [string | null, string]]
@@ -114,6 +118,7 @@ export default async function CommaDetail({ params }: Props) {
           ['セント', centsStr],
           ['Tenney高さ', THeightStr],
           ['Tenney–Euclideanノルム', TENormStr],
+          ['Xenharmonic wikiへのリンク', xenWikiUrl],
           ['緩和する10000以下の平均律', temperingOutEDOs],
         ] as const;
       }
@@ -141,6 +146,7 @@ export default async function CommaDetail({ params }: Props) {
           ['命名者', namedBy ?? '[NO DATA]'],
           ['比率', ratio],
           ['セント', centsStr],
+          ['Xenharmonic wikiへのリンク', xenWikiUrl],
         ] as const;
       }
     }
@@ -149,9 +155,7 @@ export default async function CommaDetail({ params }: Props) {
   return (
     <>
       <header>
-        <h1 className='font-sans text-center font-extralight my-15'>
-          {commaData.name[0]}
-        </h1>
+        <h1 className='font-sans text-center font-extralight my-15'>{title}</h1>
       </header>
       <main className='flex flex-col gap-3'>
         <Link
@@ -168,7 +172,16 @@ export default async function CommaDetail({ params }: Props) {
                   <th className='md:text-right'>{key}</th>
                   <td className='text-center md:text-left md:max-w-240 text-balance'>
                     {typeof value === 'string' ? (
-                      value
+                      key === 'Xenharmonic wikiへのリンク' ? (
+                        <ExtLink href={value}>{value}</ExtLink>
+                      ) : key === '緩和する10000以下の平均律' ? (
+                        <details>
+                          <summary>展開</summary>
+                          <p>{value}</p>
+                        </details>
+                      ) : (
+                        value
+                      )
                     ) : (
                       <>
                         {value[0] && <p>{value[0]}</p>}

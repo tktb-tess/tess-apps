@@ -26,9 +26,16 @@ export default function Home() {
   return (
     <>
       <header>
-        <h1 className={`${ebGaramond.className} text-center my-10`}>
-          {process.env.NEXT_PUBLIC_SITE_NAME}
-        </h1>
+        <div className='my-7 overflow-clip flex flex-col items-center'>
+          <h1
+            className={`${ebGaramond.className} text-center m-0 py-3 border-white/40 text-4xl lg:text-5xl xl:text-6xl animate-[slide-in_3s_cubic-bezier(0,.8,.2,1)]`}
+          >
+            {process.env.NEXT_PUBLIC_SITE_NAME}
+          </h1>
+          <div className='w-50 lg:w-70 xl:w-90'>
+            <hr className='border-white/40 w-0 invisible animate-[thread_3s_cubic-bezier(.6,0,.4,1)]' />
+          </div>
+        </div>
       </header>
       <main>
         <div className='flex flex-col justify-center items-center min-h-[70vh] *:max-w-full gap-5'>
@@ -48,5 +55,4 @@ export default function Home() {
       </main>
     </>
   );
-};
-
+}
