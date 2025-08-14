@@ -415,3 +415,15 @@ export const getHash = async (str: string, algorithm: AlgorithmIdentifier) => {
   const hash = await crypto.subtle.digest(algorithm, encoded);
   return Buffer.from(hash);
 };
+
+export const genHashFromDate = async function* (
+  num: number,
+  algorithm: AlgorithmIdentifier
+) {
+  for (let i = 0; i < num; i++) {
+    const utf8 = Buffer.from(new Date().toISOString(), 'utf8');
+    const hash = await crypto.subtle.digest(algorithm, utf8);
+    yield Buffer.from(hash).toString('base64');
+  }
+};
+

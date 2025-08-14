@@ -9,7 +9,7 @@ import {
 } from '@/lib/atoms';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
-import { CommaKind, isCorre, isKind } from '@/lib/mod/decl';
+import { isCorre, isKind } from '@/lib/mod/decl';
 
 export default function CommaSearchForm() {
   const [query, setQuery] = useAtom(commaSearchQuery);
@@ -26,16 +26,14 @@ export default function CommaSearchForm() {
     setKind(() => (isKind(value) ? value : 'name'));
   };
 
-  const label: Record<CommaKind, string> = {
+  const label = {
     name: '名前',
-    monzo: 'モンゾ',
-    cent: 'セント',
+    monzo: ['基底', '指数'],
+    cent: ['下限', '上限'],
     person: '命名者',
-  };
+  } as const;
 
-  const ids = Array(10)
-    .fill(0)
-    .map(() => crypto.randomUUID());
+  
 
   return (
     <>
@@ -44,41 +42,41 @@ export default function CommaSearchForm() {
         className='flex flex-col items-center max-w-full gap-5'
       >
         
-          {kind === 'cent' ? (
+          {kind === 'cent' || kind === 'monzo' ? (
             <div className='flex justify-center gap-2'>
               <span className='flex gap-1'>
-                <label htmlFor={ids[8]}>下限</label>
+                <label htmlFor='q-lower' className='text-nowrap'>{label[kind][0]}</label>
                 <input
                   name='query'
                   type='text'
                   value={query}
-                  id={ids[8]}
+                  id='q-lower'
                   onChange={(e) => setQuery(() => e.target.value)}
-                  className='flex-grow-1'
+                  className='max-w-40'
                 />
               </span>
               <span className='flex gap-1'>
-                <label htmlFor={ids[8]}>上限</label>
+                <label htmlFor='q-higher' className='text-nowrap'>{label[kind][1]}</label>
                 <input
                   name='query2'
                   type='text'
                   value={query2}
-                  id={ids[8]}
+                  id='q-higher'
                   onChange={(e) => setQuery2(() => e.target.value)}
-                  className='flex-grow-1'
+                  className='max-w-40'
                 />
               </span>
             </div>
           ) : (
-            <div className='flex justify-center gap-1'>
-              <label htmlFor={ids[8]}>{label[kind]}</label>
+            <div className='flex justify-center gap-1 w-120'>
+              <label htmlFor='query' className='text-nowrap'>{label[kind]}</label>
               <input
                 name='query'
                 type='text'
                 value={query}
-                id={ids[8]}
+                id='query'
                 onChange={(e) => setQuery(() => e.target.value)}
-                className='flex-grow-1'
+                className='max-w-40'
               />
             </div>
           )}
@@ -89,44 +87,44 @@ export default function CommaSearchForm() {
               type='radio'
               name='corre'
               value='forward'
-              id={ids[0]}
+              id='btn-1'
               checked={corre === 'forward'}
               onChange={handleCorre}
             />
-            <label htmlFor={ids[0]}>前方</label>
+            <label htmlFor='btn-1'>前方</label>
           </span>
           <span>
             <input
               type='radio'
               name='corre'
               value='backward'
-              id={ids[1]}
+              id='btn-2'
               checked={corre === 'backward'}
               onChange={handleCorre}
             />
-            <label htmlFor={ids[1]}>後方</label>
+            <label htmlFor='btn-2'>後方</label>
           </span>
           <span>
             <input
               type='radio'
               name='corre'
               value='partial'
-              id={ids[2]}
+              id='btn-3'
               checked={corre === 'partial'}
               onChange={handleCorre}
             />
-            <label htmlFor={ids[2]}>部分</label>
+            <label htmlFor='btn-3'>部分</label>
           </span>
           <span>
             <input
               type='radio'
               name='corre'
               value='exact'
-              id={ids[3]}
+              id='btn-4'
               checked={corre === 'exact'}
               onChange={handleCorre}
             />
-            <label htmlFor={ids[3]}>完全</label>
+            <label htmlFor='btn-4'>完全</label>
           </span>
         </div>
         <div className='flex justify-center gap-4'>
@@ -134,45 +132,45 @@ export default function CommaSearchForm() {
             <input
               type='radio'
               name='kind'
-              id={ids[4]}
+              id='btn-5'
               value='name'
               checked={kind === 'name'}
               onChange={handleKind}
             />
-            <label htmlFor={ids[4]}>名前</label>
+            <label htmlFor='btn-5'>名前</label>
           </span>
           <span>
             <input
               type='radio'
               name='kind'
-              id={ids[5]}
+              id='btn-6'
               value='monzo'
               checked={kind === 'monzo'}
               onChange={handleKind}
             />
-            <label htmlFor={ids[5]}>モンゾ</label>
+            <label htmlFor='btn-6'>モンゾ</label>
           </span>
           <span>
             <input
               type='radio'
               name='kind'
-              id={ids[6]}
+              id='btn-7'
               value='cent'
               checked={kind === 'cent'}
               onChange={handleKind}
             />
-            <label htmlFor={ids[6]}>セント</label>
+            <label htmlFor='btn-7'>セント</label>
           </span>
           <span>
             <input
               type='radio'
               name='kind'
-              id={ids[7]}
+              id='btn-8'
               value='person'
               checked={kind === 'person'}
               onChange={handleKind}
             />
-            <label htmlFor={ids[7]}>命名者</label>
+            <label htmlFor='btn-8'>命名者</label>
           </span>
         </div>
         <SearchBtn />
