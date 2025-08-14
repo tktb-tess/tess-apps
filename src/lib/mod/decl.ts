@@ -43,6 +43,7 @@ export type CotecMetadata = Readonly<{
   author: string[];
   createdDate: string;
   lastUpdate: string;
+  jsonLastUpdate: string;
   license: { name: string; content: string };
   advanced: number;
   label: string[];
@@ -82,7 +83,7 @@ export type Cotec = {
 
 // Comma types
 
-export type Monzo = readonly (readonly [number, number])[];
+export type Monzo = ReadonlyArray<readonly [number, number]>;
 
 type CommaType =
   | {
@@ -109,4 +110,23 @@ export type CommaMetadata = {
 export type Commas = {
   readonly metadata: CommaMetadata;
   readonly commas: readonly CommaData[];
+};
+
+export type Correspondence = 'exact' | 'forward' | 'backward' | 'partial';
+
+export type CommaKind = 'name' | 'monzo' | 'cent' | 'person';
+
+export const isCorre = (str: string) => {
+  return (
+    str === 'forward' ||
+    str === 'backward' ||
+    str === 'partial' ||
+    str === 'exact'
+  );
+};
+
+export const isKind = (str: string) => {
+  return (
+    str === 'name' || str === 'monzo' || str === 'cent' || str === 'person'
+  );
 };

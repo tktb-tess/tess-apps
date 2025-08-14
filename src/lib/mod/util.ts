@@ -8,7 +8,6 @@ export const getRndInt = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-
 export function toBigInt(nums: number): bigint;
 export function toBigInt(nums: number[]): bigint[];
 
@@ -22,7 +21,7 @@ export function toBigInt(nums: number | number[]) {
   } else {
     return nums.map((n) => BigInt(n));
   }
-};
+}
 
 /**
  * `length` ビットの乱数 or `length` ビット以下の乱数を出力する
@@ -132,8 +131,8 @@ export const exEuclidean = (a: bigint, b: bigint) => {
   if (b === 0n)
     return a > 0n ? { x: 1n, y: 0n, gcd: a } : { x: -1n, y: 0n, gcd: -a };
 
-  let [x_1, y_1, c_1] = [1n, 0n, a],
-    [x_2, y_2, c_2] = [0n, -1n, b];
+  let [x_1, y_1, c_1] = [1n, 0n, a];
+  let [x_2, y_2, c_2] = [0n, -1n, b];
 
   while (true) {
     const q = c_1 / c_2;
@@ -299,11 +298,11 @@ export const factorial = (n_: number) => {
   return odd_part << two_exp;
 };
 
-export const lazyExec = (delay = 2000) => {
+export const sleep = (duration: number) => {
   return new Promise<string>((resolve) => {
     setTimeout(() => {
-      resolve(`resolved in ${delay} ms`);
-    }, delay);
+      resolve(`slept in ${duration} ms`);
+    }, duration);
   });
 };
 
@@ -411,31 +410,20 @@ export const getRandPrimeByBitLength = (bitLength: number) => {
   throw Error('noPrimesFound');
 };
 
-export async function getHash(
-  str: string,
-  encode: 'base64' | 'base64url'
-): Promise<string>;
-export async function getHash(
-  str: string,
-  encode: 'binary'
-): Promise<Buffer<ArrayBuffer>>;
-
-export async function getHash(
-  str: string,
-  encode: 'base64' | 'base64url' | 'binary'
-) {
+export const getHash = async (str: string, algorithm: AlgorithmIdentifier) => {
   const encoded = Buffer.from(str, 'utf8');
-  const hash = Buffer.from(await crypto.subtle.digest('SHA-256', encoded));
+  const hash = await crypto.subtle.digest(algorithm, encoded);
+  return Buffer.from(hash);
+};
 
-  switch (encode) {
-    case 'base64': {
-      return hash.toString('base64');
-    }
-    case 'base64url': {
-      return hash.toString('base64url');
-    }
-    case 'binary': {
-      return hash;
-    }
+export const genHashFromDate = async function* (
+  num: number,
+  algorithm: AlgorithmIdentifier
+) {
+  for (let i = 0; i < num; i++) {
+    const utf8 = Buffer.from(new Date().toISOString(), 'utf8');
+    const hash = await crypto.subtle.digest(algorithm, utf8);
+    yield Buffer.from(hash).toString('base64');
   }
-}
+};
+

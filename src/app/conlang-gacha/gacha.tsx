@@ -65,13 +65,21 @@ export default function Gacha({ langs, expires }: Props) {
     script,
   } = langs[index];
 
-  const site_a = site?.filter(
-    ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
-  );
+  const site_a = (() => {
+    if (!site) return undefined;
+    const site_ = site.filter(
+      ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
+    );
+    return site_.length > 0 ? site_ : undefined;
+  })();
 
-  const category_a = category?.filter(
-    ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
-  );
+  const category_a = (() => {
+    if (!category) return undefined;
+    const cat_ = category.filter(
+      ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
+    );
+    return cat_.length > 0 ? cat_ : undefined;
+  })();
 
   return (
     <>
@@ -96,11 +104,15 @@ export default function Gacha({ langs, expires }: Props) {
           <tbody>
             <tr>
               <th>言語名</th>
-              <td className='text-center md:text-start'>{name.concat(kanji).join(', ') || '[NO DATA]'}</td>
+              <td className='text-center md:text-start'>
+                {name.concat(kanji).join(', ') || '[NO DATA]'}
+              </td>
             </tr>
             <tr>
               <th>作者</th>
-              <td className='text-center md:text-start'>{creator.join(', ') || '[NO DATA]'}</td>
+              <td className='text-center md:text-start'>
+                {creator.join(', ') || '[NO DATA]'}
+              </td>
             </tr>
             <tr>
               <th>説明</th>
@@ -195,7 +207,9 @@ export default function Gacha({ langs, expires }: Props) {
             {world && (
               <tr>
                 <th>架空世界</th>
-                <td className='text-center md:text-start'>{world.join(', ')}</td>
+                <td className='text-center md:text-start'>
+                  {world.join(', ')}
+                </td>
               </tr>
             )}
             {category_a && (
@@ -213,7 +227,9 @@ export default function Gacha({ langs, expires }: Props) {
             {moyune && (
               <tr>
                 <th>モユネ分類</th>
-                <td className='text-center md:text-start'>{moyune.join('/')}</td>
+                <td className='text-center md:text-start'>
+                  {moyune.join('/')}
+                </td>
               </tr>
             )}
             {clav3 && (

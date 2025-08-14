@@ -4,11 +4,24 @@ import { isEqArray, millerRabin } from './util';
 /**
  * 10000未満の素数リスト
  */
-const pList: readonly number[] = Array(100000)
+const pList: ReadonlyArray<number> = Array(100000)
   .fill(0)
   .map((_, i) => BigInt(i + 1))
   .filter((n) => millerRabin(n))
   .map((p) => Number(p));
+
+/**
+ * `index` 番目の素数を返す
+ * @param index 
+ * @returns 
+ */
+export const getPrime = (index: number) => {
+  const p = pList.at(index);
+  if (!p) {
+    throw Error('exceeded limit');
+  }
+  return p;
+}
 
 /**
  * 素数リストを返す (10000未満まで)
@@ -19,7 +32,7 @@ export const generatePrimeList = (length: number) => {
   if (pList.length >= length) {
     return pList.slice(0, length);
   } else {
-    throw Error('length exceeds limit');
+    throw Error('length exceeded limit');
   }
 };
 
@@ -152,4 +165,23 @@ export const getTemperOutCommas = (
     );
     return brakets.every((braket) => braket === 0);
   });
+};
+
+/**
+ * 2つのモンゾが等しいか判定する
+ * @param m1 
+ * @param m2 
+ * @returns 
+ */
+export const isEqualMonzo = (m1: Monzo, m2: Monzo) => {
+  if (m1.length !== m2.length) {
+    return false;
+  }
+  for (let i = 0; i < m1.length; i++) {
+    const [a, b] = [m1[i], m2[i]];
+    if (a[0] !== b[0] || a[1] !== b[1]) {
+      return false;
+    }
+  }
+  return true;
 };

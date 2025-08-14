@@ -18,11 +18,19 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-
   return (
-    <div className='flex flex-col items-center gap-4'>
-      <p>コンマを検索できます。</p>
-      <p>現在名前部分一致限定です。今後機能を拡充していく予定です。</p>
-    </div>
+    <>
+      <div className='flex flex-col items-center *:max-w-full'>
+        <p>コンマを検索できます。</p>
+        <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
+      </div>
+      <section aria-labelledby='about-monzo' className='flex flex-col items-center *:max-w-full'>
+        <h2 id='about-monzo'>– 「モンゾ」検索について –</h2>
+        <p>「基底」に素数基底の値を、「指数」にモンゾの値を、コンマ区切りで入力してください。</p>
+        <p>「基底」を省略した場合、基底として小さい順に素数が充てられます。</p>
+        <p>コンマの中を空にした場合、0として扱われます。</p>
+      </section>
+      <div className='h-20'></div>
+    </>
   );
 }
