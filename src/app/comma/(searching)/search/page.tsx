@@ -151,7 +151,8 @@ export default async function Page({ searchParams }: Props) {
       })();
       const filtered = commas.filter((comma) => {
         if (comma.commaType === 'irrational') {
-          return false;
+          const { cents } = comma;
+          return lower <= cents && cents < upper;
         }
         const { monzo } = comma;
         const cents = getCents(monzo);
