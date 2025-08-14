@@ -174,6 +174,11 @@ export default async function CommaDetail({ params }: Props) {
                     {typeof value === 'string' ? (
                       key === 'Xenharmonic wikiへのリンク' ? (
                         <ExtLink href={value}>{value}</ExtLink>
+                      ) : key === '緩和する10000以下の平均律' ? (
+                        <details>
+                          <summary>展開</summary>
+                          <p>{value}</p>
+                        </details>
                       ) : (
                         value
                       )
