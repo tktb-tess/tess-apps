@@ -21,7 +21,7 @@ npm run dev
 
 かえるさん (kaeru2193) のリポジトリ [人工言語リスト 処理用プログラム群](https://github.com/kaeru2193/Conlang-List-Works) に置いてある、  
 人工言語学Wiki「日本語圏の人工言語一覧」のリストから生成している Cotec 形式データ `conlinguistics-wiki-list.ctc`  
-を取得し、その中の人工言語をランダムで一つ表示するガチャです。
+を取得しして加工したデータ ([GitHub Pages](https://tktb-tess.github.io/cotec/json/data)) を利用し、その中の人工言語をランダムで一つ表示するガチャです。
 
 Cotec形式については [こちら](https://migdal.jp/cl_kiita/cotec-conlang-table-expression-powered-by-csv-clakis-rfc-2h86) を読んでください。
 
@@ -41,3 +41,14 @@ Cotec形式については [こちら](https://migdal.jp/cl_kiita/cotec-conlang-
   - 現在ガチャ保存機能はない (今後実装予定)
 
 これより前の履歴は[こちら](https://github.com/tktb-tess/conlang_gacha/blob/main/README.md)を参照のこと。
+
+## コンマ検索
+
+`v1.0.0`
+
+Xenharmonic wiki の [Unnoticeable comma](https://en.xen.wiki/w/Unnoticeable_comma), [Small comma](https://en.xen.wiki/w/Small_comma), [Medium comma](https://en.xen.wiki/w/Medium_comma), [Large comma](https://en.xen.wiki/w/Large_comma) の4記事に載っているコンマを取得・加工したデータ ([GitHub Pages](https://tktb-tess.github.io/commas)) を利用して、コンマを検索できるようにしたものです。
+
+### 更新履歴
+
+- v1.0.0
+  - 正式リリース
