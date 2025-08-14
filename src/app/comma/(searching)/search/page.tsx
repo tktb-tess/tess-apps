@@ -53,7 +53,6 @@ export default async function Page({ searchParams }: Props) {
     }
   }
 
-
   const results: CommaData[] = [];
 
   const { commas } = await fetch(
@@ -206,9 +205,11 @@ export default async function Page({ searchParams }: Props) {
         ] as const;
       }
       case 'irrational': {
-        const { id, name, ratio } = comma;
+        const { id, name, ratio, cents } = comma;
+        const centsStr =
+          (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-        return [encodeURIComponent(id), name, ratio, undefined, false] as const;
+        return [encodeURIComponent(id), name, ratio, centsStr, false] as const;
       }
     }
   });
@@ -233,19 +234,11 @@ export default async function Page({ searchParams }: Props) {
                 return (
                   <tr key={id}>
                     <td>
-                      {isRational ? (
-                        <Link href={`/comma/detail/${id}`}>
-                          {name.map((n, i) => (
-                            <p key={`${id}-${i}`}>{n}</p>
-                          ))}
-                        </Link>
-                      ) : (
-                        <>
-                          {name.map((n, i) => (
-                            <p key={`${id}-${i}`}>{n}</p>
-                          ))}
-                        </>
-                      )}
+                      <Link href={`/comma/detail/${id}`}>
+                        {name.map((n, i) => (
+                          <p key={`${id}-${i}`}>{n}</p>
+                        ))}
+                      </Link>
                     </td>
                     <td>
                       {isRational ? (

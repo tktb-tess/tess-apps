@@ -46,76 +46,111 @@ export default async function CommaDetail({ params }: Props) {
   const { commas } = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
   ).then<Commas>((r) => r.json());
-  
+
   const commaData = commas.find((c) => c.id === commaID);
 
-  if (!commaData || commaData.commaType === 'irrational') {
+  if (!commaData) {
     notFound();
   }
 
-  const { name, monzo, colorName, namedBy } = commaData;
+  const rows: ReadonlyArray<
+    readonly [string, string | readonly [string | null, string]]
+  > = (() => {
+    switch (commaData.commaType) {
+      case 'rational': {
+        const { name, monzo, colorName, namedBy } = commaData;
 
-  const monzoStr = getMonzoVector(monzo);
-  const cents = getCents(monzo);
-  const centsStr =
-    cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+        const monzoStr = getMonzoVector(monzo);
+        const cents = getCents(monzo);
+        const centsStr =
+          cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
 
-  const THeight = getTenneyHeight(monzo);
-  const THeightStr =
-    THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
-  const TENorm = getTENorm(monzo);
-  const TENormStr = TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
-  const temperingOutEDOs = getTemperOutEDOs(monzo).join(', ');
+        const THeight = getTenneyHeight(monzo);
+        const THeightStr =
+          THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
+        const TENorm = getTENorm(monzo);
+        const TENormStr =
+          TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
+        const temperingOutEDOs = getTemperOutEDOs(monzo).join(', ');
 
-  const ratioStr = (() => {
-    const [num, denom] = getRational(monzo);
-    let numStr = num.toString();
-    let denomStr = denom.toString();
+        const ratioStr = (() => {
+          const [num, denom] = getRational(monzo);
+          let numStr = num.toString();
+          let denomStr = denom.toString();
 
-    if (numStr.length > 21) {
-      const l = numStr.slice(0, 10);
-      const r = numStr.slice(-10);
-      const folded = numStr.length - 20;
-      numStr = l + `…(${folded} 桁省略)…` + r;
+          if (numStr.length > 21) {
+            const l = numStr.slice(0, 10);
+            const r = numStr.slice(-10);
+            const folded = numStr.length - 20;
+            numStr = l + `…(${folded} 桁省略)…` + r;
+          }
+          if (denomStr.length > 21) {
+            const l = denomStr.slice(0, 10);
+            const r = denomStr.slice(-10);
+            const folded = denomStr.length - 20;
+            denomStr = l + `…(${folded} 桁省略)…` + r;
+          }
+          return `${numStr} / ${denomStr}`;
+        })();
+
+        const colorNameStr = (() => {
+          if (colorName[0] && colorName[1]) {
+            return colorName.join(', ');
+          } else if (colorName[0]) {
+            return colorName[0];
+          } else if (colorName[1]) {
+            return colorName[1];
+          } else {
+            return '[NO DATA]';
+          }
+        })();
+
+        return [
+          ['名前', name.join(', ')],
+          ['カラーネーム', colorNameStr],
+          ['命名者', namedBy ?? '[NO DATA]'],
+          ['モンゾ', monzoStr],
+          ['比率', ratioStr],
+          ['セント', centsStr],
+          ['Tenney高さ', THeightStr],
+          ['Tenney–Euclideanノルム', TENormStr],
+          ['緩和する10000以下の平均律', temperingOutEDOs],
+        ] as const;
+      }
+      case 'irrational': {
+        const { name, ratio, cents, colorName, namedBy } = commaData;
+
+        const centsStr =
+          cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+
+        const colorNameStr = (() => {
+          if (colorName[0] && colorName[1]) {
+            return colorName.join(', ');
+          } else if (colorName[0]) {
+            return colorName[0];
+          } else if (colorName[1]) {
+            return colorName[1];
+          } else {
+            return '[NO DATA]';
+          }
+        })();
+
+        return [
+          ['名前', name.join(', ')],
+          ['カラーネーム', colorNameStr],
+          ['命名者', namedBy ?? '[NO DATA]'],
+          ['比率', ratio],
+          ['セント', centsStr],
+        ] as const;
+      }
     }
-    if (denomStr.length > 21) {
-      const l = denomStr.slice(0, 10);
-      const r = denomStr.slice(-10);
-      const folded = denomStr.length - 20;
-      denomStr = l + `…(${folded} 桁省略)…` + r;
-    }
-    return `${numStr} / ${denomStr}`;
   })();
-
-  const colorNameStr = (() => {
-    if (colorName[0] && colorName[1]) {
-      return colorName.join(', ');
-    } else if (colorName[0]) {
-      return colorName[0];
-    } else if (colorName[1]) {
-      return colorName[1];
-    } else {
-      return '[NO DATA]';
-    }
-  })();
-
-  const rows = [
-    ['名前', name.join(', ')],
-    ['カラーネーム', colorNameStr],
-    ['命名者', namedBy ?? '[NO DATA]'],
-    ['モンゾ', monzoStr],
-    ['比率', ratioStr],
-    ['セント', centsStr],
-    ['Tenney高さ', THeightStr],
-    ['Tenney–Euclideanノルム', TENormStr],
-    ['緩和する10000以下の平均律', temperingOutEDOs],
-  ] as const;
 
   return (
     <>
       <header>
         <h1 className='font-sans text-center font-extralight my-15'>
-          {name[0]}
+          {commaData.name[0]}
         </h1>
       </header>
       <main className='flex flex-col gap-3'>
@@ -132,11 +167,14 @@ export default async function CommaDetail({ params }: Props) {
                 <tr key={key}>
                   <th className='md:text-right'>{key}</th>
                   <td className='text-center md:text-left md:max-w-240 text-balance'>
-                    {typeof value === 'string'
-                      ? value
-                      : value.map((v, i) =>
-                          v === null ? null : <p key={`${name[0]}-${i}`}>{v}</p>
-                        )}
+                    {typeof value === 'string' ? (
+                      value
+                    ) : (
+                      <>
+                        {value[0] && <p>{value[0]}</p>}
+                        <p>{value[1]}</p>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
