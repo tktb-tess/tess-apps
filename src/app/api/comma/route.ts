@@ -18,10 +18,10 @@ const monzoSchema = z
 type MonzoData = {
   readonly monzo: z.infer<typeof monzoSchema>;
   readonly cents: number;
-  readonly tenneyHeight: number;
+  readonly TenneyHeight: number;
   readonly TENorm: number;
-  readonly fraction: `${string}/${string}`;
-  readonly venedettiHeight: string;
+  readonly fraction: [string, string];
+  readonly VenedettiHeight: string;
   readonly temperOutEDOs: readonly number[];
 };
 
@@ -59,10 +59,10 @@ export const GET = async ({ nextUrl }: NextRequest) => {
     const monzoData: MonzoData = {
       monzo,
       cents: getCents(monzo),
-      tenneyHeight: getTenneyHeight(monzo),
+      TenneyHeight: getTenneyHeight(monzo),
       TENorm: getTENorm(monzo),
-      venedettiHeight: (fr[0] * fr[1]).toString(16),
-      fraction: `${fr[0].toString(16)}/${fr[1].toString(16)}`,
+      VenedettiHeight: `0x${(fr[0] * fr[1]).toString(16)}`,
+      fraction: [`0x${fr[0].toString(16)}`, `0x${fr[1].toString(16)}`],
       temperOutEDOs: getTemperOutEDOs(monzo),
     };
 
@@ -82,6 +82,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         issues,
         errors,
       } as const;
+
       return new NextResponse(JSON.stringify(err), {
         status: 400,
         headers,
@@ -94,6 +95,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         stack,
         cause,
       } as const;
+      
       return new NextResponse(JSON.stringify(err), {
         status: 500,
         headers,
