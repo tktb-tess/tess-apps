@@ -3,7 +3,7 @@ import { Commas } from '@/lib/mod/decl';
 import {
   getCents,
   getMonzoVector,
-  getRational,
+  getFraction,
   getTemperOutEDOs,
   getTenneyHeight,
   getTENorm,
@@ -78,7 +78,7 @@ export default async function CommaDetail({ params }: Props) {
         const temperingOutEDOs = getTemperOutEDOs(monzo).join(', ');
 
         const ratioStr = (() => {
-          const [num, denom] = getRational(monzo);
+          const [num, denom] = getFraction(monzo);
           let numStr = num.toString();
           let denomStr = denom.toString();
 

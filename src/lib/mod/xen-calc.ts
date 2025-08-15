@@ -114,7 +114,7 @@ export const getTENorm = (monzo: Monzo) => {
  * @param monzo モンゾ
  * @returns
  */
-export const getRational = (monzo: Monzo): [bigint, bigint] => {
+export const getFraction = (monzo: Monzo): [bigint, bigint] => {
   if (monzo.length === 0) throw Error('empty monzo array');
 
   const numerator = monzo
@@ -125,6 +125,11 @@ export const getRational = (monzo: Monzo): [bigint, bigint] => {
     .reduce((prev, cur) => prev * cur, 1n);
 
   return [numerator, denominator];
+};
+
+export const getVenedettiHeight = (monzo: Monzo) => {
+  const frac = getFraction(monzo);
+  return frac[0] * frac[1];
 };
 
 /**
