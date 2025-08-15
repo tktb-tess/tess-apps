@@ -54,6 +54,8 @@ Xenharmonic wiki の [Unnoticeable comma](https://en.xen.wiki/w/Unnoticeable_com
   - タイトルアニメーションを追加
   - Xenharmonic wiki の各コンマページへのリンクを追加
   - 緩和する平均律の項を折り畳みできるように
+  - 表示の手直し
+  - 悠久肆方体へのリンク追加
 
 - v1.0.1
   - 無理数コンマのセント値の表示対応
