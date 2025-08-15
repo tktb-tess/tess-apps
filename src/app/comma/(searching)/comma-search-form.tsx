@@ -39,7 +39,7 @@ export default function CommaSearchForm() {
     <>
       <Form
         action='/comma/search'
-        className='flex flex-col items-center max-w-full gap-5'
+        className='flex flex-col items-stretch md:items-center max-w-full gap-5'
       >
         
           {kind === 'cent' || kind === 'monzo' ? (
