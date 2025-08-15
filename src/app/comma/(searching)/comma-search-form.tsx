@@ -43,8 +43,8 @@ export default function CommaSearchForm() {
       >
         
           {kind === 'cent' || kind === 'monzo' ? (
-            <div className='flex justify-center gap-2'>
-              <span className='flex gap-1 *:min-w-0'>
+            <div className='flex *:min-w-0 justify-center gap-2'>
+              <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
                 <label htmlFor='q-lower' className='text-nowrap'>{label[kind][0]}</label>
                 <input
                   name='query'
@@ -55,7 +55,7 @@ export default function CommaSearchForm() {
                   className='flex-[1_1_0]'
                 />
               </span>
-              <span className='flex gap-1 *:min-w-0'>
+              <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
                 <label htmlFor='q-higher' className='text-nowrap'>{label[kind][1]}</label>
                 <input
                   name='query2'
@@ -68,7 +68,7 @@ export default function CommaSearchForm() {
               </span>
             </div>
           ) : (
-            <div className='flex justify-center gap-1 w-120 *:min-w-0'>
+            <div className='flex justify-center gap-1 *:min-w-0'>
               <label htmlFor='query' className='text-nowrap'>{label[kind]}</label>
               <input
                 name='query'
@@ -173,7 +173,7 @@ export default function CommaSearchForm() {
             <label htmlFor='btn-8'>命名者</label>
           </span>
         </div>
-        <SearchBtn />
+        <SearchBtn className='self-center' />
       </Form>
     </>
   );
