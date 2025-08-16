@@ -75,13 +75,10 @@ export const GET = async ({ nextUrl }: NextRequest) => {
     });
   } catch (e) {
     if (e instanceof ZodError) {
-      const { issues, name, message, stack, cause } = e;
+      const { issues, name } = e;
       const { errors } = z.treeifyError(e);
       const err = {
         name,
-        message: JSON.parse(message),
-        stack,
-        cause,
         issues,
         errors,
       } as const;
@@ -91,12 +88,10 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         headers,
       });
     } else if (e instanceof Error) {
-      const { name, message, stack, cause } = e;
+      const { name, message } = e;
       const err = {
         name,
         message,
-        stack,
-        cause,
       } as const;
 
       return new NextResponse(JSON.stringify(err), {
@@ -106,7 +101,6 @@ export const GET = async ({ nextUrl }: NextRequest) => {
     } else {
       const err = {
         name: 'unidentifiedError',
-        content: `${e}`,
       } as const;
       return new NextResponse(JSON.stringify(err), {
         status: 500,
