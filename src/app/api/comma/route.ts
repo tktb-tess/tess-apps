@@ -33,8 +33,7 @@ const headers = {
 
 export const GET = async ({ nextUrl }: NextRequest) => {
   try {
-    const { searchParams } = nextUrl;
-    const mnz_ = searchParams.get('monzo');
+    const mnz_ = nextUrl.searchParams.get('monzo');
     console.log(mnz_);
     if (!mnz_) {
       return new NextResponse(JSON.stringify({ message: 'emptyMonzo' }), {
@@ -53,7 +52,12 @@ export const GET = async ({ nextUrl }: NextRequest) => {
           return [getPrime(i), Number.parseInt(s)];
         }
       });
-    const monzo = monzoSchema.parse(monzo_);
+
+    const monzo = monzoSchema
+      .parse(monzo_)
+      .filter(([, v]) => v !== 0)
+      .toSorted(([a], [b]) => a - b);
+
     const fr = getFraction(monzo);
 
     const monzoData: MonzoData = {
@@ -72,13 +76,10 @@ export const GET = async ({ nextUrl }: NextRequest) => {
     });
   } catch (e) {
     if (e instanceof ZodError) {
-      const { issues, name, message, stack, cause } = e;
+      const { issues, name } = e;
       const { errors } = z.treeifyError(e);
       const err = {
         name,
-        message,
-        stack,
-        cause,
         issues,
         errors,
       } as const;
@@ -88,14 +89,12 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         headers,
       });
     } else if (e instanceof Error) {
-      const { name, message, stack, cause } = e;
+      const { name, message } = e;
       const err = {
         name,
         message,
-        stack,
-        cause,
       } as const;
-      
+
       return new NextResponse(JSON.stringify(err), {
         status: 500,
         headers,
@@ -103,7 +102,6 @@ export const GET = async ({ nextUrl }: NextRequest) => {
     } else {
       const err = {
         name: 'unidentifiedError',
-        content: `${e}`,
       } as const;
       return new NextResponse(JSON.stringify(err), {
         status: 500,
