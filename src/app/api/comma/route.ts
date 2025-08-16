@@ -33,8 +33,7 @@ const headers = {
 
 export const GET = async ({ nextUrl }: NextRequest) => {
   try {
-    const { searchParams } = nextUrl;
-    const mnz_ = searchParams.get('monzo');
+    const mnz_ = nextUrl.searchParams.get('monzo');
     console.log(mnz_);
     if (!mnz_) {
       return new NextResponse(JSON.stringify({ message: 'emptyMonzo' }), {
@@ -53,7 +52,11 @@ export const GET = async ({ nextUrl }: NextRequest) => {
           return [getPrime(i), Number.parseInt(s)];
         }
       });
-    const monzo = monzoSchema.parse(monzo_);
+
+    const monzo = monzoSchema
+      .parse(monzo_)
+      .toSorted(([a], [b]) => a - b)
+      .filter(([, v]) => v !== 0);
     const fr = getFraction(monzo);
 
     const monzoData: MonzoData = {
@@ -76,7 +79,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       const { errors } = z.treeifyError(e);
       const err = {
         name,
-        message,
+        message: JSON.parse(message),
         stack,
         cause,
         issues,
@@ -95,7 +98,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         stack,
         cause,
       } as const;
-      
+
       return new NextResponse(JSON.stringify(err), {
         status: 500,
         headers,
