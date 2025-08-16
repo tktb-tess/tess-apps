@@ -55,8 +55,9 @@ export const GET = async ({ nextUrl }: NextRequest) => {
 
     const monzo = monzoSchema
       .parse(monzo_)
-      .toSorted(([a], [b]) => a - b)
-      .filter(([, v]) => v !== 0);
+      .filter(([, v]) => v !== 0)
+      .toSorted(([a], [b]) => a - b);
+
     const fr = getFraction(monzo);
 
     const monzoData: MonzoData = {
