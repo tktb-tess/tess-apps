@@ -55,7 +55,7 @@ export default async function CommaDetail({ params }: Props) {
   }
 
   const title = commaData.name[0];
-  const xenWikiUrl = `https://en.xen.wiki/w/${title.replaceAll(/\s/g, '_')}`;
+  const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
   const rows: ReadonlyArray<
     readonly [string, string | readonly [string | null, string]]
@@ -65,16 +65,24 @@ export default async function CommaDetail({ params }: Props) {
         const { name, monzo, colorName, namedBy } = commaData;
 
         const monzoStr = getMonzoVector(monzo);
-        const cents = getCents(monzo);
-        const centsStr =
-          cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
 
-        const THeight = getTenneyHeight(monzo);
-        const THeightStr =
-          THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
-        const TENorm = getTENorm(monzo);
-        const TENormStr =
-          TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
+        const centsStr = (() => {
+          const cents = getCents(monzo);
+          return cents < 0.1
+            ? cents.toExponential(4) + ' ¢'
+            : cents.toFixed(4) + ' ¢';
+        })();
+
+        const THeightStr = (() => {
+          const THeight = getTenneyHeight(monzo);
+          return THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
+        })();
+
+        const TENormStr = (() => {
+          const TENorm = getTENorm(monzo);
+          return TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
+        })();
+
         const temperingOutEDOs = getTemperOutEDOs(monzo).join(', ');
 
         const ratioStr = (() => {
