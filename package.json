@@ -14,6 +14,8 @@
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@next/mdx": "^15.4.5",
+    "@tktb-tess/util-fns": "^0.3.2",
+    "@tktb-tess/xenharmonic-tool": "^0.1.0",
     "date-fns": "^4.1.0",
     "jotai": "^2.13.0",
     "mathjs": "^14.6.0",
