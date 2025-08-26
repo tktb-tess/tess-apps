@@ -1,19 +1,10 @@
-import {
-  CommaData,
-  CommaKind,
-  Commas,
-  Correspondence,
-  Monzo,
-} from '@/lib/mod/decl';
-import {
-  getCents,
-  getMonzoVector,
-  getPrime,
-  isEqualMonzo,
-} from '@/lib/mod/xen-calc';
+import { CommaData, CommaKind, Commas, Correspondence } from '@/lib/mod/decl';
+import { getCents, Monzo } from '@tktb-tess/xenharmonic-tool';
+import { getMonzoVector } from '@/lib/mod/xen-calc';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { bailliePSW, isEqual } from '@tktb-tess/util-fns';
 
 type Props = {
   searchParams: Promise<{
@@ -89,41 +80,53 @@ export default async function Page({ searchParams }: Props) {
         const value = Number.parseInt(v);
         return Number.isNaN(value) ? 0 : value;
       });
+      const primeList: readonly number[] = (() => {
+        const basisLen = query.split(',').length;
+        const pList: number[] = [];
+
+        for (let n = 2n; pList.length < basisLen; n++) {
+          if (bailliePSW(n)) pList.push(Number(n));
+        }
+
+        return pList;
+      })();
       const bases = query.split(',').map((b, i) => {
         const basis = Number.parseInt(b);
-        return Number.isNaN(basis) ? getPrime(i) : basis;
+        return Number.isNaN(basis) ? primeList[i] : basis;
       });
 
-      const iMonzo: Monzo = values
-        .map((value, i) => {
-          return [bases.at(i) ?? getPrime(i), value] as const;
+      const iMonzo_ = values
+        .map<[number, number]>((value, i) => {
+          return [bases.at(i) ?? primeList[i], value];
         })
-        .toSorted(([a], [b]) => a - b);
+        .sort(([a], [b]) => a - b);
+
+      const iMonzo = Monzo.create(iMonzo_);
 
       const filtered = commas.filter((comma) => {
         if (comma.commaType === 'irrational') {
           return false;
         }
-        const { monzo } = comma;
+        const monzo = Monzo.create(comma.monzo);
         switch (corre) {
           case 'exact': {
-            return isEqualMonzo(iMonzo, monzo);
+            return isEqual(iMonzo, monzo);
           }
           case 'forward': {
             if (monzo.length < iMonzo.length) {
               return false;
             }
 
-            const sliced = monzo.slice(0, iMonzo.length);
-            return isEqualMonzo(iMonzo, sliced);
+            const sliced = monzo.slice(0, iMonzo.length) as Monzo;
+            return isEqual(iMonzo, sliced);
           }
           case 'backward': {
             if (monzo.length < iMonzo.length) {
               return false;
             }
 
-            const sliced = monzo.slice(-iMonzo.length);
-            return isEqualMonzo(iMonzo, sliced);
+            const sliced = monzo.slice(-iMonzo.length) as Monzo;
+            return isEqual(iMonzo, sliced);
           }
           case 'partial': {
             if (monzo.length < iMonzo.length) {
@@ -131,9 +134,9 @@ export default async function Page({ searchParams }: Props) {
             }
             const sliced = monzo.filter(([b]) => {
               return iMonzo.some(([ib]) => ib === b);
-            });
+            }) as Monzo;
 
-            return isEqualMonzo(iMonzo, sliced);
+            return isEqual(iMonzo, sliced);
           }
         }
       });
@@ -154,7 +157,7 @@ export default async function Page({ searchParams }: Props) {
           const { cents } = comma;
           return lower <= cents && cents < upper;
         }
-        const { monzo } = comma;
+        const monzo = Monzo.create(comma.monzo);
         const cents = getCents(monzo);
         return lower <= cents && cents < upper;
       });
@@ -191,7 +194,8 @@ export default async function Page({ searchParams }: Props) {
   const resultData = results.map((comma) => {
     switch (comma.commaType) {
       case 'rational': {
-        const { id, name, monzo } = comma;
+        const { id, name, monzo: mnz } = comma;
+        const monzo = Monzo.create(mnz);
         const monzoStr = getMonzoVector(monzo);
         const cents = getCents(monzo);
         const centsStr =
