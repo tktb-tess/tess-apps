@@ -1,11 +1,12 @@
+import { bailliePSW } from '@tktb-tess/util-fns';
 import {
   getCents,
-  getFraction,
-  getPrime,
-  getTemperOutEDOs,
+  getRatio,
+  getTemperOutEdos,
   getTenneyHeight,
   getTENorm,
-} from '@/lib/mod/xen-calc';
+  Monzo,
+} from '@tktb-tess/xenharmonic-tool';
 import { NextRequest, NextResponse } from 'next/server';
 import { z, ZodError } from 'zod';
 
@@ -16,7 +17,7 @@ const monzoSchema = z
   .array();
 
 type MonzoData = {
-  readonly monzo: z.infer<typeof monzoSchema>;
+  readonly monzo: Monzo;
   readonly cents: number;
   readonly TenneyHeight: number;
   readonly TENorm: number;
@@ -41,24 +42,28 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         headers,
       });
     }
-    const monzo_ = mnzParamSchema
-      .parse(decodeURIComponent(mnz_))
-      .split(',')
-      .map((s, i) => {
-        if (s.includes(':')) {
-          const [b, v] = s.split(':').map((n) => Number.parseInt(n));
-          return [b, v];
-        } else {
-          return [getPrime(i), Number.parseInt(s)];
-        }
-      });
+    const monzo__ = mnzParamSchema.parse(decodeURIComponent(mnz_)).split(',');
+    const pList = (() => {
+      const { length } = monzo__;
+      const ps_: number[] = [];
+      for (let n = 2n; ps_.length < length; n++) {
+        if (bailliePSW(n)) ps_.push(Number(n));
+      }
+      return ps_;
+    })();
+    const monzo_ = monzo__.map((s, i) => {
+      if (s.includes(':')) {
+        const [b, v] = s.split(':').map((n) => Number.parseInt(n));
+        return [b, v];
+      } else {
+        return [pList[i], Number.parseInt(s)];
+      }
+    });
 
-    const monzo = monzoSchema
-      .parse(monzo_)
-      .filter(([, v]) => v !== 0)
-      .toSorted(([a], [b]) => a - b);
+    const monzo = Monzo.create(monzoSchema.parse(monzo_))
+    
 
-    const fr = getFraction(monzo);
+    const fr = getRatio(monzo);
 
     const monzoData: MonzoData = {
       monzo,
@@ -67,7 +72,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       TENorm: getTENorm(monzo),
       VenedettiHeight: `0x${(fr[0] * fr[1]).toString(16)}`,
       fraction: [`0x${fr[0].toString(16)}`, `0x${fr[1].toString(16)}`],
-      temperOutEDOs: getTemperOutEDOs(monzo),
+      temperOutEDOs: getTemperOutEdos(10000, monzo),
     };
 
     return new NextResponse(JSON.stringify(monzoData), {

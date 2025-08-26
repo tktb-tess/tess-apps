@@ -83,12 +83,10 @@ export type Cotec = {
 
 // Comma types
 
-export type Monzo = ReadonlyArray<readonly [number, number]>;
-
 type CommaType =
   | {
       readonly commaType: 'rational';
-      readonly monzo: Monzo;
+      readonly monzo: Array<[number, number]>;
     }
   | {
       readonly commaType: 'irrational';
