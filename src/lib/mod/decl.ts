@@ -37,44 +37,44 @@ export const isMoyune = (str: string): str is MoyuneClass => {
   return false;
 };
 
-export type CotecMetadata = Readonly<{
-  datasize: [number, number];
-  title: string;
-  author: string[];
-  createdDate: string;
-  lastUpdate: string;
-  jsonLastUpdate: string;
-  license: { name: string; content: string };
-  advanced: number;
-  label: string[];
-  type: string[];
-}>;
+export type CotecMetadata = {
+  readonly datasize: [number, number];
+  readonly title: string;
+  readonly author: string[];
+  readonly createdDate: string;
+  readonly lastUpdate: string;
+  readonly jsonLastUpdate: string;
+  readonly license: { name: string; content: string };
+  readonly advanced: number;
+  readonly label: string[];
+  readonly type: string[];
+};
 
-export type CotecContent = Readonly<{
-  id: string;
-  messier: unknown;
-  name: readonly string[];
-  kanji: readonly string[];
-  desc: readonly string[];
-  creator: readonly string[];
-  period?: string;
-  site?: { name?: string; url: string }[];
-  twitter?: readonly string[];
-  dict?: readonly string[];
-  grammar?: readonly string[];
-  world?: readonly string[];
-  category?: readonly Readonly<{ name: string; content?: string }>[];
-  moyune?: readonly MoyuneClass[];
-  clav3?: Readonly<{
-    dialect: string;
-    language: string;
-    family: string;
-    creator: string;
-  }>;
-  part?: string;
-  example?: readonly string[];
-  script?: readonly string[];
-}>;
+export type CotecContent = {
+  readonly id: string;
+  readonly messier: unknown;
+  readonly name: readonly string[];
+  readonly kanji: readonly string[];
+  readonly desc: readonly string[];
+  readonly creator: readonly string[];
+  readonly period?: string;
+  readonly site?: { name?: string; url: string }[];
+  readonly twitter?: readonly string[];
+  readonly dict?: readonly string[];
+  readonly grammar?: readonly string[];
+  readonly world?: readonly string[];
+  readonly category?: readonly Readonly<{ name: string; content?: string }>[];
+  readonly moyune?: readonly MoyuneClass[];
+  readonly clav3?: {
+    readonly dialect: string;
+    readonly language: string;
+    readonly family: string;
+    readonly creator: string;
+  };
+  readonly part?: string;
+  readonly example?: readonly string[];
+  readonly script?: readonly string[];
+};
 
 export type Cotec = {
   readonly metadata: CotecMetadata;
@@ -129,3 +129,7 @@ export const isKind = (str: string) => {
     str === 'name' || str === 'monzo' || str === 'cent' || str === 'person'
   );
 };
+
+export const storageKeys = {
+  lastLangID: 'last-lang-id',
+} as const;

@@ -24,14 +24,14 @@ export const metadata: Metadata = {
 };
 
 export default async function App() {
-  const fetchCtcJson = async () => {
+  const fetchCtcJson = async (): Promise<Cotec> => {
     return fetch(process.env.NEXT_PUBLIC_COTEC_URL!, {
       method: 'GET',
       next: { revalidate: 86400 },
     }).then((resp) => {
       if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
 
-      return resp.json() as Promise<Cotec>;
+      return resp.json();
     });
   };
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();

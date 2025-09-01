@@ -2,12 +2,10 @@
 
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
-import { useEffect, useRef, useState } from 'react';
-import { getRndInt } from '@/lib/mod/util';
-
-const keys = {
-  lastLangID: 'last-lang-id',
-} as const;
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { getRndInt } from '@tktb-tess/util-fns';
+import { useAtom } from 'jotai';
+import { lastLangIdAtom } from '@/lib/atoms';
 
 type Props = {
   langs: readonly CotecContent[];
@@ -17,8 +15,9 @@ type Props = {
 export default function Gacha({ langs, expires }: Props) {
   const [index, setIndex] = useState(0);
   const tableRef = useRef<HTMLTableElement | null>(null);
+  const [langId, setLangId] = useAtom(lastLangIdAtom);
 
-  const tableAnimation = () => {
+  const tableAnimation = useCallback(() => {
     tableRef.current?.classList.remove('fade-slide-in');
     tableRef.current?.classList.add('invisible');
 
@@ -26,25 +25,23 @@ export default function Gacha({ langs, expires }: Props) {
       tableRef.current?.classList.add('fade-slide-in');
       tableRef.current?.classList.remove('invisible');
     }, 10);
-  };
+  }, []);
 
-  const handleBtn = () => {
+  const handleBtn = async () => {
     const newIndex = getRndInt(0, langs.length);
     setIndex(() => newIndex);
-    localStorage.setItem(keys.lastLangID, langs[newIndex].id);
+    setLangId(() => langs[newIndex].id);
     tableAnimation();
   };
 
   useEffect(() => {
     if (expires < Date.now()) return;
-    const lastLang = localStorage.getItem(keys.lastLangID);
-    if (!lastLang) return;
-    const index = langs.findIndex(({ id }) => id === lastLang);
-    if (index > -1) {
-      setIndex(() => index);
+    const initLangIndex = langs.findIndex(({ id }) => id === langId);
+    if (initLangIndex > -1) {
+      setIndex(() => initLangIndex);
       tableAnimation();
     }
-  }, [langs, expires]);
+  }, [langs, expires, langId, tableAnimation]);
 
   const {
     name,

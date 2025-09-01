@@ -51,7 +51,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       }
       return ps_;
     })();
-    const monzo_ = monzo__.map((s, i) => {
+    const monzo_: [number, number][] = monzo__.map((s, i) => {
       if (s.includes(':')) {
         const [b, v] = s.split(':').map((n) => Number.parseInt(n));
         return [b, v];
@@ -70,8 +70,8 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       cents: getCents(monzo),
       TenneyHeight: getTenneyHeight(monzo),
       TENorm: getTENorm(monzo),
-      VenedettiHeight: `0x${(fr[0] * fr[1]).toString(16)}`,
-      fraction: [`0x${fr[0].toString(16)}`, `0x${fr[1].toString(16)}`],
+      VenedettiHeight: `${fr[0] * fr[1]}`,
+      fraction: [`${fr[0]}`, `${fr[1]}`],
       temperOutEDOs: getTemperOutEdos(10000, monzo),
     };
 
