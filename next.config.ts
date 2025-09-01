@@ -3,7 +3,7 @@ import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  expireTime: 2592000
+  expireTime: 2592000,
 };
 
 const withMDX = createMDX({
