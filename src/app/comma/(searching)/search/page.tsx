@@ -1,10 +1,9 @@
 import { CommaData, CommaKind, Commas, Correspondence } from '@/lib/mod/decl';
-import { getCents, Monzo } from '@tktb-tess/xenharmonic-tool';
-import { getMonzoVector } from '@/lib/mod/xen-calc';
+import { getCents, Monzo, getMonzoVector } from '@tktb-tess/xenharmonic-tool';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { bailliePSW, isEqual } from '@tktb-tess/util-fns';
+import { bailliePSW } from '@tktb-tess/util-fns';
 
 type Props = {
   searchParams: Promise<{
@@ -76,71 +75,93 @@ export default async function Page({ searchParams }: Props) {
       break;
     }
     case 'monzo': {
-      const values = query2.split(',').map((v) => {
-        const value = Number.parseInt(v);
-        return Number.isNaN(value) ? 0 : value;
-      });
-      const primeList: readonly number[] = (() => {
-        const basisLen = query.split(',').length;
-        const pList: number[] = [];
+      try {
+        const values = query2.split(',').map((v) => {
+          const value = Number.parseInt(v);
 
-        for (let n = 2n; pList.length < basisLen; n++) {
-          if (bailliePSW(n)) pList.push(Number(n));
-        }
+          return Number.isNaN(value) ? 0 : value;
+        });
 
-        return pList;
-      })();
-      const bases = query.split(',').map((b, i) => {
-        const basis = Number.parseInt(b);
-        return Number.isNaN(basis) ? primeList[i] : basis;
-      });
+        const primeList: readonly number[] = (() => {
+          const basisLen = values.length;
 
-      const iMonzo_ = values
-        .map<[number, number]>((value, i) => {
-          return [bases.at(i) ?? primeList[i], value];
-        })
-        .sort(([a], [b]) => a - b);
+          const pList: number[] = [];
 
-      const iMonzo = Monzo.create(iMonzo_);
-
-      const filtered = commas.filter((comma) => {
-        if (comma.commaType === 'irrational') {
-          return false;
-        }
-        const monzo = Monzo.create(comma.monzo);
-        switch (corre) {
-          case 'exact': {
-            return isEqual(iMonzo, monzo);
+          for (let n = 2n; pList.length < basisLen; n++) {
+            if (bailliePSW(n)) pList.push(Number(n));
           }
-          case 'forward': {
-            if (monzo.length < iMonzo.length) {
-              return false;
+
+          return pList;
+        })();
+
+        const bases = query.split(',').map((b, i) => {
+          const basis = Number.parseInt(b);
+
+          return Number.isNaN(basis) ? primeList[i] : basis;
+        });
+
+        const iMonzo_ = values
+          .map<[number, number]>((value, i) => {
+            return [bases.at(i) ?? primeList[i], value];
+          })
+          .sort(([a], [b]) => a - b);
+
+        // console.log(iMonzo_);
+
+        const iMonzo = Monzo.create(iMonzo_);
+
+        const filtered = commas.filter((comma) => {
+          if (comma.commaType === 'irrational') {
+            return false;
+          }
+
+          const monzo = Monzo.create(comma.monzo);
+
+          switch (corre) {
+            case 'exact': {
+              return Monzo.isEqual(iMonzo, monzo);
             }
 
-            const sliced = monzo.slice(0, iMonzo.length) as Monzo;
-            return isEqual(iMonzo, sliced);
-          }
-          case 'backward': {
-            if (monzo.length < iMonzo.length) {
-              return false;
+            case 'forward': {
+              if (monzo.length < iMonzo.length) {
+                return false;
+              }
+
+              const sliced = Monzo.create(monzo.slice(0, iMonzo.length));
+
+              return Monzo.isEqual(iMonzo, sliced);
             }
 
-            const sliced = monzo.slice(-iMonzo.length) as Monzo;
-            return isEqual(iMonzo, sliced);
-          }
-          case 'partial': {
-            if (monzo.length < iMonzo.length) {
-              return false;
-            }
-            const sliced = monzo.filter(([b]) => {
-              return iMonzo.some(([ib]) => ib === b);
-            }) as Monzo;
+            case 'backward': {
+              if (monzo.length < iMonzo.length) {
+                return false;
+              }
 
-            return isEqual(iMonzo, sliced);
+              const sliced = Monzo.create(monzo.slice(-iMonzo.length));
+
+              return Monzo.isEqual(iMonzo, sliced);
+            }
+            case 'partial': {
+              if (monzo.length < iMonzo.length) {
+                return false;
+              }
+
+              const sliced = Monzo.create(
+                monzo.filter(([b]) => {
+                  return iMonzo.some(([ib]) => ib === b);
+                })
+              );
+
+              return Monzo.isEqual(iMonzo, sliced);
+            }
           }
-        }
-      });
-      results.push(...filtered);
+        });
+
+        results.push(...filtered);
+      } catch {
+        redirect('/comma');
+      }
+
       break;
     }
     case 'cent': {
@@ -202,7 +223,7 @@ export default async function Page({ searchParams }: Props) {
           (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
         return [
-          encodeURIComponent(id),
+          id,
           name,
           monzoStr,
           centsStr,
@@ -214,7 +235,7 @@ export default async function Page({ searchParams }: Props) {
         const centsStr =
           (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-        return [encodeURIComponent(id), name, ratio, centsStr, false] as const;
+        return [id, name, ratio, centsStr, false] as const;
       }
     }
   });
