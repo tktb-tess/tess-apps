@@ -7,9 +7,9 @@ import {
   getTemperOutEdos,
   getTenneyHeight,
   getTENorm,
+  getMonzoVector,
 } from '@tktb-tess/xenharmonic-tool';
 
-import { getMonzoVector } from '@/lib/mod/xen-calc';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -18,10 +18,12 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaID);
+  const commaID = (await params).commaID;
+
   const { commas }: Commas = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
   ).then((r) => r.json());
+
   const commaData = commas.find((c) => c.id === commaID);
 
   const title = commaData ? commaData.name[0] : undefined;
@@ -45,10 +47,11 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function CommaDetail({ params }: Props) {
-  const commaID = decodeURIComponent((await params).commaID);
-  const { commas } = await fetch(
+  const commaID = (await params).commaID;
+
+  const { commas }: Commas = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then<Commas>((r) => r.json());
+  ).then((r) => r.json());
 
   const commaData = commas.find((c) => c.id === commaID);
 
