@@ -20,6 +20,7 @@
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.2",
+    "@tktb-tess/my-zod-schema": "^0.1.5",
     "@tktb-tess/util-fns": "^0.5.1",
     "@tktb-tess/xenharmonic-tool": "^0.2.0",
     "date-fns": "^4.1.0",

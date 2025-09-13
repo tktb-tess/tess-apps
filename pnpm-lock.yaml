@@ -20,6 +20,9 @@ importers:
       '@next/mdx':
         specifier: ^15.5.2
         version: 15.5.3(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.1.13)(react@19.1.1))
+      '@tktb-tess/my-zod-schema':
+        specifier: ^0.1.5
+        version: 0.1.5(zod@4.1.8)
       '@tktb-tess/util-fns':
         specifier: ^0.5.1
         version: 0.5.1
@@ -500,6 +503,12 @@ packages:
 
   '@tailwindcss/postcss@4.1.13':
     resolution: {integrity: sha512-HLgx6YSFKJT7rJqh9oJs/TkBFhxuMOfUKSBEPYwV+t78POOBsdQ7crhZLzwcH3T0UyUuOzU/GK5pk5eKr3wCiQ==}
+
+  '@tktb-tess/my-zod-schema@0.1.5':
+    resolution: {integrity: sha512-a/cS0YxUDwX3K+dNvmGYm3if4s+QciFfAGYJCBz8JWtbCqi2uatMqzXcWgGtJeYblA+gRMrqPWiWe4DTEtebrw==}
+    engines: {node: ^22.0.0}
+    peerDependencies:
+      zod: ^3.0.0 || ^4.0.0
 
   '@tktb-tess/util-fns@0.5.1':
     resolution: {integrity: sha512-qjD8vvmjtrW9/10BIbUQIVvFVTnqBVmJw26QVNl14u6Cqrb263bEdGDyGDBuV3XTbPRCoqUBiC3XvU8Wd6vKQQ==}
@@ -2631,6 +2640,10 @@ snapshots:
       '@tailwindcss/oxide': 4.1.13
       postcss: 8.5.6
       tailwindcss: 4.1.13
+
+  '@tktb-tess/my-zod-schema@0.1.5(zod@4.1.8)':
+    dependencies:
+      zod: 4.1.8
 
   '@tktb-tess/util-fns@0.5.1': {}
 
