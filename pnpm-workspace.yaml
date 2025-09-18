@@ -2,3 +2,5 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - sharp
   - unrs-resolver
+
+minimumReleaseAge: 2880 # 公開から2日以上経ったパッケージのみ更新する
