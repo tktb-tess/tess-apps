@@ -1,62 +1,13 @@
 @import 'tailwindcss';
 
-/* font-face settings */
-
-@font-face {
-  font-family: 'Inter-Variable';
-  font-style: normal;
-  src: local('Inter'),
-    url('/woff2/Inter-VariableFont_opsz,wght.woff2') format('woff2-variations');
-}
-
-@font-face {
-  font-family: 'Inter-Variable';
-  font-style: italic;
-  src: local('Inter Italic'),
-    url('/woff2/Inter-Italic-VariableFont_opsz,wght.woff2')
-      format('woff2-variations');
-}
-
-@font-face {
-  font-family: 'Charis-SIL';
-  font-weight: 100 500;
-  font-style: normal;
-  src: local('Charis SIL'),
-    url('/woff2/CharisSIL-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Charis-SIL';
-  font-weight: 100 500;
-  font-style: italic;
-  src: local('Charis SIL Italic'),
-    url('/woff2/CharisSIL-Italic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Charis-SIL';
-  font-weight: 600 900;
-  font-style: normal;
-  src: local('Charis SIL Bold'),
-    url('/woff2/CharisSIL-Bold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Charis-SIL';
-  font-weight: 600 900;
-  font-style: italic;
-  src: local('Charis SIL Bold Italic'),
-    url('/woff2/CharisSIL-BoldItalic.woff2') format('woff2');
-}
-
-@theme {
-  --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
+@theme inline {
+  --font-sans: var(--font-inter), 'Arial', 'Helvetica Neue', 'Noto Sans JP',
     'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
     'Segoe UI', 'Yu Gothic UI', system-ui;
-  --font-serif: 'Charis-SIL', 'Times New Roman', 'Noto Serif JP',
+  --font-serif: var(--font-charis), 'Times New Roman', 'Noto Serif JP',
     'BIZ UDPMincho', 'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI',
     'Yu Gothic UI', system-ui;
-  --font-ipa: 'Charis-SIL', 'Times New Roman', serif, system-ui;
+  --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
   --color-mnlila-d: oklch(0.18 0.0957 296);
   --color-mnlila-l: oklch(0.31 0.14518 295.847);
   --color-llila: oklch(0.91 0.0488 296);
@@ -179,6 +130,7 @@
   html,
   :host {
     -webkit-tap-highlight-color: revert;
+    font-feature-settings: 'case', 'cv01', 'cv08', 'cv10', 'cv07', 'ss03';
   }
 
   body {
