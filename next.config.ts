@@ -3,7 +3,7 @@ import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  expireTime: 259200,
+  expireTime: 86400,
   reactStrictMode: true,
 };
 
