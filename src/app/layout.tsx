@@ -1,4 +1,5 @@
 import { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 
 type LayoutProps = {
@@ -8,6 +9,68 @@ type LayoutProps = {
 export const viewport: Viewport = {
   themeColor: 'black',
 };
+
+const interFont = localFont({
+  src: [
+    {
+      path: './fonts/Inter/InterVariable.woff2',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Inter/InterVariable-Italic.woff2',
+      style: 'italic',
+    },
+  ],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const charisFont = localFont({
+  src: [
+    {
+      path: './fonts/Charis/Charis-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Charis/Charis-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Charis/Charis-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Charis/Charis-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Charis/Charis-Italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+    {
+      path: './fonts/Charis/Charis-MediumItalic.woff2',
+      weight: '500',
+      style: 'italic',
+    },
+    {
+      path: './fonts/Charis/Charis-SemiBoldItalic.woff2',
+      weight: '600',
+      style: 'italic',
+    },
+    {
+      path: './fonts/Charis/Charis-BoldItalic.woff2',
+      weight: '700',
+      style: 'italic',
+    },
+  ],
+  display: 'swap',
+  variable: '--font-charis',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +89,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps) {
   return (
     <html lang='ja'>
-      <body>
+      <body className={`${interFont.variable} ${charisFont.variable}`}>
         <nav className='flex border-b border-white/60 justify-center'>
           <a
             href='https://tktb-tess.dev'
