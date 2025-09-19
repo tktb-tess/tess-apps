@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 const ebGaramond = EB_Garamond({
   weight: '400',
   subsets: ['greek', 'greek-ext'],
+  style: 'italic',
 });
 
 export default function Home() {
