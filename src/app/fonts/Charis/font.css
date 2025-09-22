@@ -1,0 +1,74 @@
+/*
+This file is from the Charis project (https://software.sil.org/charis/).
+Copyright (c) 1997-2025 SIL Global (https://www.sil.org/) with Reserved
+Font Names "Charis" and "SIL". This Font Software is licensed under the SIL
+Open Font License, Version 1.1 (https://openfontlicense.org).
+*/
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 400;
+  font-display: swap;
+  src: local('Charis'), local('Charis SIL'),
+    url('Charis-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 500;
+  font-display: swap;
+  src: local('Charis Medium'), local('Charis SIL'),
+    url('Charis-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 600;
+  font-display: swap;
+  src: local('Charis SemiBold'), local('Charis SIL Bold'),
+    url('Charis-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 700;
+  font-display: swap;
+  src: local('Charis SemiBold'), local('Charis SIL Bold'),
+    url('Charis-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  src: local('Charis Italic'), local('Charis SIL Italic'),
+    url('Charis-Italic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  src: local('Charis Medium Italic'), local('Charis SIL Italic'),
+    url('Charis-MediumItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+  src: local('Charis SemiBold Italic'), local('Charis SIL Bold Italic'),
+    url('Charis-SemiBoldItalic.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Charis-Web';
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  src: local('Charis Bold Italic'), local('Charis SIL Bold Italic'),
+    url('Charis-BoldItalic.woff2') format('woff2');
+}

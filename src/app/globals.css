@@ -1,10 +1,12 @@
 @import 'tailwindcss';
+@import './fonts/Inter/font.css';
+@import './fonts/Charis/font.css';
 
 @theme inline {
-  --font-sans: var(--font-inter), 'Arial', 'Helvetica Neue', 'Noto Sans JP',
+  --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
     'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
     'Segoe UI', 'Yu Gothic UI', system-ui;
-  --font-serif: var(--font-charis), 'Times New Roman', 'Noto Serif JP',
+  --font-serif: 'Charis-Web', 'Times New Roman', 'Noto Serif JP',
     'BIZ UDPMincho', 'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI',
     'Yu Gothic UI', system-ui;
   --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
@@ -130,7 +132,7 @@
   html,
   :host {
     -webkit-tap-highlight-color: revert;
-    font-feature-settings: 'case', 'cv01', 'cv08', 'cv10', 'cv07', 'ss03';
+    font-feature-settings: 'case', 'cv01', 'cv05', 'cv07', 'cv08', 'cv10', 'ss03';
   }
 
   body {
