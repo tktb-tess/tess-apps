@@ -65,7 +65,7 @@ export default function Gacha({ langs, expires }: Props) {
   const site_a = (() => {
     if (!site) return undefined;
     const site_ = site.filter(
-      ({ name }) => !name || (!name.includes('辞書') && !name.includes('文法'))
+      ({ name }) => name === undefined || (!name.includes('辞書') && !name.includes('文法'))
     );
     return site_.length > 0 ? site_ : undefined;
   })();

@@ -18,7 +18,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const commaID = (await params).commaID;
+  const { commaID } = await params;
 
   const { commas }: Commas = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!
@@ -26,10 +26,8 @@ export async function generateMetadata({ params }: Props) {
 
   const commaData = commas.find((c) => c.id === commaID);
 
-  const title = commaData ? commaData.name[0] : undefined;
-  const description = commaData
-    ? commaData.name.concat(commaData.colorName).join(', ')
-    : undefined;
+  const title = commaData?.name[0];
+  const description = commaData?.name.concat(commaData.colorName).join(', ');
 
   return {
     title,
@@ -47,7 +45,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function CommaDetail({ params }: Props) {
-  const commaID = (await params).commaID;
+  const { commaID } = await params;
 
   const { commas }: Commas = await fetch(
     process.env.NEXT_PUBLIC_COMMAS_URL!

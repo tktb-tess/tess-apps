@@ -33,100 +33,105 @@ export default function CommaSearchForm() {
     person: '命名者',
   } as const;
 
-  
-
   return (
     <>
       <Form
         action='/comma/search'
         className='flex flex-col items-stretch md:items-center max-w-full gap-5'
       >
-        
-          {kind === 'cent' || kind === 'monzo' ? (
-            <div className='flex *:min-w-0 justify-center gap-2'>
-              <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-                <label htmlFor='q-lower' className='text-nowrap'>{label[kind][0]}</label>
-                <input
-                  name='query'
-                  type='text'
-                  value={query}
-                  id='q-lower'
-                  onChange={(e) => setQuery(() => e.target.value)}
-                  className='flex-[1_1_0]'
-                />
-              </span>
-              <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-                <label htmlFor='q-higher' className='text-nowrap'>{label[kind][1]}</label>
-                <input
-                  name='query2'
-                  type='text'
-                  value={query2}
-                  id='q-higher'
-                  onChange={(e) => setQuery2(() => e.target.value)}
-                  className='flex-[1_1_0]'
-                />
-              </span>
-            </div>
-          ) : (
-            <div className='flex justify-center gap-1 *:min-w-0'>
-              <label htmlFor='query' className='text-nowrap'>{label[kind]}</label>
+        {kind === 'cent' || kind === 'monzo' ? (
+          <div className='flex *:min-w-0 justify-center gap-2'>
+            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
+              <label htmlFor='q-lower' className='text-nowrap'>
+                {label[kind][0]}
+              </label>
               <input
                 name='query'
                 type='text'
                 value={query}
-                id='query'
+                id='q-lower'
                 onChange={(e) => setQuery(() => e.target.value)}
                 className='flex-[1_1_0]'
               />
-            </div>
-          )}
-        
-        <div className='flex justify-center gap-4'>
-          <span>
+            </span>
+            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
+              <label htmlFor='q-higher' className='text-nowrap'>
+                {label[kind][1]}
+              </label>
+              <input
+                name='query2'
+                type='text'
+                value={query2}
+                id='q-higher'
+                onChange={(e) => setQuery2(() => e.target.value)}
+                className='flex-[1_1_0]'
+              />
+            </span>
+          </div>
+        ) : (
+          <div className='flex justify-center gap-1 *:min-w-0'>
+            <label htmlFor='query' className='text-nowrap'>
+              {label[kind]}
+            </label>
             <input
-              type='radio'
-              name='corre'
-              value='forward'
-              id='btn-1'
-              checked={corre === 'forward'}
-              onChange={handleCorre}
+              name='query'
+              type='text'
+              value={query}
+              id='query'
+              onChange={(e) => setQuery(() => e.target.value)}
+              className='flex-[1_1_0]'
             />
-            <label htmlFor='btn-1'>前方</label>
-          </span>
-          <span>
-            <input
-              type='radio'
-              name='corre'
-              value='backward'
-              id='btn-2'
-              checked={corre === 'backward'}
-              onChange={handleCorre}
-            />
-            <label htmlFor='btn-2'>後方</label>
-          </span>
-          <span>
-            <input
-              type='radio'
-              name='corre'
-              value='partial'
-              id='btn-3'
-              checked={corre === 'partial'}
-              onChange={handleCorre}
-            />
-            <label htmlFor='btn-3'>部分</label>
-          </span>
-          <span>
-            <input
-              type='radio'
-              name='corre'
-              value='exact'
-              id='btn-4'
-              checked={corre === 'exact'}
-              onChange={handleCorre}
-            />
-            <label htmlFor='btn-4'>完全</label>
-          </span>
-        </div>
+          </div>
+        )}
+
+        {kind !== 'cent' && (
+          <div className='flex justify-center gap-4'>
+            <span>
+              <input
+                type='radio'
+                name='corre'
+                value='forward'
+                id='btn-1'
+                checked={corre === 'forward'}
+                onChange={handleCorre}
+              />
+              <label htmlFor='btn-1'>前方</label>
+            </span>
+            <span>
+              <input
+                type='radio'
+                name='corre'
+                value='backward'
+                id='btn-2'
+                checked={corre === 'backward'}
+                onChange={handleCorre}
+              />
+              <label htmlFor='btn-2'>後方</label>
+            </span>
+            <span>
+              <input
+                type='radio'
+                name='corre'
+                value='partial'
+                id='btn-3'
+                checked={corre === 'partial'}
+                onChange={handleCorre}
+              />
+              <label htmlFor='btn-3'>部分</label>
+            </span>
+            <span>
+              <input
+                type='radio'
+                name='corre'
+                value='exact'
+                id='btn-4'
+                checked={corre === 'exact'}
+                onChange={handleCorre}
+              />
+              <label htmlFor='btn-4'>完全</label>
+            </span>
+          </div>
+        )}
         <div className='flex justify-center gap-4'>
           <span>
             <input

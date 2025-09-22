@@ -2,7 +2,7 @@
 @import './fonts/Inter/font.css';
 @import './fonts/Charis/font.css';
 
-@theme inline {
+@theme {
   --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
     'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
     'Segoe UI', 'Yu Gothic UI', system-ui;
