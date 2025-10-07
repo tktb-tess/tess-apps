@@ -4,7 +4,7 @@ import {
   Monzo,
 } from '@tktb-tess/xenharmonic-tool';
 import { NextRequest, NextResponse } from 'next/server';
-import { z, ZodError } from 'zod';
+import * as z from 'zod';
 
 const mnzParamSchema = z.string().regex(/^(\d+\:)?\-?\d+(,(\d+\:)?\-?\d+)*$/);
 
@@ -76,7 +76,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       status: 200,
     });
   } catch (e) {
-    if (e instanceof ZodError) {
+    if (e instanceof z.ZodError) {
       const { issues, name } = e;
       const { errors } = z.treeifyError(e);
       const err = {

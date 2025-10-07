@@ -22,9 +22,11 @@
     "@tktb-tess/my-zod-schema": "^0.2.2",
     "@tktb-tess/util-fns": "^0.7.0",
     "@tktb-tess/xenharmonic-tool": "^0.3.1",
+    "babel-plugin-react-compiler": "19.1.0-rc.3",
     "date-fns": "^4.1.0",
     "jotai": "^2.15.0",
     "mathjs": "^14.8.2",
+    "neverthrow": "^8.2.0",
     "next": "^15.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -46,5 +48,5 @@
   "volta": {
     "node": "22.19.0"
   },
-  "packageManager": "pnpm@10.17.0"
+  "packageManager": "pnpm@10.17.1"
 }
