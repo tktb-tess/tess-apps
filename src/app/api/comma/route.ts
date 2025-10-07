@@ -1,10 +1,6 @@
 import { bailliePSW } from '@tktb-tess/util-fns';
 import {
-  getCents,
-  getRatio,
   getTemperOutEdos,
-  getTenneyHeight,
-  getTENorm,
   Monzo,
 } from '@tktb-tess/xenharmonic-tool';
 import { NextRequest, NextResponse } from 'next/server';
@@ -60,16 +56,16 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       }
     });
 
-    const monzo = Monzo.create(monzoSchema.parse(monzo_))
+    const monzo = new Monzo(monzoSchema.parse(monzo_))
     
 
-    const fr = getRatio(monzo);
+    const fr = monzo.getRatio();
 
     const monzoData: MonzoData = {
       monzo,
-      cents: getCents(monzo),
-      TenneyHeight: getTenneyHeight(monzo),
-      TENorm: getTENorm(monzo),
+      cents: monzo.getCents(),
+      TenneyHeight: monzo.getTenneyHeight(),
+      TENorm: monzo.getTENorm(),
       VenedettiHeight: `${fr[0] * fr[1]}`,
       fraction: [`${fr[0]}`, `${fr[1]}`],
       temperOutEDOs: getTemperOutEdos(10000, monzo),

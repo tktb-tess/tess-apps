@@ -1,14 +1,6 @@
 import ExtLink from '@/lib/components/extLink';
 import { Commas } from '@/lib/mod/decl';
-import {
-  getCents,
-  Monzo,
-  getRatio,
-  getTemperOutEdos,
-  getTenneyHeight,
-  getTENorm,
-  getMonzoVector,
-} from '@tktb-tess/xenharmonic-tool';
+import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -67,30 +59,30 @@ export default async function CommaDetail({ params }: Props) {
       case 'rational': {
         const { name, monzo: mnz, colorName, namedBy } = commaData;
 
-        const monzo = Monzo.create(mnz);
-        const monzoStr = getMonzoVector(monzo);
+        const monzo = new Monzo(mnz);
+        const monzoStr = monzo.getMonzoVector();
 
         const centsStr = (() => {
-          const cents = getCents(monzo);
+          const cents = monzo.getCents();
           return cents < 0.1
             ? cents.toExponential(4) + ' ¢'
             : cents.toFixed(4) + ' ¢';
         })();
 
         const THeightStr = (() => {
-          const THeight = getTenneyHeight(monzo);
+          const THeight = monzo.getTenneyHeight();
           return THeight >= 100 ? THeight.toExponential(4) : THeight.toFixed(4);
         })();
 
         const TENormStr = (() => {
-          const TENorm = getTENorm(monzo);
+          const TENorm = monzo.getTENorm();
           return TENorm >= 100 ? TENorm.toExponential(4) : TENorm.toFixed(4);
         })();
 
         const temperingOutEDOs = getTemperOutEdos(10000, monzo).join(', ');
 
         const ratioStr = (() => {
-          const [num, denom] = getRatio(monzo);
+          const [num, denom] = monzo.getRatio();
           let numStr = num.toString();
           let denomStr = denom.toString();
 

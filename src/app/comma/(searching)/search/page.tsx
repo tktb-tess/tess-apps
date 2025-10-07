@@ -1,5 +1,5 @@
 import { CommaData, CommaKind, Commas, Correspondence } from '@/lib/mod/decl';
-import { getCents, Monzo, getMonzoVector } from '@tktb-tess/xenharmonic-tool';
+import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -108,51 +108,55 @@ export default async function Page({ searchParams }: Props) {
 
         // console.log(iMonzo_);
 
-        const iMonzo = Monzo.create(iMonzo_);
+        const iMonzo = new Monzo(iMonzo_);
 
         const filtered = commas.filter((comma) => {
           if (comma.commaType === 'irrational') {
             return false;
           }
 
-          const monzo = Monzo.create(comma.monzo);
+          const monzo = new Monzo(comma.monzo);
 
           switch (corre) {
             case 'exact': {
-              return Monzo.isEqual(iMonzo, monzo);
+              return iMonzo.toString() === monzo.toString();
             }
 
             case 'forward': {
-              if (monzo.length < iMonzo.length) {
+              if (monzo.getArray().length < iMonzo.getArray().length) {
                 return false;
               }
 
-              const sliced = Monzo.create(monzo.slice(0, iMonzo.length));
+              const sliced = new Monzo(
+                monzo.getArray().slice(0, iMonzo.getArray().length)
+              );
 
-              return Monzo.isEqual(iMonzo, sliced);
+              return iMonzo.toString() === sliced.toString();
             }
 
             case 'backward': {
-              if (monzo.length < iMonzo.length) {
+              if (monzo.getArray().length < iMonzo.getArray().length) {
                 return false;
               }
 
-              const sliced = Monzo.create(monzo.slice(-iMonzo.length));
+              const sliced = new Monzo(
+                monzo.getArray().slice(-iMonzo.getArray().length)
+              );
 
-              return Monzo.isEqual(iMonzo, sliced);
+              return iMonzo.toString() === sliced.toString();
             }
             case 'partial': {
-              if (monzo.length < iMonzo.length) {
+              if (monzo.getArray().length < iMonzo.getArray().length) {
                 return false;
               }
 
-              const sliced = Monzo.create(
-                monzo.filter(([b]) => {
-                  return iMonzo.some(([ib]) => ib === b);
+              const sliced = new Monzo(
+                monzo.getArray().filter(([b]) => {
+                  return iMonzo.getArray().some(([ib]) => ib === b);
                 })
               );
 
-              return Monzo.isEqual(iMonzo, sliced);
+              return iMonzo.toString() === sliced.toString();
             }
           }
         });
@@ -178,8 +182,8 @@ export default async function Page({ searchParams }: Props) {
           const { cents } = comma;
           return lower <= cents && cents < upper;
         }
-        const monzo = Monzo.create(comma.monzo);
-        const cents = getCents(monzo);
+        const monzo = new Monzo(comma.monzo);
+        const cents = monzo.getCents();
         return lower <= cents && cents < upper;
       });
       results.push(...filtered);
@@ -216,19 +220,13 @@ export default async function Page({ searchParams }: Props) {
     switch (comma.commaType) {
       case 'rational': {
         const { id, name, monzo: mnz } = comma;
-        const monzo = Monzo.create(mnz);
-        const monzoStr = getMonzoVector(monzo);
-        const cents = getCents(monzo);
+        const monzo = new Monzo(mnz);
+        const monzoStr = monzo.getMonzoVector();
+        const cents = monzo.getCents();
         const centsStr =
           (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-        return [
-          id,
-          name,
-          monzoStr,
-          centsStr,
-          true,
-        ] as const;
+        return [id, name, monzoStr, centsStr, true] as const;
       }
       case 'irrational': {
         const { id, name, ratio, cents } = comma;
