@@ -1,6 +1,12 @@
+minimumReleaseAge: 2880
+
+minimumReleaseAgeExclude:
+  - '@tktb-tess/my-zod-schema'
+  - '@tktb-tess/util-fns'
+  - '@tktb-tess/xenharmonic-tool'
+
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
+  - '@tktb-tess/my-zod-schema'
   - sharp
   - unrs-resolver
-
-minimumReleaseAge: 2880 # 公開から2日以上経ったパッケージのみ更新する
