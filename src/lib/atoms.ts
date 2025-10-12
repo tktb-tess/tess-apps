@@ -6,6 +6,11 @@ export const commaSearchQuery = atom('');
 export const commaSearchQuery2 = atom('');
 export const commaCorresp = atom<Correspondence>('forward');
 export const commaKind = atom<CommaKind>('name');
-export const lastLangIdAtom = atomWithStorage<string | null>(storageKeys.lastLangID, null, undefined, {
-  getOnInit: true,
-});
+export const lastLangIdAtom = atomWithStorage<string | null>(
+  storageKeys.lastLangID,
+  null,
+  undefined,
+  {
+    getOnInit: true,
+  }
+);
