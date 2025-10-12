@@ -52,7 +52,16 @@ export default async function CommaDetail({ params }: Props) {
   const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
   const rows: ReadonlyArray<
-    readonly [string, string | readonly [string | null, string]]
+    readonly [
+      string,
+      (
+        | string
+        | {
+            readonly basis: string | null;
+            readonly monzo: string;
+          }
+      )
+    ]
   > = (() => {
     switch (commaData.commaType) {
       case 'rational': {
@@ -187,8 +196,8 @@ export default async function CommaDetail({ params }: Props) {
                       )
                     ) : (
                       <>
-                        {value[0] && <p>{value[0]}</p>}
-                        <p>{value[1]}</p>
+                        {value.basis && <p>{value.basis}</p>}
+                        <p>{value.monzo}</p>
                       </>
                     )}
                   </td>

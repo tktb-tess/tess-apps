@@ -267,8 +267,8 @@ export default async function Page({ searchParams }: Props) {
                     <td>
                       {isRational ? (
                         <>
-                          {ramon[0] && <p>{ramon[0]}</p>}
-                          <p>{ramon[1]}</p>
+                          {ramon.basis && <p>{ramon.basis}</p>}
+                          <p>{ramon.monzo}</p>
                         </>
                       ) : (
                         <p>{ramon}</p>
