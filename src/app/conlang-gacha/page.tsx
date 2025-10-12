@@ -1,6 +1,6 @@
 import ExtLink from '@/lib/components/extLink';
 import Link from 'next/link';
-import { Cotec } from '@/lib/mod/decl';
+import { Cotec, env } from '@/lib/mod/decl';
 import { TZDate } from '@date-fns/tz';
 import { Metadata } from 'next';
 import Gacha from './gacha';
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: '/conlang-gacha',
-    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    siteName: env.SITE_NAME,
     images: '/link-card.png',
   },
   twitter: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default async function App() {
   const fetchCtcJson = async (): Promise<Cotec> => {
-    return fetch(process.env.NEXT_PUBLIC_COTEC_URL!, {
+    return fetch(env.COTEC_URL, {
       method: 'GET',
       next: { revalidate: 7200 },
     }).then((resp) => {

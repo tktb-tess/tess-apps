@@ -1,4 +1,5 @@
 import { Metadata, Viewport } from 'next';
+import { env } from '@/lib/mod/decl';
 import './globals.css';
 
 type LayoutProps = {
@@ -11,14 +12,14 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: process.env.NEXT_PUBLIC_SITE_NAME!,
-    template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME}`,
+    default: env.SITE_NAME,
+    template: `%s | ${env.SITE_NAME}`,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
+  metadataBase: new URL(env.BASE_URL),
   openGraph: {
     title: {
-      default: process.env.NEXT_PUBLIC_SITE_NAME!,
-      template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME}`,
+      default: env.SITE_NAME,
+      template: `%s | ${env.SITE_NAME}`,
     },
   },
 };

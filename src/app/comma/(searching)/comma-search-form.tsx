@@ -11,6 +11,13 @@ import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
 import { isCorre, isKind } from '@/lib/mod/decl';
 
+const label = {
+  name: '名前',
+  monzo: ['基底', '指数'],
+  cent: ['下限', '上限'],
+  person: '命名者',
+} as const;
+
 export default function CommaSearchForm() {
   const [query, setQuery] = useAtom(commaSearchQuery);
   const [query2, setQuery2] = useAtom(commaSearchQuery2);
@@ -25,13 +32,6 @@ export default function CommaSearchForm() {
     const { value } = target;
     setKind(() => (isKind(value) ? value : 'name'));
   };
-
-  const label = {
-    name: '名前',
-    monzo: ['基底', '指数'],
-    cent: ['下限', '上限'],
-    person: '命名者',
-  } as const;
 
   return (
     <>

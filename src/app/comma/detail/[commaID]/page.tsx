@@ -1,5 +1,5 @@
 import ExtLink from '@/lib/components/extLink';
-import { Commas } from '@/lib/mod/decl';
+import { Commas, env } from '@/lib/mod/decl';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -11,9 +11,7 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(
-    process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then((r) => r.json());
+  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
 
   const commaData = commas.find((c) => c.id === commaID);
 
@@ -26,7 +24,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       description,
       url: `/comma-result/${encodeURIComponent(commaID)}`,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+      siteName: env.SITE_NAME,
       images: '/link-card.png',
     },
     twitter: {
@@ -38,9 +36,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function CommaDetail({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(
-    process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then((r) => r.json());
+  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
 
   const commaData = commas.find((c) => c.id === commaID);
 
