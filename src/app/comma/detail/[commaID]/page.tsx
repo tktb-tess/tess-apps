@@ -8,6 +8,9 @@ type Props = {
   params: Promise<{ commaID: string }>;
 };
 
+type Tag = 'superparticular' | 'no-2';
+type CommaSize = 'unnoticeable' | 'small' | 'medium' | 'large';
+
 export async function generateMetadata({ params }: Props) {
   const { commaID } = await params;
 
@@ -23,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
     description,
     openGraph: {
       description,
-      url: `/comma-result/${encodeURIComponent(commaID)}`,
+      url: `/comma-result/${commaID}`,
       siteName: env.SITE_NAME,
       images: '/link-card.png',
     },
@@ -71,6 +74,15 @@ export default async function CommaDetail({ params }: Props) {
           return cents < 0.1
             ? cents.toExponential(4) + ' ¢'
             : cents.toFixed(4) + ' ¢';
+        })();
+
+        const size = ((): CommaSize => {
+          const _c = monzo.getCents();
+
+          if (_c < 3.5) return 'unnoticeable';
+          else if (_c < 30) return 'small';
+          else if (_c < 100) return 'medium';
+          return 'large';
         })();
 
         const THeightStr = (() => {
@@ -124,6 +136,7 @@ export default async function CommaDetail({ params }: Props) {
           ['モンゾ', monzoStr],
           ['比率', ratioStr],
           ['セント', centsStr],
+          ['サイズ', size],
           ['Tenney高さ', THeightStr],
           ['Tenney–Euclideanノルム', TENormStr],
           ['Xenharmonic wikiへのリンク', xenWikiUrl],
@@ -135,6 +148,15 @@ export default async function CommaDetail({ params }: Props) {
 
         const centsStr =
           cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+
+        const size = ((): CommaSize => {
+          const _c = cents;
+
+          if (_c < 3.5) return 'unnoticeable';
+          else if (_c < 30) return 'small';
+          else if (_c < 100) return 'medium';
+          return 'large';
+        })();
 
         const colorNameStr = (() => {
           if (colorName[0] && colorName[1]) {
@@ -154,6 +176,7 @@ export default async function CommaDetail({ params }: Props) {
           ['命名者', namedBy ?? '[NO DATA]'],
           ['比率', ratio],
           ['セント', centsStr],
+          ['サイズ', size],
           ['Xenharmonic wikiへのリンク', xenWikiUrl],
         ] as const;
       }
