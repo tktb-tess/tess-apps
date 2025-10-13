@@ -1,4 +1,5 @@
 'use client';
+import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import { useEffect } from 'react';
 
@@ -10,8 +11,8 @@ export const metadata: Metadata = {
   description: ogDesc,
   openGraph: {
     description: ogDesc,
-    url: process.env.NEXT_PUBLIC_BASE_URL,
-    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    url: env.BASE_URL,
+    siteName: env.SITE_NAME,
     images: '/link-card.png',
   },
   twitter: {
