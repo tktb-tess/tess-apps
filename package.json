@@ -7,7 +7,6 @@
     "pnpm": "^10"
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -19,9 +18,9 @@
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.4",
-    "@tktb-tess/my-zod-schema": "^0.2.2",
-    "@tktb-tess/util-fns": "^0.7.0",
-    "@tktb-tess/xenharmonic-tool": "^0.3.1",
+    "@tktb-tess/my-zod-schema": "^0.3.0",
+    "@tktb-tess/util-fns": "^0.8.3",
+    "@tktb-tess/xenharmonic-tool": "^0.4.2",
     "babel-plugin-react-compiler": "19.1.0-rc.3",
     "date-fns": "^4.1.0",
     "jotai": "^2.15.0",

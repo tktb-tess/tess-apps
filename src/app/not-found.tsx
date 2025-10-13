@@ -1,4 +1,5 @@
 import TessIcon from '@/lib/components/tessIcon';
+import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: '/',
-    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    siteName: env.SITE_NAME,
     images: '/link-card.png',
   },
   twitter: {

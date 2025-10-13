@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { bailliePSW } from '@tktb-tess/util-fns';
+import { env } from '@/lib/mod/decl';
 
 type Props = {
   searchParams: Promise<{
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     description: ogDesc,
     url: '/comma/search',
-    siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+    siteName: env.SITE_NAME,
     images: '/link-card.png',
   },
   twitter: {
@@ -45,9 +46,7 @@ export default async function Page({ searchParams }: Props) {
 
   const results: CommaData[] = [];
 
-  const { commas } = await fetch(
-    process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then<Commas>((r) => r.json());
+  const { commas } = await fetch(env.COMMAS_URL).then<Commas>((r) => r.json());
 
   switch (kind) {
     case 'name': {
@@ -267,8 +266,8 @@ export default async function Page({ searchParams }: Props) {
                     <td>
                       {isRational ? (
                         <>
-                          {ramon[0] && <p>{ramon[0]}</p>}
-                          <p>{ramon[1]}</p>
+                          {ramon.basis && <p>{ramon.basis}</p>}
+                          <p>{ramon.monzo}</p>
                         </>
                       ) : (
                         <p>{ramon}</p>

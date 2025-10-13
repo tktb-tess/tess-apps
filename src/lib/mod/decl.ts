@@ -133,3 +133,11 @@ export const isKind = (str: string) => {
 export const storageKeys = {
   lastLangID: 'last-lang-id',
 } as const;
+
+export const env = {
+  SITE_NAME: 'τὰ συστήματα',
+  BASE_URL: 'https://apps.tktb-tess.dev',
+  COTEC_URL:
+    'https://tktb-tess.github.io/cotec-json-data/out/conlinguistics-wiki-list-cotec.json',
+  COMMAS_URL: 'https://tktb-tess.github.io/commas/out/commas.json',
+} as const;

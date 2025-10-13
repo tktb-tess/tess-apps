@@ -1,5 +1,5 @@
 import ExtLink from '@/lib/components/extLink';
-import { Commas } from '@/lib/mod/decl';
+import { Commas, env } from '@/lib/mod/decl';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -8,12 +8,13 @@ type Props = {
   params: Promise<{ commaID: string }>;
 };
 
+type Tag = 'superparticular' | 'no-2';
+type CommaSize = 'unnoticeable' | 'small' | 'medium' | 'large';
+
 export async function generateMetadata({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(
-    process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then((r) => r.json());
+  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
 
   const commaData = commas.find((c) => c.id === commaID);
 
@@ -25,8 +26,8 @@ export async function generateMetadata({ params }: Props) {
     description,
     openGraph: {
       description,
-      url: `/comma-result/${encodeURIComponent(commaID)}`,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+      url: `/comma-result/${commaID}`,
+      siteName: env.SITE_NAME,
       images: '/link-card.png',
     },
     twitter: {
@@ -38,9 +39,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function CommaDetail({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(
-    process.env.NEXT_PUBLIC_COMMAS_URL!
-  ).then((r) => r.json());
+  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
 
   const commaData = commas.find((c) => c.id === commaID);
 
@@ -52,7 +51,18 @@ export default async function CommaDetail({ params }: Props) {
   const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
   const rows: ReadonlyArray<
-    readonly [string, string | readonly [string | null, string]]
+    | readonly [
+        string,
+        (
+          | string
+          | string[]
+          | {
+              readonly basis: string | null;
+              readonly monzo: string;
+            }
+        )
+      ]
+    | null
   > = (() => {
     switch (commaData.commaType) {
       case 'rational': {
@@ -66,6 +76,15 @@ export default async function CommaDetail({ params }: Props) {
           return cents < 0.1
             ? cents.toExponential(4) + ' ¢'
             : cents.toFixed(4) + ' ¢';
+        })();
+
+        const size = ((): CommaSize => {
+          const _c = monzo.getCents();
+
+          if (_c < 3.5) return 'unnoticeable';
+          else if (_c < 30) return 'small';
+          else if (_c < 100) return 'medium';
+          return 'large';
         })();
 
         const THeightStr = (() => {
@@ -107,29 +126,54 @@ export default async function CommaDetail({ params }: Props) {
             return colorName[0];
           } else if (colorName[1]) {
             return colorName[1];
-          } else {
-            return '[NO DATA]';
           }
+          return '[NO DATA]';
+        })();
+
+        const tags = (() => {
+          const _tags: Tag[] = [];
+          const [n, d] = monzo.getRatio();
+          if (n - d === 1n) {
+            _tags.push('superparticular');
+          }
+
+          const base2 = monzo.getArray().find(([b]) => b === 2);
+
+          if (base2 === undefined) {
+            _tags.push('no-2');
+          }
+          return _tags;
         })();
 
         return [
-          ['名前', name.join(', ')],
+          ['名前', name],
           ['カラーネーム', colorNameStr],
           ['命名者', namedBy ?? '[NO DATA]'],
           ['モンゾ', monzoStr],
           ['比率', ratioStr],
           ['セント', centsStr],
+          ['サイズ', size],
           ['Tenney高さ', THeightStr],
           ['Tenney–Euclideanノルム', TENormStr],
           ['Xenharmonic wikiへのリンク', xenWikiUrl],
           ['緩和する10000以下の平均律', temperingOutEDOs],
-        ] as const;
+          tags.length > 0 ? ['タグ', tags] : null,
+        ];
       }
       case 'irrational': {
         const { name, ratio, cents, colorName, namedBy } = commaData;
 
         const centsStr =
           cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+
+        const size = ((): CommaSize => {
+          const _c = cents;
+
+          if (_c < 3.5) return 'unnoticeable';
+          else if (_c < 30) return 'small';
+          else if (_c < 100) return 'medium';
+          return 'large';
+        })();
 
         const colorNameStr = (() => {
           if (colorName[0] && colorName[1]) {
@@ -144,13 +188,14 @@ export default async function CommaDetail({ params }: Props) {
         })();
 
         return [
-          ['名前', name.join(', ')],
+          ['名前', name],
           ['カラーネーム', colorNameStr],
           ['命名者', namedBy ?? '[NO DATA]'],
           ['比率', ratio],
           ['セント', centsStr],
+          ['サイズ', size],
           ['Xenharmonic wikiへのリンク', xenWikiUrl],
-        ] as const;
+        ];
       }
     }
   })();
@@ -170,30 +215,34 @@ export default async function CommaDetail({ params }: Props) {
         <div className='table-container'>
           <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
             <tbody>
-              {rows.map(([key, value]) => (
-                <tr key={key}>
-                  <th className='md:text-right'>{key}</th>
-                  <td className='text-center md:text-left md:max-w-240 text-balance'>
-                    {typeof value === 'string' ? (
-                      key === 'Xenharmonic wikiへのリンク' ? (
-                        <ExtLink href={value}>{value}</ExtLink>
-                      ) : key === '緩和する10000以下の平均律' ? (
-                        <details>
-                          <summary>展開</summary>
-                          <p>{value}</p>
-                        </details>
+              {rows
+                .filter((r) => r !== null)
+                .map(([key, value]) => (
+                  <tr key={key}>
+                    <th className='md:text-right'>{key}</th>
+                    <td className='text-center md:text-left md:max-w-240 text-balance'>
+                      {typeof value === 'string' ? (
+                        key === 'Xenharmonic wikiへのリンク' ? (
+                          <ExtLink href={value}>{value}</ExtLink>
+                        ) : key === '緩和する10000以下の平均律' ? (
+                          <details>
+                            <summary>展開</summary>
+                            <p>{value}</p>
+                          </details>
+                        ) : (
+                          value
+                        )
+                      ) : Array.isArray(value) ? (
+                        <>{value.join(', ')}</>
                       ) : (
-                        value
-                      )
-                    ) : (
-                      <>
-                        {value[0] && <p>{value[0]}</p>}
-                        <p>{value[1]}</p>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                        <>
+                          {value.basis && <p>{value.basis}</p>}
+                          <p>{value.monzo}</p>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

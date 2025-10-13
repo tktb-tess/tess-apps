@@ -2,7 +2,7 @@
 
 import ExtLink from '@/lib/components/extLink';
 import { CotecContent } from '@/lib/mod/decl';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useRef } from 'react';
 import { getRndInt } from '@tktb-tess/util-fns';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
@@ -13,35 +13,58 @@ type Props = {
 };
 
 export default function Gacha({ langs, expires }: Props) {
-  const [index, setIndex] = useState(0);
   const tableRef = useRef<HTMLTableElement | null>(null);
   const [langId, setLangId] = useAtom(lastLangIdAtom);
 
-  const tableAnimation = useCallback(() => {
+  const tableAnimation = async () => {
     tableRef.current?.classList.remove('fade-slide-in');
     tableRef.current?.classList.add('invisible');
 
-    setTimeout(() => {
-      tableRef.current?.classList.add('fade-slide-in');
-      tableRef.current?.classList.remove('invisible');
-    }, 10);
-  }, []);
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        tableRef.current?.classList.add('fade-slide-in');
+        tableRef.current?.classList.remove('invisible');
+        resolve();
+      }, 10);
+    });
+  };
+
+  const determineIndex = () => {
+    if (!langId) return null;
+    if (expires < Date.now()) return null;
+    const ini = langs.findIndex(({ id }) => id === langId);
+    if (ini > -1) {
+      return ini;
+    }
+    return null;
+  };
 
   const handleBtn = async () => {
     const newIndex = getRndInt(0, langs.length);
-    setIndex(() => newIndex);
     setLangId(() => langs[newIndex].id);
-    tableAnimation();
+    await tableAnimation();
   };
 
-  useEffect(() => {
-    if (expires < Date.now()) return;
-    const initLangIndex = langs.findIndex(({ id }) => id === langId);
-    if (initLangIndex > -1) {
-      setIndex(() => initLangIndex);
-      tableAnimation();
-    }
-  }, [langs, expires, langId, tableAnimation]);
+  const gachaBtn = (
+    <button
+      type='button'
+      className='text-xl btn-1 self-center'
+      onClick={handleBtn}
+    >
+      回す！
+    </button>
+  );
+
+  const index = determineIndex();
+
+  if (index === null) {
+    return (
+      <>
+        {gachaBtn}
+        <div className='h-30'></div>
+      </>
+    );
+  }
 
   const {
     name,
@@ -65,7 +88,8 @@ export default function Gacha({ langs, expires }: Props) {
   const site_a = (() => {
     if (!site) return undefined;
     const site_ = site.filter(
-      ({ name }) => name === undefined || (!name.includes('辞書') && !name.includes('文法'))
+      ({ name }) =>
+        name === undefined || (!name.includes('辞書') && !name.includes('文法'))
     );
     return site_.length > 0 ? site_ : undefined;
   })();
@@ -80,22 +104,13 @@ export default function Gacha({ langs, expires }: Props) {
 
   return (
     <>
-      <button
-        type='button'
-        className='text-xl btn-1 self-center'
-        onClick={handleBtn}
-      >
-        回す！
-      </button>
+      {gachaBtn}
       <section aria-labelledby='result' className='my-5'>
         <h2 className='text-center' id='result'>
           – ガチャ結果 –
         </h2>
         <table
-          className='
-          grid-cols-1 md:grid-cols-auto-2 md:place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1
-          invisible
-        '
+          className='grid-cols-1 md:grid-cols-auto-2 md:place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1 fade-slide-in'
           ref={tableRef}
         >
           <tbody>
