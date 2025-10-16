@@ -25,9 +25,14 @@ export default async function Page() {
         <p>コンマを検索できます。</p>
         <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
       </div>
-      <section aria-labelledby='about-monzo' className='flex flex-col items-center *:max-w-full'>
+      <section
+        aria-labelledby='about-monzo'
+        className='flex flex-col items-center *:max-w-full'
+      >
         <h2 id='about-monzo'>– 「モンゾ」検索について –</h2>
-        <p>「基底」に素数基底の値を、「指数」にモンゾの値を、コンマ区切りで入力してください。</p>
+        <p>
+          「基底」に素数基底の値を、「指数」にモンゾの値を、コンマ区切りで入力してください。
+        </p>
         <p>「基底」を省略した場合、基底として小さい順に素数が充てられます。</p>
         <p>コンマの中を空にした場合、0として扱われます。</p>
       </section>

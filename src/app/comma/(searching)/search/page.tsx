@@ -273,7 +273,19 @@ export default async function Page({ searchParams }: Props) {
                         <p>{ramon}</p>
                       )}
                     </td>
-                    <td>{cents}</td>
+                    <td>
+                      {(() => {
+                        const matched = cents.match(/^(\d\.\d+)e(-\d+)/);
+                        if (!matched) return cents;
+                        const num = matched[1];
+                        const exp = matched[2];
+                        return (
+                          <>
+                            {num} × 10<sup>{exp}</sup>
+                          </>
+                        );
+                      })()}
+                    </td>
                   </tr>
                 );
               })}

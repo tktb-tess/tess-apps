@@ -7,11 +7,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   experimental: {
     reactCompiler: true,
-  }
+  },
 };
 
 const withMDX = createMDX({
-  extension: /\.mdx?$/
+  extension: /\.mdx?$/,
 });
 
 export default withMDX(nextConfig);
