@@ -238,7 +238,7 @@ export default async function CommaDetail({ params }: Props) {
                               const exp = matched[2];
                               return (
                                 <>
-                                  {num} × 10<sup>{exp}</sup>
+                                  {num} × 10<sup>{exp}</sup> ¢
                                 </>
                               );
                             })()}

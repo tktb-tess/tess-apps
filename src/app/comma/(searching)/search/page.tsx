@@ -281,7 +281,7 @@ export default async function Page({ searchParams }: Props) {
                         const exp = matched[2];
                         return (
                           <>
-                            {num} × 10<sup>{exp}</sup>
+                            {num} × 10<sup>{exp}</sup> ¢
                           </>
                         );
                       })()}
