@@ -74,12 +74,11 @@ export default async function App() {
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
+        <Link href='/' className='block self-center btn-1 text-xl'>
+          戻る
+        </Link>
         <Gacha langs={langs} expires={expires} />
       </main>
-
-      <Link href='/' className='block self-center btn-1 text-xl'>
-        戻る
-      </Link>
       <div className='h-10'></div>
     </>
   );

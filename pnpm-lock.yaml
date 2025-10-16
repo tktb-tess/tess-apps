@@ -24,8 +24,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(zod@4.1.11)
       '@tktb-tess/util-fns':
-        specifier: ^0.8.3
-        version: 0.8.3
+        specifier: ^0.8.5
+        version: 0.8.5
       '@tktb-tess/xenharmonic-tool':
         specifier: ^0.4.2
         version: 0.4.2
@@ -557,8 +557,8 @@ packages:
     peerDependencies:
       zod: ^3.0.0 || ^4.0.0
 
-  '@tktb-tess/util-fns@0.8.3':
-    resolution: {integrity: sha512-2w0//kWCBoAX3AGtv9dPI7IYy67tQIW8RZR7iTFAwN9dAbXm2i92z134fFAAqVkP/QYIgdG0NCCMIyEgUc2G3A==}
+  '@tktb-tess/util-fns@0.8.5':
+    resolution: {integrity: sha512-/H8Xljlqfh6jG/JidrAbtDGNV+q6vakEV6JT8TN7D5lLMgFFzgXqzU9lGL3GzumDGGA/RGZ5x/Sxk1W51wRIUA==}
     engines: {node: ^22, pnpm: ^10}
 
   '@tktb-tess/xenharmonic-tool@0.4.2':
@@ -2710,11 +2710,11 @@ snapshots:
     dependencies:
       zod: 4.1.11
 
-  '@tktb-tess/util-fns@0.8.3': {}
+  '@tktb-tess/util-fns@0.8.5': {}
 
   '@tktb-tess/xenharmonic-tool@0.4.2':
     dependencies:
-      '@tktb-tess/util-fns': 0.8.3
+      '@tktb-tess/util-fns': 0.8.5
 
   '@tybys/wasm-util@0.10.1':
     dependencies:

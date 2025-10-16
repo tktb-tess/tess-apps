@@ -163,8 +163,13 @@ export default async function CommaDetail({ params }: Props) {
       case 'irrational': {
         const { name, ratio, cents, colorName, namedBy } = commaData;
 
+        const formatSmallCentsStr = (cents: number) => {
+          const str = cents.toExponential(4);
+          return str.replace(/e([+-]\d+)$/, (_, di) => ` × 10^${di}`);
+        };
+
         const centsStr =
-          cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
+          cents < 0.1 ? formatSmallCentsStr(cents) + ' ¢' : cents.toFixed(4) + ' ¢';
 
         const size = ((): CommaSize => {
           const _c = cents;

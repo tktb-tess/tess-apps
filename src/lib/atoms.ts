@@ -8,9 +8,5 @@ export const commaCorresp = atom<Correspondence>('forward');
 export const commaKind = atom<CommaKind>('name');
 export const lastLangIdAtom = atomWithStorage<string | null>(
   storageKeys.lastLangID,
-  null,
-  undefined,
-  {
-    getOnInit: true,
-  }
+  null
 );
