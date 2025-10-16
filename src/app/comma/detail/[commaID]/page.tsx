@@ -50,10 +50,6 @@ export default async function CommaDetail({ params }: Props) {
   const title = commaData.name[0];
   const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
-  const formatSmallCentsStr = (cents: number) => {
-    const str = cents.toExponential(4);
-    return str.replace(/e([+-]\d+)$/, (_, di) => ` × 10^${di}`);
-  };
   const rows: ReadonlyArray<
     | readonly [
         string,
@@ -78,7 +74,7 @@ export default async function CommaDetail({ params }: Props) {
         const centsStr = (() => {
           const cents = monzo.getCents();
           return cents < 0.1
-            ? formatSmallCentsStr(cents) + ' ¢'
+            ? cents.toExponential(4) + ' ¢'
             : cents.toFixed(4) + ' ¢';
         })();
 
@@ -168,9 +164,7 @@ export default async function CommaDetail({ params }: Props) {
         const { name, ratio, cents, colorName, namedBy } = commaData;
 
         const centsStr =
-          cents < 0.1
-            ? formatSmallCentsStr(cents) + ' ¢'
-            : cents.toFixed(4) + ' ¢';
+          cents < 0.1 ? cents.toExponential(4) + ' ¢' : cents.toFixed(4) + ' ¢';
 
         const size = ((): CommaSize => {
           const _c = cents;
@@ -235,6 +229,20 @@ export default async function CommaDetail({ params }: Props) {
                             <summary>展開</summary>
                             <p>{value}</p>
                           </details>
+                        ) : key === 'セント' ? (
+                          <>
+                            {() => {
+                              const matched = value.match(/^(\d\.\d+)e(-\d+)/);
+                              if (!matched) return value;
+                              const num = matched[1];
+                              const exp = matched[2];
+                              return (
+                                <>
+                                  {num} × 10<sup>{exp}</sup>
+                                </>
+                              );
+                            }}
+                          </>
                         ) : (
                           value
                         )
