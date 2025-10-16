@@ -229,6 +229,20 @@ export default async function CommaDetail({ params }: Props) {
                             <summary>展開</summary>
                             <p>{value}</p>
                           </details>
+                        ) : key === 'セント' ? (
+                          <>
+                            {(() => {
+                              const matched = value.match(/^(\d\.\d+)e(-\d+)/);
+                              if (!matched) return value;
+                              const num = matched[1];
+                              const exp = matched[2];
+                              return (
+                                <>
+                                  {num} × 10<sup>{exp}</sup> ¢
+                                </>
+                              );
+                            })()}
+                          </>
                         ) : (
                           value
                         )

@@ -1,8 +1,5 @@
 import { bailliePSW } from '@tktb-tess/util-fns';
-import {
-  getTemperOutEdos,
-  Monzo,
-} from '@tktb-tess/xenharmonic-tool';
+import { getTemperOutEdos, Monzo } from '@tktb-tess/xenharmonic-tool';
 import { NextRequest, NextResponse } from 'next/server';
 import * as z from 'zod';
 
@@ -56,8 +53,7 @@ export const GET = async ({ nextUrl }: NextRequest) => {
       }
     });
 
-    const monzo = new Monzo(monzoSchema.parse(monzo_))
-    
+    const monzo = new Monzo(monzoSchema.parse(monzo_));
 
     const fr = monzo.getRatio();
 

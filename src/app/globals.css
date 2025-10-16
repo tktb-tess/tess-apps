@@ -132,7 +132,10 @@
   html,
   :host {
     -webkit-tap-highlight-color: revert;
-    font-feature-settings: 'case', 'cv01', 'cv05', 'cv07', 'cv08', 'cv10', 'ss03';
+    font-feature-settings: 'case', 'cv01', 'cv05', 'cv07', 'cv08', 'cv10',
+      'ss03';
+    
+    @apply text-sm md:text-base;
   }
 
   body {
