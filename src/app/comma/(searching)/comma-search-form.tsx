@@ -2,10 +2,10 @@
 import Form from 'next/form';
 import SearchBtn from '@/lib/components/search-btn';
 import {
-  commaSearchQuery,
-  commaSearchQuery2,
-  commaCorresp,
-  commaKind,
+  commaQueryAtom,
+  commaQuery2Atom,
+  commaCorrespAtom,
+  commaKindAtom,
 } from '@/lib/atoms';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler } from 'react';
@@ -13,16 +13,16 @@ import { isCorre, isKind } from '@/lib/mod/decl';
 
 const label = {
   name: '名前',
-  monzo: ['基底', '指数'],
+  monzo: 'モンゾ',
   cent: ['下限', '上限'],
   person: '命名者',
 } as const;
 
 export default function CommaSearchForm() {
-  const [query, setQuery] = useAtom(commaSearchQuery);
-  const [query2, setQuery2] = useAtom(commaSearchQuery2);
-  const [corre, setCorre] = useAtom(commaCorresp);
-  const [kind, setKind] = useAtom(commaKind);
+  const [query, setQuery] = useAtom(commaQueryAtom);
+  const [query2, setQuery2] = useAtom(commaQuery2Atom);
+  const [corre, setCorre] = useAtom(commaCorrespAtom);
+  const [kind, setKind] = useAtom(commaKindAtom);
 
   const handleCorre: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { value } = target;
@@ -39,7 +39,7 @@ export default function CommaSearchForm() {
         action='/comma/search'
         className='flex flex-col items-stretch md:items-center max-w-full gap-5'
       >
-        {kind === 'cent' || kind === 'monzo' ? (
+        {kind === 'cent' ? (
           <div className='flex *:min-w-0 justify-center gap-2'>
             <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
               <label htmlFor='q-lower' className='text-nowrap'>
@@ -84,7 +84,7 @@ export default function CommaSearchForm() {
           </div>
         )}
 
-        {kind !== 'cent' && (
+        {(kind === 'name' || kind === 'person') && (
           <div className='flex justify-center gap-4'>
             <span>
               <input

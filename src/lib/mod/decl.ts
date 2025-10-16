@@ -132,6 +132,10 @@ export const isKind = (str: string) => {
 
 export const storageKeys = {
   lastLangID: 'last-lang-id',
+  commaQuery1: 'comma-query-1',
+  commaQuery2: 'comma-query-2',
+  commaCorresp: 'comma-corresp',
+  commaKind: 'comma-kind',
 } as const;
 
 export const env = {

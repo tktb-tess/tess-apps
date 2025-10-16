@@ -75,39 +75,9 @@ export default async function Page({ searchParams }: Props) {
     }
     case 'monzo': {
       try {
-        const values = query2.split(',').map((v) => {
-          const value = Number.parseInt(v);
-
-          return Number.isNaN(value) ? 0 : value;
-        });
-
-        const primeList: readonly number[] = (() => {
-          const basisLen = values.length;
-
-          const pList: number[] = [];
-
-          for (let n = 2n; pList.length < basisLen; n++) {
-            if (bailliePSW(n)) pList.push(Number(n));
-          }
-
-          return pList;
-        })();
-
-        const bases = query.split(',').map((b, i) => {
-          const basis = Number.parseInt(b);
-
-          return Number.isNaN(basis) ? primeList[i] : basis;
-        });
-
-        const iMonzo_ = values
-          .map<[number, number]>((value, i) => {
-            return [bases.at(i) ?? primeList[i], value];
-          })
-          .sort(([a], [b]) => a - b);
-
         // console.log(iMonzo_);
 
-        const iMonzo = new Monzo(iMonzo_);
+        const iMonzo = Monzo.parse(query);
 
         const filtered = commas.filter((comma) => {
           if (comma.commaType === 'irrational') {
@@ -116,48 +86,17 @@ export default async function Page({ searchParams }: Props) {
 
           const monzo = new Monzo(comma.monzo);
 
-          switch (corre) {
-            case 'exact': {
-              return iMonzo.toString() === monzo.toString();
-            }
-
-            case 'forward': {
-              if (monzo.getArray().length < iMonzo.getArray().length) {
-                return false;
-              }
-
-              const sliced = new Monzo(
-                monzo.getArray().slice(0, iMonzo.getArray().length)
-              );
-
-              return iMonzo.toString() === sliced.toString();
-            }
-
-            case 'backward': {
-              if (monzo.getArray().length < iMonzo.getArray().length) {
-                return false;
-              }
-
-              const sliced = new Monzo(
-                monzo.getArray().slice(-iMonzo.getArray().length)
-              );
-
-              return iMonzo.toString() === sliced.toString();
-            }
-            case 'partial': {
-              if (monzo.getArray().length < iMonzo.getArray().length) {
-                return false;
-              }
-
-              const sliced = new Monzo(
-                monzo.getArray().filter(([b]) => {
-                  return iMonzo.getArray().some(([ib]) => ib === b);
-                })
-              );
-
-              return iMonzo.toString() === sliced.toString();
-            }
+          if (monzo.getArray().length < iMonzo.getArray().length) {
+            return false;
           }
+
+          const sliced = new Monzo(
+            monzo.getArray().filter(([b]) => {
+              return iMonzo.getArray().some(([ib]) => ib === b);
+            })
+          );
+
+          return iMonzo.toString() === sliced.toString();
         });
 
         results.push(...filtered);
