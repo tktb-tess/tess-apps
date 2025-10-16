@@ -231,7 +231,7 @@ export default async function CommaDetail({ params }: Props) {
                           </details>
                         ) : key === 'セント' ? (
                           <>
-                            {() => {
+                            {(() => {
                               const matched = value.match(/^(\d\.\d+)e(-\d+)/);
                               if (!matched) return value;
                               const num = matched[1];
@@ -241,7 +241,7 @@ export default async function CommaDetail({ params }: Props) {
                                   {num} × 10<sup>{exp}</sup>
                                 </>
                               );
-                            }}
+                            })()}
                           </>
                         ) : (
                           value
