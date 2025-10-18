@@ -1,9 +1,9 @@
 import ExtLink from '@/lib/components/extLink';
 import Link from 'next/link';
-import { Cotec, env, dateTime } from '@/lib/mod/decl';
+import { env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import Gacha from './gacha';
-import { addMonths } from 'date-fns';
+import { CotecJSON } from '@tktb-tess/my-zod-schema';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -23,21 +23,21 @@ export const metadata: Metadata = {
 };
 
 export default async function App() {
-  const fetchCtcJson = async (): Promise<Cotec> => {
-    return fetch(env.COTEC_URL, {
+  const fetchCtcJson = async () => {
+    const resp = await fetch(env.COTEC_URL, {
       method: 'GET',
       next: { revalidate: 7200 },
-    }).then((resp) => {
-      if (!resp.ok) throw Error(`failed to fetch: ${resp.status}`);
-
-      return resp.json();
     });
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status}`);
+    }
+
+    const o = await resp.json();
+    return CotecJSON.schema.parse(o);
   };
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
   const lastUpdate = new Date(ctcMetadata.lastUpdate);
-
-  const expires = addMonths(lastUpdate, 1).getTime();
 
   return (
     <>
@@ -68,15 +68,14 @@ export default async function App() {
           </p>
         </section>
         <p>
-          最終更新日時:{' '}
-          <code>{dateTime.format(lastUpdate)} (日本時間)</code>
+          最終更新日時: <code>{dateTime.format(lastUpdate)} (日本時間)</code>
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>
         <Link href='/' className='block self-center btn-1 text-xl'>
           戻る
         </Link>
-        <Gacha langs={langs} expires={expires} />
+        <Gacha langs={langs} />
       </main>
       <div className='h-10'></div>
     </>

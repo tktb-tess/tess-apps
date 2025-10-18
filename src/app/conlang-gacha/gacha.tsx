@@ -1,18 +1,17 @@
 'use client';
 
 import ExtLink from '@/lib/components/extLink';
-import { CotecContent } from '@/lib/mod/decl';
 import { useRef } from 'react';
 import { getRndInt } from '@tktb-tess/util-fns';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
+import { CotecJSON } from '@tktb-tess/my-zod-schema';
 
 type Props = {
-  langs: readonly CotecContent[];
-  expires: number;
+  langs: readonly CotecJSON.Content[];
 };
 
-export default function Gacha({ langs, expires }: Props) {
+export default function Gacha({ langs }: Props) {
   const tableRef = useRef<HTMLTableElement | null>(null);
   const [langId, setLangId] = useAtom(lastLangIdAtom);
 
@@ -31,12 +30,8 @@ export default function Gacha({ langs, expires }: Props) {
 
   const determineIndex = () => {
     if (!langId) return null;
-    if (expires < Date.now()) return null;
     const ini = langs.findIndex(({ id }) => id === langId);
-    if (ini > -1) {
-      return ini;
-    }
-    return null;
+    return ini > -1 ? ini : null;
   };
 
   const handleBtn = async () => {
