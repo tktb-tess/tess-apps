@@ -21,8 +21,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(zod@4.1.11)
       '@tktb-tess/util-fns':
-        specifier: ^0.8.5
-        version: 0.8.5
+        specifier: ^0.9.0
+        version: 0.9.0
       '@tktb-tess/xenharmonic-tool':
         specifier: ^0.4.2
         version: 0.4.2
@@ -550,6 +550,10 @@ packages:
 
   '@tktb-tess/util-fns@0.8.5':
     resolution: {integrity: sha512-/H8Xljlqfh6jG/JidrAbtDGNV+q6vakEV6JT8TN7D5lLMgFFzgXqzU9lGL3GzumDGGA/RGZ5x/Sxk1W51wRIUA==}
+    engines: {node: ^22, pnpm: ^10}
+
+  '@tktb-tess/util-fns@0.9.0':
+    resolution: {integrity: sha512-7304X+RbULsJk1SrHtxjVd8qPmYDFEvHRvmJkSxxCA2uf+WRs2Knd+0UtLeDukxucE8hF8MUpJYlnU32b9cS3A==}
     engines: {node: ^22, pnpm: ^10}
 
   '@tktb-tess/xenharmonic-tool@0.4.2':
@@ -2697,6 +2701,8 @@ snapshots:
       zod: 4.1.11
 
   '@tktb-tess/util-fns@0.8.5': {}
+
+  '@tktb-tess/util-fns@0.9.0': {}
 
   '@tktb-tess/xenharmonic-tool@0.4.2':
     dependencies:
