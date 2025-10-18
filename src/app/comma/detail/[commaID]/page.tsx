@@ -1,5 +1,6 @@
 import ExtLink from '@/lib/components/extLink';
-import { Commas, env } from '@/lib/mod/decl';
+import { env } from '@/lib/mod/decl';
+import { Comma } from '@tktb-tess/my-zod-schema';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -14,7 +15,17 @@ type CommaSize = 'unnoticeable' | 'small' | 'medium' | 'large';
 export async function generateMetadata({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
+  const commas = await (async () => {
+    const resp = await fetch(env.COMMAS_URL);
+
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+    }
+
+    const o = await resp.json();
+
+    return Comma.commaDataSchema.parse(o).commas;
+  })();
 
   const commaData = commas.find((c) => c.id === commaID);
 
@@ -39,7 +50,17 @@ export async function generateMetadata({ params }: Props) {
 export default async function CommaDetail({ params }: Props) {
   const { commaID } = await params;
 
-  const { commas }: Commas = await fetch(env.COMMAS_URL).then((r) => r.json());
+  const commas = await (async () => {
+    const resp = await fetch(env.COMMAS_URL);
+
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+    }
+
+    const o = await resp.json();
+
+    return Comma.commaDataSchema.parse(o).commas;
+  })();
 
   const commaData = commas.find((c) => c.id === commaID);
 

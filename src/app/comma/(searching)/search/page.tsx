@@ -1,9 +1,10 @@
-import { CommaData, CommaKind, Commas, Correspondence } from '@/lib/mod/decl';
+import { CommaKind, Correspondence } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
+import { Comma } from '@tktb-tess/my-zod-schema';
 
 type Props = {
   searchParams: Promise<{
@@ -43,9 +44,19 @@ export default async function Page({ searchParams }: Props) {
     }
   }
 
-  const results: CommaData[] = [];
+  const results: Comma.Content[] = [];
 
-  const { commas } = await fetch(env.COMMAS_URL).then<Commas>((r) => r.json());
+  const commas = await (async () => {
+    const resp = await fetch(env.COMMAS_URL);
+
+    if (!resp.ok) {
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+    }
+
+    const o = await resp.json();
+
+    return Comma.commaDataSchema.parse(o).commas;
+  })();
 
   switch (kind) {
     case 'name': {

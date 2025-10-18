@@ -14,15 +14,13 @@
     "lbuild": "rm -r -f .next/cache && next build"
   },
   "dependencies": {
-    "@date-fns/tz": "^1.4.1",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.4",
     "@tktb-tess/my-zod-schema": "^0.3.0",
-    "@tktb-tess/util-fns": "^0.8.5",
+    "@tktb-tess/util-fns": "^0.9.0",
     "@tktb-tess/xenharmonic-tool": "^0.4.2",
     "babel-plugin-react-compiler": "19.1.0-rc.3",
-    "date-fns": "^4.1.0",
     "jotai": "^2.15.0",
     "mathjs": "^14.8.2",
     "neverthrow": "^8.2.0",
