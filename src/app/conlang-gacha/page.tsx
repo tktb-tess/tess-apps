@@ -1,7 +1,6 @@
 import ExtLink from '@/lib/components/extLink';
 import Link from 'next/link';
-import { Cotec, env } from '@/lib/mod/decl';
-import { TZDate } from '@date-fns/tz';
+import { Cotec, env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import Gacha from './gacha';
 import { addMonths } from 'date-fns';
@@ -36,7 +35,7 @@ export default async function App() {
   };
   const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
 
-  const lastUpdate = new TZDate(ctcMetadata.lastUpdate, 'Asia/Tokyo');
+  const lastUpdate = new Date(ctcMetadata.lastUpdate);
 
   const expires = addMonths(lastUpdate, 1).getTime();
 
@@ -70,7 +69,7 @@ export default async function App() {
         </section>
         <p>
           最終更新日時:{' '}
-          <code>{lastUpdate.toLocaleString('ja-JP')} (日本時間)</code>
+          <code>{dateTime.format(lastUpdate)} (日本時間)</code>
         </p>
         <p>ライセンス表示: {ctcMetadata.license.content}</p>
         <h3 className='text-center'>計 {langs.length} 語</h3>

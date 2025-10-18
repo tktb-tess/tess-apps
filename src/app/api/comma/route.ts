@@ -1,13 +1,8 @@
-import { bailliePSW } from '@tktb-tess/util-fns';
 import { getTemperOutEdos, Monzo } from '@tktb-tess/xenharmonic-tool';
 import { NextRequest, NextResponse } from 'next/server';
 import * as z from 'zod';
 
 const mnzParamSchema = z.string().regex(/^(\d+\:)?\-?\d+(,(\d+\:)?\-?\d+)*$/);
-
-const monzoSchema = z
-  .tuple([z.number().int().gte(2), z.number().int()])
-  .array();
 
 type MonzoData = {
   readonly monzo: Monzo;
@@ -35,26 +30,8 @@ export const GET = async ({ nextUrl }: NextRequest) => {
         headers,
       });
     }
-    const monzo__ = mnzParamSchema.parse(decodeURIComponent(mnz_)).split(',');
-    const pList = (() => {
-      const { length } = monzo__;
-      const ps_: number[] = [];
-      for (let n = 2n; ps_.length < length; n++) {
-        if (bailliePSW(n)) ps_.push(Number(n));
-      }
-      return ps_;
-    })();
-    const monzo_: [number, number][] = monzo__.map((s, i) => {
-      if (s.includes(':')) {
-        const [b, v] = s.split(':').map((n) => Number.parseInt(n));
-        return [b, v];
-      } else {
-        return [pList[i], Number.parseInt(s)];
-      }
-    });
 
-    const monzo = new Monzo(monzoSchema.parse(monzo_));
-
+    const monzo = Monzo.parse(mnzParamSchema.parse(decodeURIComponent(mnz_)));
     const fr = monzo.getRatio();
 
     const monzoData: MonzoData = {
@@ -74,11 +51,11 @@ export const GET = async ({ nextUrl }: NextRequest) => {
   } catch (e) {
     if (e instanceof z.ZodError) {
       const { issues, name } = e;
-      const { errors } = z.treeifyError(e);
+      const message = z.prettifyError(e);
       const err = {
         name,
         issues,
-        errors,
+        message,
       } as const;
 
       return new NextResponse(JSON.stringify(err), {
