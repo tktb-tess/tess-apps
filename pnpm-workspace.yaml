@@ -2,6 +2,8 @@ minimumReleaseAge: 2880
 
 minimumReleaseAgeExclude:
   - '@tktb-tess/*'
+  - next
+  - '@next/*'
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'

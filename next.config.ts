@@ -5,9 +5,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   expireTime: 86400,
   reactStrictMode: true,
-  experimental: {
-    reactCompiler: true,
-  },
+  reactCompiler: true,
 };
 
 const withMDX = createMDX({

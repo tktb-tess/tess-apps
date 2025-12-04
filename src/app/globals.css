@@ -109,7 +109,7 @@
 }
 
 @utility btn-1 {
-  @apply bg-gradient-to-b from-white to-sky-300 any-hover:opacity-80 transition-opacity rounded px-2 text-lg no-underline text-black;
+  @apply bg-linear-to-b from-white to-sky-300 any-hover:opacity-80 transition-opacity rounded px-2 text-lg no-underline text-black;
 
   &:disabled {
     @apply opacity-80;
@@ -175,7 +175,7 @@
   p,
   ul,
   ol {
-    @apply leading-[1.5];
+    @apply leading-normal;
   }
 
   li > ul {
@@ -207,7 +207,7 @@
   }
 
   table {
-    @apply grid break-words;
+    @apply grid wrap-break-word;
   }
 
   thead,
