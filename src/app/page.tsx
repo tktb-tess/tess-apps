@@ -43,13 +43,13 @@ export default function Home() {
         <div className='flex flex-col justify-center items-center min-h-[70vh] *:max-w-full gap-5'>
           <Link
             href='/conlang-gacha'
-            className='no-underline bg-gradient-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+            className='no-underline bg-linear-to-b from-sky-300 to-sky-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
           >
             <p className='text-3xl'>人工言語ガチャ</p>
           </Link>
           <Link
             href='/comma'
-            className='no-underline bg-gradient-to-b from-violet-300 to-violet-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
+            className='no-underline bg-linear-to-b from-violet-300 to-violet-400 text-black w-100 h-20 grid place-content-center rounded-xl transition-shadow any-hover:glow'
           >
             <p className='text-3xl'>コンマ検索</p>
           </Link>
