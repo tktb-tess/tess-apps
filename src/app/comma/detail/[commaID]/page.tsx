@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props) {
 
   const commaData = commas.find((c) => c.id === commaID);
 
-  const title = commaData?.name[0];
+  const title = commaData?.name.at(0);
   const description = commaData?.name.concat(commaData.colorName).join(', ');
 
   return {
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props) {
     description,
     openGraph: {
       description,
-      url: `/comma-result/${commaID}`,
+      url: `/comma/detail/${commaID}`,
       siteName: env.SITE_NAME,
       images: '/link-card.png',
     },
