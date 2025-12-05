@@ -1,5 +1,4 @@
 'use client';
-
 import ExtLink from '@/lib/components/extLink';
 import { useRef } from 'react';
 import { getRndInt } from '@tktb-tess/util-fns';
@@ -28,11 +27,11 @@ export default function Gacha({ langs }: Props) {
     });
   };
 
-  const determineIndex = () => {
+  const index = (() => {
     if (!langId) return null;
     const ini = langs.findIndex(({ id }) => id === langId);
     return ini > -1 ? ini : null;
-  };
+  })();
 
   const handleBtn = async () => {
     const newIndex = getRndInt(0, langs.length);
@@ -49,8 +48,6 @@ export default function Gacha({ langs }: Props) {
       回す！
     </button>
   );
-
-  const index = determineIndex();
 
   if (index === null) {
     return (
