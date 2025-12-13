@@ -115,7 +115,7 @@ export type Correspondence = 'exact' | 'forward' | 'backward' | 'partial';
 
 export type CommaKind = 'name' | 'monzo' | 'cent' | 'person';
 
-export const isCorre = (str: string) => {
+export const isCorrespondence = (str: string) => {
   return (
     str === 'forward' ||
     str === 'backward' ||
@@ -134,7 +134,7 @@ export const storageKeys = {
   lastLangID: 'last-lang-id',
   commaQuery1: 'comma-query-1',
   commaQuery2: 'comma-query-2',
-  commaCorresp: 'comma-corresp',
+  commaCorrespondence: 'comma-correspondence',
   commaKind: 'comma-kind',
 } as const;
 
