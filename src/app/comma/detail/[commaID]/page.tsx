@@ -1,11 +1,11 @@
-import ExtLink from '@/lib/components/extLink';
-import { env } from '@/lib/mod/decl';
 import { Comma } from '@tktb-tess/my-zod-schema';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ExtLink from '@/lib/components/extLink';
+import { env } from '@/lib/mod/decl';
 
-type Props = {
+interface Props {
   params: Promise<{ commaID: string }>;
 };
 

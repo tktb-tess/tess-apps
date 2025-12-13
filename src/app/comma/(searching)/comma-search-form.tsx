@@ -1,15 +1,15 @@
 'use client';
 import Form from 'next/form';
+import { useAtom } from 'jotai';
+import { ChangeEventHandler } from 'react';
 import SearchBtn from '@/lib/components/search-btn';
+import { isCorrespondence, isKind } from '@/lib/mod/decl';
 import {
   commaQueryAtom,
   commaQuery2Atom,
-  commaCorrespAtom,
+  commaCorrespondenceAtom,
   commaKindAtom,
 } from '@/lib/atoms';
-import { useAtom } from 'jotai';
-import { ChangeEventHandler } from 'react';
-import { isCorre, isKind } from '@/lib/mod/decl';
 
 const label = {
   name: '名前',
@@ -21,13 +21,14 @@ const label = {
 export default function CommaSearchForm() {
   const [query, setQuery] = useAtom(commaQueryAtom);
   const [query2, setQuery2] = useAtom(commaQuery2Atom);
-  const [corre, setCorre] = useAtom(commaCorrespAtom);
+  const [correspondence, setCorrespondence] = useAtom(commaCorrespondenceAtom);
   const [kind, setKind] = useAtom(commaKindAtom);
 
   const handleCorre: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { value } = target;
-    setCorre(() => (isCorre(value) ? value : 'forward'));
+    setCorrespondence(() => (isCorrespondence(value) ? value : 'forward'));
   };
+
   const handleKind: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { value } = target;
     setKind(() => (isKind(value) ? value : 'name'));
@@ -92,7 +93,7 @@ export default function CommaSearchForm() {
                 name='corre'
                 value='forward'
                 id='btn-1'
-                checked={corre === 'forward'}
+                checked={correspondence === 'forward'}
                 onChange={handleCorre}
               />
               <label htmlFor='btn-1'>前方</label>
@@ -103,7 +104,7 @@ export default function CommaSearchForm() {
                 name='corre'
                 value='backward'
                 id='btn-2'
-                checked={corre === 'backward'}
+                checked={correspondence === 'backward'}
                 onChange={handleCorre}
               />
               <label htmlFor='btn-2'>後方</label>
@@ -114,7 +115,7 @@ export default function CommaSearchForm() {
                 name='corre'
                 value='partial'
                 id='btn-3'
-                checked={corre === 'partial'}
+                checked={correspondence === 'partial'}
                 onChange={handleCorre}
               />
               <label htmlFor='btn-3'>部分</label>
@@ -125,7 +126,7 @@ export default function CommaSearchForm() {
                 name='corre'
                 value='exact'
                 id='btn-4'
-                checked={corre === 'exact'}
+                checked={correspondence === 'exact'}
                 onChange={handleCorre}
               />
               <label htmlFor='btn-4'>完全</label>
