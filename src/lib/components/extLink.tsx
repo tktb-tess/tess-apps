@@ -8,7 +8,7 @@ type Props = {
 
 const ExtLink = ({ children, href, className }: Props) => {
   return (
-    <a href={href} className={className} target='_blank' rel='noopener'>
+    <a href={href} className={className} target='_blank'>
       {children}
       <RiExternalLinkLine className='size-4 inline-block' fill='currentColor' />
     </a>

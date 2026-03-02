@@ -12,7 +12,7 @@ export default async function Layout({ children }: LayoutProps) {
         <h1 className='font-sans text-center my-15'>コンマ検索</h1>
       </header>
       <main className='flex flex-col gap-10'>
-        <Link href='/' className='block self-center btn-1 text-xl'>
+        <Link href='/' className='block self-center __g-btn-theme-1 text-xl'>
           戻る
         </Link>
         <CommaSearchForm />

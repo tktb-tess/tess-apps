@@ -24,14 +24,14 @@ export default function CommaSearchForm() {
   const [correspondence, setCorrespondence] = useAtom(commaCorrespondenceAtom);
   const [kind, setKind] = useAtom(commaKindAtom);
 
-  const handleCorre: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const { value } = target;
-    setCorrespondence(() => (isCorrespondence(value) ? value : 'forward'));
+  const handleCorre: ChangeEventHandler<HTMLInputElement> = (ev) => {
+    const value = ev.target.value;
+    setCorrespondence(isCorrespondence(value) ? value : 'forward');
   };
 
-  const handleKind: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const { value } = target;
-    setKind(() => (isKind(value) ? value : 'name'));
+  const handleKind: ChangeEventHandler<HTMLInputElement> = (ev) => {
+    const value = ev.target.value;
+    setKind(isKind(value) ? value : 'name');
   };
 
   return (
@@ -51,7 +51,7 @@ export default function CommaSearchForm() {
                 type='text'
                 value={query}
                 id='q-lower'
-                onChange={(e) => setQuery(() => e.target.value)}
+                onChange={(e) => setQuery(e.target.value)}
                 className='flex-[1_1_0]'
               />
             </span>
@@ -92,11 +92,11 @@ export default function CommaSearchForm() {
                 type='radio'
                 name='corre'
                 value='forward'
-                id='btn-1'
+                id='__g-btn-theme-1'
                 checked={correspondence === 'forward'}
                 onChange={handleCorre}
               />
-              <label htmlFor='btn-1'>前方</label>
+              <label htmlFor='__g-btn-theme-1'>前方</label>
             </span>
             <span>
               <input

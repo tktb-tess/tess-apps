@@ -1,0 +1,13 @@
+@reference './globals.css';
+
+@layer components {
+  .__header {
+    @apply flex h-full justify-center;
+
+    > a {
+      @apply h-full grid place-items-center
+      text-text hover-focus:text-textinv hover-focus:bg-accent no-underline
+      transition-colors px-1;
+    }
+  }
+}

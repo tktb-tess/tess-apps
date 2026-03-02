@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
-};
+}
 
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Error({ error, reset }: ErrorProps) {
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
-        className='btn-1'
+        className='__g-btn-theme-1'
       >
         Try again
       </button>

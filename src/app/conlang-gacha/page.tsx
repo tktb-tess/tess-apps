@@ -41,43 +41,38 @@ export default async function App() {
 
   return (
     <>
-      <header className='flow-root'>
-        <h1 className='font-sans text-center my-15'>人工言語ガチャ</h1>
-      </header>
-      <main className='flex flex-col gap-3'>
-        <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
-          <h2 id='setsumei' className='text-center'>
-            – 説明 –
-          </h2>
-          <p>
-            <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
-              かえる (kaeru2193) さんのリポジトリ
-            </ExtLink>
-            にて管理されている <code>conlinguistics-wiki-list.ctc</code>{' '}
-            からデータを取得し、ランダムで1つ言語を選んで情報を表示します。
-          </p>
-          <p>
-            <code>conlinguistics-wiki-list.ctc</code> とは、人工言語学Wikiの
-            <ExtLink href='https://wiki.conlinguistics.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%9C%8F%E3%81%AE%E4%BA%BA%E5%B7%A5%E8%A8%80%E8%AA%9E%E4%B8%80%E8%A6%A7'>
-              日本語圏の人工言語一覧
-            </ExtLink>
-            からリストを取得し、それをCotec形式に変換したものです。
-            <ExtLink href='https://migdal.jp/cl_kiita/cotec-conlang-table-expression-powered-by-csv-clakis-rfc-2h86'>
-              Cotec形式の詳細
-            </ExtLink>
-          </p>
-        </section>
+      <h1>{ogTitle}</h1>
+      <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
+        <h2 id='setsumei' className='text-center'>
+          – 説明 –
+        </h2>
         <p>
-          最終更新日時: <code>{dateTime.format(lastUpdate)} (日本時間)</code>
+          <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
+            かえる (kaeru2193) さんのリポジトリ
+          </ExtLink>
+          にて管理されている <code>conlinguistics-wiki-list.ctc</code>{' '}
+          からデータを取得し、ランダムで1つ言語を選んで情報を表示します。
         </p>
-        <p>ライセンス表示: {ctcMetadata.license.content}</p>
-        <h3 className='text-center'>計 {langs.length} 語</h3>
-        <Link href='/' className='block self-center btn-1 text-xl'>
-          戻る
-        </Link>
-        <Gacha langs={langs} />
-      </main>
-      <div className='h-10'></div>
+        <p>
+          <code>conlinguistics-wiki-list.ctc</code> とは、人工言語学Wikiの
+          <ExtLink href='https://wiki.conlinguistics.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%9C%8F%E3%81%AE%E4%BA%BA%E5%B7%A5%E8%A8%80%E8%AA%9E%E4%B8%80%E8%A6%A7'>
+            日本語圏の人工言語一覧
+          </ExtLink>
+          からリストを取得し、それをCotec形式に変換したものです。
+          <ExtLink href='https://migdal.jp/cl_kiita/cotec-conlang-table-expression-powered-by-csv-clakis-rfc-2h86'>
+            Cotec形式の詳細
+          </ExtLink>
+        </p>
+      </section>
+      <p>
+        最終更新日時: <code>{dateTime.format(lastUpdate)} (日本時間)</code>
+      </p>
+      <p>ライセンス表示: {ctcMetadata.license.content}</p>
+      <h3 className='text-center'>計 {langs.length} 語</h3>
+      <Link href='/' className='__g-btn-theme-1'>
+        戻る
+      </Link>
+      <Gacha langs={langs} />
     </>
   );
 }

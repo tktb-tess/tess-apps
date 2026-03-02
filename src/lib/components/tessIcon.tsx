@@ -1,4 +1,4 @@
-type Props = {
+interface Props {
   readonly className?: string;
 };
 

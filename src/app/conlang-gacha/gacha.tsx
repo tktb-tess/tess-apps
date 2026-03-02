@@ -40,22 +40,19 @@ export default function Gacha({ langs }: Props) {
   };
 
   const gachaBtn = (
-    <button
-      type='button'
-      className='text-xl btn-1 self-center'
-      onClick={handleBtn}
-    >
+    <button type='button' className='__g-btn-theme-1' onClick={handleBtn}>
       回す！
     </button>
   );
 
-  if (index === null) {
-    return (
-      <>
-        {gachaBtn}
-        <div className='h-30'></div>
-      </>
-    );
+  if (index == null) {
+    return <>{gachaBtn}</>;
+  }
+
+  const lang = langs.at(index);
+
+  if (!lang) {
+    return <>{gachaBtn}</>;
   }
 
   const {
@@ -75,21 +72,21 @@ export default function Gacha({ langs }: Props) {
     part,
     example,
     script,
-  } = langs[index];
+  } = lang;
 
   const site_a = (() => {
-    if (!site) return undefined;
+    if (!site) return;
     const site_ = site.filter(
       ({ name }) =>
-        name === undefined || (!name.includes('辞書') && !name.includes('文法'))
+        name == null || (!name.includes('辞書') && !name.includes('文法')),
     );
     return site_.length > 0 ? site_ : undefined;
   })();
 
   const category_a = (() => {
-    if (!category) return undefined;
+    if (!category) return;
     const cat_ = category.filter(
-      ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3')
+      ({ name }) => !name.includes('モユネ分類') && !name.includes('CLA v3'),
     );
     return cat_.length > 0 ? cat_ : undefined;
   })();
@@ -97,24 +94,19 @@ export default function Gacha({ langs }: Props) {
   return (
     <>
       {gachaBtn}
-      <section aria-labelledby='result' className='my-5'>
-        <h2 className='text-center' id='result'>
-          – ガチャ結果 –
-        </h2>
-        <table
-          className='grid-cols-1 md:grid-cols-auto-2 md:place-content-center gap-y-3 gap-x-8 md:[&_th]:text-end md:[&_td]:max-w-200 px-3 py-1 fade-slide-in'
-          ref={tableRef}
-        >
+      <section aria-labelledby='gacha-result'>
+        <h2 id='gacha-result'>– ガチャ結果 –</h2>
+        <table ref={tableRef}>
           <tbody>
             <tr>
               <th>言語名</th>
-              <td className='text-center md:text-start'>
+              <td className=''>
                 {name.concat(kanji).join(', ') || '[NO DATA]'}
               </td>
             </tr>
             <tr>
               <th>作者</th>
-              <td className='text-center md:text-start'>
+              <td className=''>
                 {creator.join(', ') || '[NO DATA]'}
               </td>
             </tr>
@@ -133,7 +125,7 @@ export default function Gacha({ langs }: Props) {
             {period && (
               <tr>
                 <th>年代</th>
-                <td className='text-center md:text-start'>{period}</td>
+                <td className=''>{period}</td>
               </tr>
             )}
             {site_a && (

@@ -229,7 +229,7 @@ export default async function CommaDetail({ params }: Props) {
       <main className='flex flex-col gap-3'>
         <Link
           href='/comma'
-          className='btn-1 self-center text-center block text-xl'
+          className='__g-btn-theme-1 self-center text-center block text-xl'
         >
           戻る
         </Link>
