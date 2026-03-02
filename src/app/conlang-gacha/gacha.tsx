@@ -5,6 +5,7 @@ import { getRndInt } from '@tktb-tess/util-fns';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
+import styles from './gacha.module.css';
 
 type Props = {
   langs: readonly CotecJSON.Content[];
@@ -15,16 +16,20 @@ export default function Gacha({ langs }: Props) {
   const [langId, setLangId] = useAtom(lastLangIdAtom);
 
   const tableAnimation = async () => {
-    tableRef.current?.classList.remove('fade-slide-in');
-    tableRef.current?.classList.add('invisible');
-
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        tableRef.current?.classList.add('fade-slide-in');
-        tableRef.current?.classList.remove('invisible');
-        resolve();
-      }, 10);
+    if (!tableRef.current) {
+      throw Error('tableRef.current is undefined');
+    }
+    tableRef.current.classList.remove('fade-slide-in');
+    tableRef.current.classList.add('invisible');
+    requestAnimationFrame(() => {
+      if (!tableRef.current) {
+        throw Error('tableRef.current is undefined');
+      }
+      tableRef.current.classList.add('fade-slide-in');
+      tableRef.current.classList.remove('invisible');
     });
+    const ani = tableRef.current.getAnimations();
+    return Promise.allSettled(ani.map((a) => a.finished));
   };
 
   const index = (() => {
@@ -35,7 +40,10 @@ export default function Gacha({ langs }: Props) {
 
   const handleBtn = async () => {
     const newIndex = getRndInt(0, langs.length);
-    setLangId(() => langs[newIndex].id);
+    setLangId(() => {
+      const newId = langs[newIndex]?.id ?? null;
+      return newId;
+    });
     await tableAnimation();
   };
 
@@ -45,11 +53,7 @@ export default function Gacha({ langs }: Props) {
     </button>
   );
 
-  if (index == null) {
-    return <>{gachaBtn}</>;
-  }
-
-  const lang = langs.at(index);
+  const lang = typeof index === 'number' ? langs.at(index) : undefined;
 
   if (!lang) {
     return <>{gachaBtn}</>;
@@ -96,19 +100,15 @@ export default function Gacha({ langs }: Props) {
       {gachaBtn}
       <section aria-labelledby='gacha-result'>
         <h2 id='gacha-result'>– ガチャ結果 –</h2>
-        <table ref={tableRef}>
+        <table ref={tableRef} className={styles.gachaTable}>
           <tbody>
             <tr>
               <th>言語名</th>
-              <td className=''>
-                {name.concat(kanji).join(', ') || '[NO DATA]'}
-              </td>
+              <td>{name.concat(kanji).join(', ') || '[NO DATA]'}</td>
             </tr>
             <tr>
               <th>作者</th>
-              <td className=''>
-                {creator.join(', ') || '[NO DATA]'}
-              </td>
+              <td>{creator.join(', ') || '[NO DATA]'}</td>
             </tr>
             <tr>
               <th>説明</th>
@@ -125,7 +125,7 @@ export default function Gacha({ langs }: Props) {
             {period && (
               <tr>
                 <th>年代</th>
-                <td className=''>{period}</td>
+                <td>{period}</td>
               </tr>
             )}
             {site_a && (
@@ -203,15 +203,13 @@ export default function Gacha({ langs }: Props) {
             {world && (
               <tr>
                 <th>架空世界</th>
-                <td className='text-center md:text-start'>
-                  {world.join(', ')}
-                </td>
+                <td>{world.join(', ')}</td>
               </tr>
             )}
             {category_a && (
               <tr>
                 <th>分類</th>
-                <td className='text-center md:text-start'>
+                <td>
                   {category_a.map(({ name, content }, i) => (
                     <p key={`${index}-${i}`}>
                       {content ? `${name}: ${content}` : `${name}`}
@@ -223,15 +221,13 @@ export default function Gacha({ langs }: Props) {
             {moyune && (
               <tr>
                 <th>モユネ分類</th>
-                <td className='text-center md:text-start'>
-                  {moyune.join('/')}
-                </td>
+                <td>{moyune.join('/')}</td>
               </tr>
             )}
             {clav3 && (
               <tr>
                 <th>CLA v3</th>
-                <td className='text-center md:text-start'>
+                <td>
                   {clav3.dialect}_{clav3.language}_{clav3.family}_
                   {clav3.creator}
                 </td>
@@ -240,7 +236,7 @@ export default function Gacha({ langs }: Props) {
             {part && (
               <tr>
                 <th>part</th>
-                <td className='text-center md:text-start'>{part}</td>
+                <td>{part}</td>
               </tr>
             )}
             {example && (
@@ -256,7 +252,7 @@ export default function Gacha({ langs }: Props) {
             {script && (
               <tr>
                 <th>表記</th>
-                <td className='text-center md:text-start'>
+                <td>
                   {script.map((ex, i) => (
                     <p key={`${index}-${i}`}>{ex}</p>
                   ))}

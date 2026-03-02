@@ -68,7 +68,7 @@ export default async function CommaDetail({ params }: Props) {
     notFound();
   }
 
-  const title = commaData.name[0];
+  const title = commaData.name[0] ?? '';
   const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
   const rows: ReadonlyArray<

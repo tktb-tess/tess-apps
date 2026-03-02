@@ -123,12 +123,29 @@
   scrollbar-width: thin;
 }
 
-@utility link-disabled {
-  @apply pointer-events-none text-neutral-600 any-hover:no-underline;
+@utility grid-cols-auto-* {
+  grid-template-columns: repeat(--value(integer, [*]), auto);
 }
 
-@utility grid-cols-auto-* {
-  grid-template-columns: repeat(--value(integer), auto);
+@utility cols-auto-fill-* {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(--value([*]), 100%), 1fr)
+  );
+}
+
+@utility cols-auto-fit-* {
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
+
+  grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
 }
 
 @utility fade-slide-in {
@@ -306,7 +323,7 @@
   }
 
   code {
-    @apply border border-border rounded-sm;
+    @apply px-px border border-border rounded-sm;
   }
 
   ul,
@@ -318,12 +335,8 @@
     @apply ps-4;
   }
 
-  textarea {
-    @apply resize-none;
-  }
-
   table {
-    @apply grid wrap-normal break-keep overflow-auto max-w-full;
+    @apply grid wrap-normal break-keep overflow-auto max-w-full gap-4;
   }
 
   thead,
@@ -336,6 +349,10 @@
   td,
   th,
   caption {
-    @apply block min-w-0;
+    @apply block;
+  }
+
+  caption {
+    @apply col-span-full;
   }
 }

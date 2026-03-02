@@ -1,8 +1,8 @@
 @reference './globals.css';
 
 @layer components {
-  .__header {
-    @apply flex h-full justify-center;
+  .header {
+    @apply flex h-full justify-center border-b border-border;
 
     > a {
       @apply h-full grid place-items-center

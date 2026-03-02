@@ -1,7 +1,7 @@
 import { Metadata, Viewport } from 'next';
 import { env } from '@/lib/mod/decl';
 import './globals.css';
-import './layout.css';
+import styles from './layout.module.css';
 
 interface LayoutProps {
   readonly children: React.ReactNode;
@@ -31,14 +31,13 @@ export default function RootLayout({ children }: LayoutProps) {
     <html lang='ja'>
       <body>
         <header>
-          <nav className='__header'>
+          <nav className={styles.header}>
             <a href='https://tktb-tess.dev' target='_blank'>
               悠久肆方体へ
             </a>
           </nav>
         </header>
         <main>
-          <h1></h1>
           {children}
         </main>
         <footer></footer>

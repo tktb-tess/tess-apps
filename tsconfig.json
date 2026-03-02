@@ -17,7 +17,8 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    // "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": true,
+    "erasableSyntaxOnly": true,
     "plugins": [
       {
         "name": "next"
