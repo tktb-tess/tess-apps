@@ -9,6 +9,8 @@ interface Props {
 
 const GachaView = ({ lang }: Props) => {
   const tableRef = useRef<HTMLTableElement | null>(null);
+  const labelId = useId();
+
   const {
     name,
     kanji,
@@ -25,8 +27,6 @@ const GachaView = ({ lang }: Props) => {
     example,
     script,
   } = lang;
-
-  const labelId = useId();
 
   const site = (() => {
     if (!lang.site) return;
@@ -47,7 +47,9 @@ const GachaView = ({ lang }: Props) => {
 
   return (
     <section aria-labelledby={labelId} className={styles.root}>
-      <h2 id={labelId} className={styles.title}>– ガチャ結果 –</h2>
+      <h2 id={labelId} className={styles.title}>
+        – ガチャ結果 –
+      </h2>
       <table ref={tableRef} className={styles.gachaTable}>
         <tbody>
           <tr>
@@ -81,7 +83,7 @@ const GachaView = ({ lang }: Props) => {
               <th>サイト</th>
               <td>
                 <ul>
-                  {site.map(({ name, url }, i) => {
+                  {site.map(({ name, url }) => {
                     if (name) {
                       return (
                         <li key={`${name}-${url}`}>
@@ -210,6 +212,6 @@ const GachaView = ({ lang }: Props) => {
       </table>
     </section>
   );
-}
+};
 
 export default GachaView;

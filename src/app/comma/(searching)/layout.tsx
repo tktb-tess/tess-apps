@@ -5,19 +5,17 @@ type LayoutProps = {
   readonly children: React.ReactNode;
 };
 
-export default async function Layout({ children }: LayoutProps) {
+const Layout = async ({ children }: LayoutProps) => {
   return (
     <>
-      <header className='flow-root'>
-        <h1 className='font-sans text-center my-15'>コンマ検索</h1>
-      </header>
-      <main className='flex flex-col gap-10'>
-        <Link href='/' className='block self-center __g-btn-theme-1 text-xl'>
-          戻る
-        </Link>
-        <CommaSearchForm />
-        {children}
-      </main>
+      <h1 className='font-sans text-center my-15'>コンマ検索</h1>
+      <Link href='/' className='block self-center btn-theme-1 text-xl'>
+        戻る
+      </Link>
+      <CommaSearchForm />
+      {children}
     </>
   );
-}
+};
+
+export default Layout;

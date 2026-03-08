@@ -18,7 +18,7 @@ const label = {
   person: '命名者',
 } as const;
 
-export default function CommaSearchForm() {
+const CommaSearchForm = () => {
   const [query, setQuery] = useAtom(commaQueryAtom);
   const [query2, setQuery2] = useAtom(commaQuery2Atom);
   const [correspondence, setCorrespondence] = useAtom(commaCorrespondenceAtom);
@@ -92,11 +92,11 @@ export default function CommaSearchForm() {
                 type='radio'
                 name='corre'
                 value='forward'
-                id='__g-btn-theme-1'
+                id='btn-1'
                 checked={correspondence === 'forward'}
                 onChange={handleCorre}
               />
-              <label htmlFor='__g-btn-theme-1'>前方</label>
+              <label htmlFor='btn-1'>前方</label>
             </span>
             <span>
               <input
@@ -184,3 +184,5 @@ export default function CommaSearchForm() {
     </>
   );
 }
+
+export default CommaSearchForm;

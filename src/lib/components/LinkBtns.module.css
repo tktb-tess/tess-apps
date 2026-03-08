@@ -14,6 +14,6 @@
   }
 
   .linkItem {
-    @apply block border-2 border-accent hover-focus:bg-accent text-text hover-focus:text-textinv rounded-lg py-6 no-underline transition-colors;
+    @apply block border-2 border-accent hover-focus:bg-accent text-accent hover-focus:text-textinv rounded-lg py-6 no-underline transition-colors;
   }
 }
