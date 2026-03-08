@@ -7,7 +7,7 @@ interface Props {
   lang: Readonly<CotecJSON.Content>;
 }
 
-export default function GachaView({ lang }: Props) {
+const GachaView = ({ lang }: Props) => {
   const tableRef = useRef<HTMLTableElement | null>(null);
   const {
     name,
@@ -211,3 +211,5 @@ export default function GachaView({ lang }: Props) {
     </section>
   );
 }
+
+export default GachaView;

@@ -2,8 +2,7 @@
 
 @layer components {
   .root {
-    @apply transition-[translate,opacity] starting:translate-y-10 starting:opacity-0
-    max-w-7xl;
+    @apply max-w-7xl;
   }
 
   .title {
@@ -11,9 +10,9 @@
   }
 
   .gachaTable {
-    @apply max-lg:grid-cols-auto-1 lg:grid-cols-auto-2 **:m-0;
+    @apply max-lg:grid-cols-[auto] lg:grid-cols-auto-2 **:mt-0;
 
-    & tr > :first-child {
+    tr > :first-child {
       @apply max-lg:justify-self-center lg:justify-self-end;
     }
   }

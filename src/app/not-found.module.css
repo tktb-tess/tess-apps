@@ -1,0 +1,7 @@
+@reference './globals.css';
+
+@layer components {
+  .notFound {
+    @apply grid place-items-center-safe place-content-center-safe;
+  }
+}
