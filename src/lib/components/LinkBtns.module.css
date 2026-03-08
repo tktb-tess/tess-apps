@@ -1,0 +1,19 @@
+@reference '../../app/globals.css';
+
+@layer components {
+  .linkBtns {
+    @apply block text-2xl text-center;
+
+    ul {
+      @apply flex flex-col max-w-80 p-0 my-0 mx-auto gap-4;
+    }
+
+    li {
+      @apply block;
+    }
+  }
+
+  .linkItem {
+    @apply block bg-accent text-textinv rounded-lg py-6 no-underline hover-focus:shadow-glow transition-shadow;
+  }
+}

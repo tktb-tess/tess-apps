@@ -4,6 +4,7 @@ import { env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import Gacha from './gacha';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
+import { useId } from 'react';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
 };
 
 export default async function App() {
+  const setsumei = useId();
   const fetchCtcJson = async () => {
     const resp = await fetch(env.COTEC_URL, {
       method: 'GET',
@@ -42,10 +44,8 @@ export default async function App() {
   return (
     <>
       <h1>{ogTitle}</h1>
-      <section aria-labelledby='setsumei' className='flex flex-col gap-2'>
-        <h2 id='setsumei' className='text-center'>
-          – 説明 –
-        </h2>
+      <section aria-labelledby={setsumei}>
+        <h2 id={setsumei}>– 説明 –</h2>
         <p>
           <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
             かえる (kaeru2193) さんのリポジトリ
@@ -64,12 +64,10 @@ export default async function App() {
           </ExtLink>
         </p>
       </section>
-      <p>
-        最終更新日時: <code>{dateTime.format(lastUpdate)} (日本時間)</code>
-      </p>
+      <p>最終更新日時: {dateTime.format(lastUpdate)} (日本時間)</p>
       <p>ライセンス表示: {ctcMetadata.license.content}</p>
-      <h3 className='text-center'>計 {langs.length} 語</h3>
-      <Link href='/' className='__g-btn-theme-1'>
+      <h3>計 {langs.length} 語</h3>
+      <Link href='/' className='btn-theme-1'>
         戻る
       </Link>
       <Gacha langs={langs} />

@@ -12,12 +12,6 @@
     'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI', 'Yu Gothic UI',
     system-ui;
   --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
-  --color-mnlila-d: oklch(0.18 0.0957 296);
-  --color-mnlila-l: oklch(0.31 0.14518 295.847);
-  --color-llila: oklch(0.91 0.0488 296);
-  --color-llila-2: oklch(0.85 0.0836 296);
-  --link-transition-dur: 120ms;
-  --tracking-ultra: 3rem;
 
   --color-body: #000;
   --color-main: #000;
@@ -43,8 +37,11 @@
 
   --default-transition-duration: 80ms;
   --default-transition-timing-function: cubic-bezier(0.25, 0, 0, 1);
+  --ease-in-out-1: cubic-bezier(0.25, 0, 0, 1);
 
-  @keyframes fade-slide-in {
+  --shadow-glow: 0 0 4px 1px #fff;
+
+  @keyframes --k-fade-slide-in {
     from {
       transform: translateY(20px);
       opacity: 0;
@@ -55,6 +52,8 @@
       opacity: 1;
     }
   }
+
+  --animate-slide-in: --k-fade-slide-in 250ms var(--ease-in-out-1);
 
   @keyframes up-down {
     from {
@@ -157,7 +156,7 @@
 }
 
 @layer components {
-  .__g-btn-theme-1 {
+  .btn-theme-1 {
     @apply bg-accent text-textinv hover-focus:opacity-80 transition-opacity rounded px-4 py-2 no-underline;
   }
 }
@@ -199,7 +198,7 @@
   }
 
   @supports (word-break: auto-phrase) {
-    [lang='ja'] {
+    [lang^='ja'] {
       word-break: auto-phrase;
     }
   }
@@ -212,7 +211,7 @@
   }
 
   body {
-    @apply max-lg:flow-root lg:grid bg-body text-text antialiased font-sans;
+    @apply max-lg:flow-root lg:grid bg-body text-text antialiased;
     grid-template-areas:
       'h h h'
       '. m .'

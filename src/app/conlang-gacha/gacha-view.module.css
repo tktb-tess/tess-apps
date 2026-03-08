@@ -1,6 +1,15 @@
 @reference '../globals.css';
 
 @layer components {
+  .root {
+    @apply transition-[translate,opacity] starting:translate-y-10 starting:opacity-0
+    max-w-7xl;
+  }
+
+  .title {
+    @apply text-center;
+  }
+
   .gachaTable {
     @apply max-lg:grid-cols-auto-1 lg:grid-cols-auto-2 **:m-0;
 

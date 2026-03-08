@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps) {
+const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang='ja'>
       <body>
@@ -37,11 +37,11 @@ export default function RootLayout({ children }: LayoutProps) {
             </a>
           </nav>
         </header>
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
         <footer></footer>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
