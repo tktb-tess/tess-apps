@@ -1,4 +1,3 @@
-import { atom } from 'jotai';
 import { Correspondence, CommaKind, storageKeys } from './mod/decl';
 import { atomWithStorage } from 'jotai/utils';
 

@@ -1,18 +1,14 @@
+'use client';
 import ExtLink from '@/lib/components/extLink';
 import type { CotecJSON } from '@tktb-tess/my-zod-schema';
-import { use, useId } from 'react';
+import { useId } from 'react';
 import styles from './GachaView.module.css';
 
 interface Props {
-  langPromise: Promise<Readonly<CotecJSON.Content> | null>;
+  lang: Readonly<CotecJSON.Content>;
 }
 
-const GachaView = ({ langPromise }: Props) => {
-  const lang = use(langPromise);
-
-  if (!lang) {
-    return null;
-  }
+const GachaView = ({ lang }: Props) => {
   const labelId = useId();
 
   const {
