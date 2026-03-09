@@ -1,0 +1,21 @@
+@reference '../../app/globals.css';
+
+@layer components {
+  @keyframes --k-myspin {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .loadingText {
+    @apply text-2xl flex items-center-safe gap-3;
+
+    > svg {
+      @apply inline-block w-[0.9em] h-auto;
+      animation: 1.5s linear infinite --k-myspin;
+    }
+  }
+}

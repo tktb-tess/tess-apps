@@ -1,0 +1,6 @@
+@reference '../../app/globals.css';
+@layer components {
+  .tessIcon {
+    @apply text-text w-full h-auto;
+  }
+}

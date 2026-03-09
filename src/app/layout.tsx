@@ -4,11 +4,11 @@ import './globals.css';
 import styles from './layout.module.css';
 
 interface LayoutProps {
-  readonly children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export const viewport: Viewport = {
-  themeColor: 'black',
+  themeColor: '#000000',
   colorScheme: 'dark',
 };
 

@@ -34,7 +34,7 @@ const Error = ({ error, reset }: ErrorProps) => {
 
   return (
     <div className={style.notFound}>
-      <div>
+      <div className='animate-not-found'>
         <TessIcon />
       </div>
       <h2>Hoppla!</h2>

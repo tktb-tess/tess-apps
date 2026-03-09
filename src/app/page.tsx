@@ -28,8 +28,8 @@ const ebGaramond = EB_Garamond({
 const Home = () => {
   return (
     <>
-      <div className={style.mainTitle}>
-        <h1 aria-hidden='true' className={`${ebGaramond.className}`}>
+      <div>
+        <h1 aria-hidden='true' className={`${ebGaramond.className} ${style.mainTitle}`}>
           {[...env.SITE_NAME].map((s, i) => (
             <span key={`title-${i}`}>{s}</span>
           ))}

@@ -1,13 +1,18 @@
 import ExtLink from '@/lib/components/extLink';
 import type { CotecJSON } from '@tktb-tess/my-zod-schema';
-import { useId, useRef } from 'react';
+import { use, useId, useRef } from 'react';
 import styles from './gacha-view.module.css';
 
 interface Props {
-  lang: Readonly<CotecJSON.Content>;
+  langPromise: Promise<Readonly<CotecJSON.Content> | null>;
 }
 
-const GachaView = ({ lang }: Props) => {
+const GachaView = ({ langPromise }: Props) => {
+  const lang = use(langPromise);
+
+  if (!lang) {
+    return null;
+  }
   const tableRef = useRef<HTMLTableElement | null>(null);
   const labelId = useId();
 

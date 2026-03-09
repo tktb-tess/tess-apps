@@ -25,6 +25,7 @@
 
   --spacing-paragraph: 0.75rem;
   --spacing-heading: 2.5rem;
+  --spacing-title: 5rem;
   --spacing-figure: 2rem;
   --spacing-min-side: 14rem;
   --spacing-max-main: 72rem;
@@ -58,25 +59,25 @@
 
   @keyframes --k-up-down {
     from {
-      transform: translateY(-15px);
+      translate: 0 -15px;
     }
     to {
-      transform: translateY(15px);
+      translate: 0 15px;
     }
   }
-
-  --animate-up-down: --k-up-down 10s var(--ease-in-out-2) alternate infinite;
 
   @keyframes --k-rot-y {
     from {
-      transform: rotateY(0);
+      rotate: y 0;
     }
     to {
-      transform: rotateY(360deg);
+      rotate: y 360deg;
     }
   }
 
-  --animate-rot-y: --k-rot-y 10s linear infinite;
+  --animate-not-found:
+    2s var(--ease-in-out-2) alternate infinite --k-up-down,
+    10s linear infinite --k-rot-y;
 }
 
 @utility font-feat-* {
@@ -146,20 +147,23 @@
     word-break: normal;
   }
 
-  :disabled,
-  [inert],
-  [aria-disabled='true'] {
-    @apply opacity-60;
-  }
-
-  [aria-disabled='true'] {
-    @apply pointer-events-none;
-  }
-
   @supports (word-break: auto-phrase) {
     [lang^='ja'] {
       word-break: auto-phrase;
     }
+  }
+
+  :disabled,
+  [inert],
+  [aria-disabled='true'] {
+    @apply opacity-60 pointer-events-none;
+  }
+
+  dialog,
+  dialog::backdrop,
+  [popover],
+  [popover]::backdrop {
+    @apply size-[unset] max-w-[unset] max-h-[unset] inset-[unset];
   }
 
   :root {
@@ -195,7 +199,7 @@
 
   main {
     grid-area: m;
-    @apply px-gutter min-h-lvh;
+    @apply px-gutter min-h-lvh pb-36;
   }
 
   footer {
@@ -225,7 +229,7 @@
   }
 
   h1 {
-    @apply text-4xl;
+    @apply text-4xl text-center my-title;
   }
 
   li > ul {

@@ -1,0 +1,21 @@
+@reference '../globals.css';
+
+@layer components {
+  .section {
+    @apply flow-root;
+
+    > h2 {
+      @apply text-center;
+    }
+  }
+
+  .backLink {
+    @apply flex justify-center-safe;
+  }
+  
+
+  
+  .totalNum {
+    @apply text-center;
+  }
+}

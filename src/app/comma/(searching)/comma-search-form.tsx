@@ -36,57 +36,42 @@ const CommaSearchForm = () => {
 
   return (
     <>
-      <Form
-        action='/comma/search'
-        className='flex flex-col items-stretch md:items-center max-w-full gap-5'
-      >
+      <Form action='/comma/search'>
         {kind === 'cent' ? (
-          <div className='flex *:min-w-0 justify-center gap-2'>
-            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-              <label htmlFor='q-lower' className='text-nowrap'>
-                {label[kind][0]}
-              </label>
-              <input
-                name='query'
-                type='text'
-                value={query}
-                id='q-lower'
-                onChange={(e) => setQuery(e.target.value)}
-                className='flex-[1_1_0]'
-              />
-            </span>
-            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-              <label htmlFor='q-higher' className='text-nowrap'>
-                {label[kind][1]}
-              </label>
-              <input
-                name='query2'
-                type='text'
-                value={query2}
-                id='q-higher'
-                onChange={(e) => setQuery2(() => e.target.value)}
-                className='flex-[1_1_0]'
-              />
-            </span>
+          <div>
+            <label htmlFor='q-lower'>{label[kind][0]}</label>
+            <input
+              name='query'
+              type='text'
+              value={query}
+              id='q-lower'
+              onChange={(e) => setQuery(e.target.value)}
+            />
+
+            <label htmlFor='q-higher'>{label[kind][1]}</label>
+            <input
+              name='query2'
+              type='text'
+              value={query2}
+              id='q-higher'
+              onChange={(e) => setQuery2(e.target.value)}
+            />
           </div>
         ) : (
-          <div className='flex justify-center gap-1 *:min-w-0'>
-            <label htmlFor='query' className='text-nowrap'>
-              {label[kind]}
-            </label>
+          <div>
+            <label htmlFor='query'>{label[kind]}</label>
             <input
               name='query'
               type='text'
               value={query}
               id='query'
-              onChange={(e) => setQuery(() => e.target.value)}
-              className='flex-[1_1_0]'
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
         )}
 
         {(kind === 'name' || kind === 'person') && (
-          <div className='flex justify-center gap-4'>
+          <div>
             <span>
               <input
                 type='radio'
@@ -133,7 +118,7 @@ const CommaSearchForm = () => {
             </span>
           </div>
         )}
-        <div className='flex justify-center gap-4'>
+        <div>
           <span>
             <input
               type='radio'
@@ -179,10 +164,10 @@ const CommaSearchForm = () => {
             <label htmlFor='btn-8'>命名者</label>
           </span>
         </div>
-        <SearchBtn className='self-center' />
+        <SearchBtn />
       </Form>
     </>
   );
-}
+};
 
 export default CommaSearchForm;

@@ -24,12 +24,12 @@ export const metadata: Metadata = {
 const NotFound = () => {
   return (
     <div className={style.notFound}>
-      <div>
+      <div className='animate-not-found'>
         <TessIcon />
       </div>
       <h2>Hoppla!</h2>
       <p>
-        お探しのページは見つかりませんでした。移動または削除された可能性があります。
+        お探しのページは見つかりませんでした。<wbr />移動または削除された可能性があります。
       </p>
       <Link href='/' className='btn-theme-1'>
         トップに戻る

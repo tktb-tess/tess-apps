@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function App() {
+const App = async () => {
   const setsumei = useId();
   const fetchCtcJson = async () => {
     const resp = await fetch(env.COTEC_URL, {
@@ -32,7 +32,9 @@ export default async function App() {
       next: { revalidate: 7200 },
     });
     if (!resp.ok) {
-      throw Error(`failed to fetch: ${resp.status}`);
+      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`, {
+        cause: { response: resp },
+      });
     }
 
     const o = await resp.json();
@@ -45,7 +47,12 @@ export default async function App() {
   return (
     <>
       <h1>{ogTitle}</h1>
-      <section aria-labelledby={setsumei}>
+      <div className={style.backLink}>
+        <Link href='/' className='btn-theme-1'>
+          戻る
+        </Link>
+      </div>
+      <section aria-labelledby={setsumei} className={style.section}>
         <h2 id={setsumei}>– 説明 –</h2>
         <p>
           <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
@@ -67,11 +74,10 @@ export default async function App() {
       </section>
       <p>最終更新日時: {dateTime.format(lastUpdate)} (日本時間)</p>
       <p>ライセンス表示: {ctcMetadata.license.content}</p>
-      <h3>計 {langs.length} 語</h3>
-      <Link href='/' className='btn-theme-1'>
-        戻る
-      </Link>
+      <h3 className={style.totalNum}>計 {langs.length} 語</h3>
       <Gacha langs={langs} />
     </>
   );
-}
+};
+
+export default App;

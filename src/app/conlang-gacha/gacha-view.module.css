@@ -2,7 +2,7 @@
 
 @layer components {
   .root {
-    @apply max-w-7xl;
+    @apply max-w-7xl transition-[translate,opacity] starting:translate-y-5 starting:opacity-0 duration-300;
   }
 
   .title {
