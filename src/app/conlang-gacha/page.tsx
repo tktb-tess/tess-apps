@@ -2,7 +2,7 @@ import ExtLink from '@/lib/components/extLink';
 import Link from 'next/link';
 import { env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import Gacha from './gacha';
+import Gacha from './Gacha';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import { useId } from 'react';
 import style from './page.module.css';

@@ -3,10 +3,10 @@ import { getRndInt } from '@tktb-tess/util-fns';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
-import GachaView from './gacha-view';
+import GachaView from './GachaView';
 import { Suspense } from 'react';
 import LoadingText from '@/lib/components/LoadingText';
-import style from './gacha.module.css';
+import GachaBtn from './GachaBtn';
 
 interface Props {
   langs: readonly CotecJSON.Content[];
@@ -37,23 +37,15 @@ const FallbackText = () => {
 
 const Gacha = ({ langs }: Props) => {
   const [langId, setLangId] = useAtom(lastLangIdAtom);
-  const langPromise = getLang(langs, langId, 1000);
-
-  const handleBtn = () => {
-    const newIndex = getRndInt(0, langs.length);
-    const newId = langs[newIndex]?.id ?? null;
-    setLangId(newId);
-  };
+  
 
   return (
     <>
-      <div className={style.gachaBtn}>
-        <button type='button' className='btn-theme-1' onClick={handleBtn}>
-          回す！
-        </button>
-      </div>
+      <form >
+        <GachaBtn />
+      </form>
       <Suspense fallback={<FallbackText />}>
-        <GachaView langPromise={langPromise} />
+        
       </Suspense>
     </>
   );
