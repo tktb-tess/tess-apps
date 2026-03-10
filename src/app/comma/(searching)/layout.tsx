@@ -1,4 +1,4 @@
-import CommaSearchForm from './commaSearchForm';
+import CommaSearchForm from './CommaSearchForm';
 import Link from 'next/link';
 import style from './layout.module.css';
 

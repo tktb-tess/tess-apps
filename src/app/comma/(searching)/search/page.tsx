@@ -33,64 +33,53 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Page({ searchParams }: Props) {
-  const { query, kind, corre, query2 } = await searchParams;
-  if (kind === 'cent' || kind === 'monzo') {
-    if (!query && !query2) {
-      redirect('/comma');
-    }
-  } else {
-    if (!query) {
-      redirect('/comma');
-    }
+const fetchComma = async () => {
+  const resp = await fetch(env.COMMAS_URL);
+
+  if (!resp.ok) {
+    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
   }
 
-  const results: Comma.Content[] = [];
+  const o = await resp.json();
 
-  const commas = await (async () => {
-    const resp = await fetch(env.COMMAS_URL);
+  return Comma.commaDataSchema.parse(o).commas;
+};
 
-    if (!resp.ok) {
-      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-    }
-
-    const o = await resp.json();
-
-    return Comma.commaDataSchema.parse(o).commas;
-  })();
-
-  switch (kind) {
-    case 'name': {
-      const filtered = commas.filter(({ name }) => {
-        const cNames = name.map((s) => s.toLowerCase());
-        const qName = query.toLowerCase();
-        return cNames.some((cName) => {
-          switch (corre) {
-            case 'exact': {
-              return cName === qName;
+const filterComma = (
+  query: string,
+  query2: string,
+  kind: CommaKind,
+  corre: Match,
+  commas: readonly Comma.Content[],
+) => {
+  try {
+    switch (kind) {
+      case 'name': {
+        return commas.filter(({ name }) => {
+          const cNames = name.map((s) => s.toLowerCase());
+          const qName = query.toLowerCase();
+          return cNames.some((cName) => {
+            switch (corre) {
+              case 'exact': {
+                return cName === qName;
+              }
+              case 'forward': {
+                return cName.slice(0, qName.length) === qName;
+              }
+              case 'backward': {
+                return cName.slice(-qName.length) === qName;
+              }
+              case 'partial': {
+                return cName.includes(qName);
+              }
             }
-            case 'forward': {
-              return cName.slice(0, qName.length) === qName;
-            }
-            case 'backward': {
-              return cName.slice(-qName.length) === qName;
-            }
-            case 'partial': {
-              return cName.includes(qName);
-            }
-          }
+          });
         });
-      });
-      results.push(...filtered);
-      break;
-    }
-    case 'monzo': {
-      try {
-        // console.log(iMonzo_);
-
+      }
+      case 'monzo': {
         const iMonzo = Monzo.parse(query);
 
-        const filtered = commas.filter((comma) => {
+        return commas.filter((comma) => {
           if (comma.commaType === 'irrational') {
             return false;
           }
@@ -109,63 +98,93 @@ export default async function Page({ searchParams }: Props) {
 
           return iMonzo.toString() === sliced.toString();
         });
-
-        results.push(...filtered);
-      } catch {
-        redirect('/comma');
       }
-
-      break;
-    }
-    case 'cent': {
-      const lower = (() => {
-        const l = Number.parseFloat(query);
-        return Number.isNaN(l) ? 0 : l;
-      })();
-      const upper = (() => {
-        const l = Number.parseFloat(query2);
-        return Number.isNaN(l) ? Infinity : l;
-      })();
-      const filtered = commas.filter((comma) => {
-        if (comma.commaType === 'irrational') {
-          const { cents } = comma;
+      case 'cent': {
+        const lower = (() => {
+          const l = Number.parseFloat(query);
+          return Number.isNaN(l) ? 0 : l;
+        })();
+        const upper = (() => {
+          const l = Number.parseFloat(query2);
+          return Number.isNaN(l) ? Infinity : l;
+        })();
+        return commas.filter((comma) => {
+          if (comma.commaType === 'irrational') {
+            const { cents } = comma;
+            return lower <= cents && cents < upper;
+          }
+          const monzo = new Monzo(comma.monzo);
+          const cents = monzo.getCents();
           return lower <= cents && cents < upper;
-        }
-        const monzo = new Monzo(comma.monzo);
-        const cents = monzo.getCents();
-        return lower <= cents && cents < upper;
-      });
-      results.push(...filtered);
-      break;
-    }
-    case 'person': {
-      const filtered = commas.filter(({ namedBy }) => {
-        if (!namedBy) return false;
-        const cName = namedBy.toLowerCase();
-        const qName = query.toLowerCase();
+        });
+      }
+      case 'person': {
+        return commas.filter(({ namedBy }) => {
+          if (!namedBy) return false;
+          const cName = namedBy.toLowerCase();
+          const qName = query.toLowerCase();
 
-        switch (corre) {
-          case 'exact': {
-            return cName === qName;
+          switch (corre) {
+            case 'exact': {
+              return cName === qName;
+            }
+            case 'forward': {
+              return cName.slice(0, qName.length) === qName;
+            }
+            case 'backward': {
+              return cName.slice(-qName.length) === qName;
+            }
+            case 'partial': {
+              return cName.includes(qName);
+            }
           }
-          case 'forward': {
-            return cName.slice(0, qName.length) === qName;
-          }
-          case 'backward': {
-            return cName.slice(-qName.length) === qName;
-          }
-          case 'partial': {
-            return cName.includes(qName);
-          }
-        }
-      });
-      results.push(...filtered);
-      break;
+        });
+      }
+    }
+  } catch (e) {
+    console.error(e);
+    redirect('/comma');
+  }
+};
+
+interface CommaBaseData {
+  readonly id: string;
+  readonly names: string[];
+  readonly centsStr: string;
+}
+
+interface RationalCommaData extends CommaBaseData {
+  readonly type: 'rational';
+  readonly monzoStr: {
+    readonly basis: string | null;
+    readonly monzo: string;
+  };
+}
+
+interface IrrationalCommaData extends CommaBaseData {
+  readonly type: 'irrational';
+  readonly ratio: string;
+}
+
+type CommaData = RationalCommaData | IrrationalCommaData;
+
+const Page = async ({ searchParams }: Props) => {
+  const { query, kind, corre: match, query2 } = await searchParams;
+  if (kind === 'cent' || kind === 'monzo') {
+    if (!query && !query2) {
+      redirect('/comma');
+    }
+  } else {
+    if (!query) {
+      redirect('/comma');
     }
   }
 
+  const commas = await fetchComma();
+  const results = filterComma(query, query2, kind, match, commas);
+
   // データ整形
-  const resultData = results.map((comma) => {
+  const resultData = results.map((comma): CommaData => {
     switch (comma.commaType) {
       case 'rational': {
         const { id, name, monzo: mnz } = comma;
@@ -175,14 +194,26 @@ export default async function Page({ searchParams }: Props) {
         const centsStr =
           (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-        return [id, name, monzoStr, centsStr, true] as const;
+        return {
+          id,
+          names: name,
+          centsStr,
+          type: 'rational',
+          monzoStr,
+        };
       }
       case 'irrational': {
         const { id, name, ratio, cents } = comma;
         const centsStr =
           (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
 
-        return [id, name, ratio, centsStr, false] as const;
+        return {
+          id,
+          names: name,
+          centsStr,
+          type: 'irrational',
+          ratio,
+        };
       }
     }
   });
@@ -191,57 +222,57 @@ export default async function Page({ searchParams }: Props) {
     <>
       <h2 className='text-center'>– 検索結果 –</h2>
       {resultData.length > 0 ? (
-        <div className='table-container'>
-          <table className='grid-cols-auto-3 mx-auto md:place-content-center gap-x-8 gap-y-3'>
-            <thead>
-              <tr>
-                <th>名前</th>
-                <th>モンゾ または 比率</th>
-                <th>セント</th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultData.map((res) => {
-                const [id, name, ramon, cents, isRational] = res;
+        <table>
+          <thead>
+            <tr>
+              <th>名前</th>
+              <th>モンゾ または 比率</th>
+              <th>セント</th>
+            </tr>
+          </thead>
+          <tbody>
+            {resultData.map((res) => {
+              const { id, names, type, centsStr } = res;
 
-                return (
-                  <tr key={id}>
-                    <td>
-                      <Link href={`/comma/detail/${id}`}>
-                        {name.map((n, i) => (
-                          <p key={`${id}-${i}`}>{n}</p>
-                        ))}
-                      </Link>
-                    </td>
-                    <td>
-                      {isRational ? (
+              return (
+                <tr key={id}>
+                  <td>
+                    <Link href={`/comma/detail/${id}`}>
+                      {names.map((n, i) => (
+                        <p key={`${id}-${i}`}>{n}</p>
+                      ))}
+                    </Link>
+                  </td>
+                  <td>
+                    {(() => {
+                      switch (type) {
+                        case 'rational': {
+                          const { monzoStr } = res;
+                        }
+                        case 'irrational': {
+                          const {} = res;
+                        }
+                      }
+                    })()}
+                  </td>
+                  <td>
+                    {(() => {
+                      const matched = cents.match(/^(\d\.\d+)e(-\d+)/);
+                      if (!matched) return cents;
+                      const num = matched[1];
+                      const exp = matched[2];
+                      return (
                         <>
-                          {ramon.basis && <p>{ramon.basis}</p>}
-                          <p>{ramon.monzo}</p>
+                          {num} × 10<sup>{exp}</sup> ¢
                         </>
-                      ) : (
-                        <p>{ramon}</p>
-                      )}
-                    </td>
-                    <td>
-                      {(() => {
-                        const matched = cents.match(/^(\d\.\d+)e(-\d+)/);
-                        if (!matched) return cents;
-                        const num = matched[1];
-                        const exp = matched[2];
-                        return (
-                          <>
-                            {num} × 10<sup>{exp}</sup> ¢
-                          </>
-                        );
-                      })()}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                      );
+                    })()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
         <div className='h-20'>
           <p className='text-center'>検索結果がありません。</p>
@@ -249,4 +280,6 @@ export default async function Page({ searchParams }: Props) {
       )}
     </>
   );
-}
+};
+
+export default Page;

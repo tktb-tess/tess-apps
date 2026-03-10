@@ -26,7 +26,7 @@ export default async function Page() {
     <>
       <p>コンマを検索できます。</p>
       <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
-      <section aria-labelledby={id}>
+      <section aria-labelledby={id} className={style.about}>
         <h2 id={id}>– 「モンゾ」検索について –</h2>
         <p>
           検索欄に “基底1:指数1,基底2:指数2,基底3:指数3...”

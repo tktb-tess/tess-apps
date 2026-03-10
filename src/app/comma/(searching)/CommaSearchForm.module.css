@@ -21,14 +21,12 @@
   }
 
   .radioInput {
-    @apply grid;
-
     > * {
-      @apply col-span-full row-span-full;
+      @apply block;
     }
 
     > input {
-      @apply appearance-none rounded;
+      @apply appearance-none sr-only outline-none;
     }
 
     > label {
@@ -37,6 +35,11 @@
 
     > input:checked + label {
       @apply text-textinv bg-accent;
+    }
+
+    > input:focus-visible + label {
+      @apply text-textinv bg-accent;
+      outline: auto 1px #fff;
     }
   }
 }

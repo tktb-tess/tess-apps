@@ -1,5 +1,5 @@
 'use client';
-import style from './commaSearchForm.module.css';
+import style from './CommaSearchForm.module.css';
 import Form from 'next/form';
 import { useAtom } from 'jotai';
 import { InputEventHandler, useId } from 'react';
