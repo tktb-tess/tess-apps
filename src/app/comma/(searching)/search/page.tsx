@@ -41,15 +41,23 @@ const fetchComma = async () => {
   }
 
   const o = await resp.json();
-
   return Comma.commaDataSchema.parse(o).commas;
 };
 
+/**
+ * 条件に一致するコンマを抽出
+ * @param query
+ * @param query2
+ * @param kind
+ * @param match
+ * @param commas
+ * @returns
+ */
 const filterComma = (
   query: string,
   query2: string,
   kind: CommaKind,
-  corre: Match,
+  match: Match,
   commas: readonly Comma.Content[],
 ) => {
   try {
@@ -59,7 +67,7 @@ const filterComma = (
           const cNames = name.map((s) => s.toLowerCase());
           const qName = query.toLowerCase();
           return cNames.some((cName) => {
-            switch (corre) {
+            switch (match) {
               case 'exact': {
                 return cName === qName;
               }
@@ -124,7 +132,7 @@ const filterComma = (
           const cName = namedBy.toLowerCase();
           const qName = query.toLowerCase();
 
-          switch (corre) {
+          switch (match) {
             case 'exact': {
               return cName === qName;
             }
@@ -143,14 +151,14 @@ const filterComma = (
     }
   } catch (e) {
     console.error(e);
-    redirect('/comma');
+    return [];
   }
 };
 
 interface CommaBaseData {
   readonly id: string;
   readonly names: string[];
-  readonly centsStr: string;
+  readonly centsStr: string | readonly [string, string];
 }
 
 interface RationalCommaData extends CommaBaseData {
@@ -168,6 +176,65 @@ interface IrrationalCommaData extends CommaBaseData {
 
 type CommaData = RationalCommaData | IrrationalCommaData;
 
+/**
+ * データ整形
+ * @param comma コンマ
+ * @returns 整形されたデータ
+ */
+const formatData = (comma: Comma.Content): CommaData => {
+  switch (comma.commaType) {
+    case 'rational': {
+      const { id, name, monzo: mnz } = comma;
+      const monzo = new Monzo(mnz);
+      const monzoStr = monzo.getMonzoVector();
+      const cents = monzo.getCents();
+      const centsStr = ((): string | [string, string] => {
+        if (cents < 0.1) {
+          const str = cents.toExponential(4);
+          const matched = str.match(/^(\d\.\d+)e(-\d+)/);
+          const num = matched?.[1];
+          const exp = matched?.[2];
+          if (!num || !exp) return str;
+          return [num, exp];
+        } else {
+          return cents.toFixed(4);
+        }
+      })();
+
+      return {
+        id,
+        names: name,
+        centsStr,
+        type: 'rational',
+        monzoStr,
+      };
+    }
+    case 'irrational': {
+      const { id, name, ratio, cents } = comma;
+      const centsStr = ((): string | [string, string] => {
+        if (cents < 0.1) {
+          const str = cents.toExponential(4);
+          const matched = str.match(/^(\d\.\d+)e(-\d+)/);
+          const num = matched?.[1];
+          const exp = matched?.[2];
+          if (!num || !exp) return str;
+          return [num, exp];
+        } else {
+          return cents.toFixed(4);
+        }
+      })();
+
+      return {
+        id,
+        names: name,
+        centsStr,
+        type: 'irrational',
+        ratio,
+      };
+    }
+  }
+};
+
 const Page = async ({ searchParams }: Props) => {
   const { query, kind, corre: match, query2 } = await searchParams;
   if (kind === 'cent' || kind === 'monzo') {
@@ -183,40 +250,7 @@ const Page = async ({ searchParams }: Props) => {
   const commas = await fetchComma();
   const results = filterComma(query, query2, kind, match, commas);
 
-  // データ整形
-  const resultData = results.map((comma): CommaData => {
-    switch (comma.commaType) {
-      case 'rational': {
-        const { id, name, monzo: mnz } = comma;
-        const monzo = new Monzo(mnz);
-        const monzoStr = monzo.getMonzoVector();
-        const cents = monzo.getCents();
-        const centsStr =
-          (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
-
-        return {
-          id,
-          names: name,
-          centsStr,
-          type: 'rational',
-          monzoStr,
-        };
-      }
-      case 'irrational': {
-        const { id, name, ratio, cents } = comma;
-        const centsStr =
-          (cents < 0.1 ? cents.toExponential(4) : cents.toFixed(4)) + ' ¢';
-
-        return {
-          id,
-          names: name,
-          centsStr,
-          type: 'irrational',
-          ratio,
-        };
-      }
-    }
-  });
+  const resultData = results.map(formatData);
 
   return (
     <>
@@ -245,22 +279,25 @@ const Page = async ({ searchParams }: Props) => {
                   </td>
                   <td>
                     {(() => {
-                      switch (type) {
-                        case 'rational': {
-                          const { monzoStr } = res;
-                        }
-                        case 'irrational': {
-                          const {} = res;
-                        }
+                      if (type === 'rational') {
+                        const { monzoStr } = res;
+                        return (
+                          <>
+                            {monzoStr.basis && <p>{monzoStr.basis}</p>}
+                            <p>{monzoStr.monzo}</p>
+                          </>
+                        );
+                      } else {
+                        return res.ratio;
                       }
                     })()}
                   </td>
                   <td>
                     {(() => {
-                      const matched = cents.match(/^(\d\.\d+)e(-\d+)/);
-                      if (!matched) return cents;
-                      const num = matched[1];
-                      const exp = matched[2];
+                      if (typeof centsStr === 'string') {
+                        return centsStr + ' ¢';
+                      }
+                      const [num, exp] = centsStr;
                       return (
                         <>
                           {num} × 10<sup>{exp}</sup> ¢

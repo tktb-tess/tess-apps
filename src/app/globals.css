@@ -102,11 +102,10 @@
   grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
 }
 
-@layer components {
-  .btn-theme-1 {
-    @apply border border-accent text-accent hover-focus:text-textinv hover-focus:bg-accent transition-colors
-      rounded px-4 py-2 no-underline;
-  }
+@utility btn-theme-1 {
+  @apply border border-accent text-accent
+  hover-focus:text-textinv hover-focus:bg-accent transition-colors
+    rounded px-4 py-2 no-underline;
 }
 
 @custom-variant any-hover {

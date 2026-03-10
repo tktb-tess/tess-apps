@@ -1,0 +1,7 @@
+@reference '../../app/globals.css';
+
+@layer components {
+  .searchBtn {
+    @apply btn-theme-1;
+  }
+}

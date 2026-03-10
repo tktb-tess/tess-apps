@@ -3,7 +3,7 @@ import style from './CommaSearchForm.module.css';
 import Form from 'next/form';
 import { useAtom } from 'jotai';
 import { InputEventHandler, useId } from 'react';
-import SearchBtn from '@/lib/components/search-btn';
+import SearchBtn from '@/lib/components/SearchBtn';
 import { CommaKind, Match, isMatch as isMatch, isKind } from '@/lib/mod/decl';
 import {
   commaQueryAtom,
@@ -72,9 +72,7 @@ const RadioInput = ({
         defaultChecked={checkedValue === value}
         onInput={onInput}
       />
-      <label htmlFor={id} className='btn-theme-1'>
-        {label}
-      </label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 };
@@ -98,56 +96,58 @@ const CommaSearchForm = () => {
   return (
     <>
       <Form action='/comma/search' className={style.searchForm}>
-        <div className={style.searchQueries}>
-          <QueryInput
-            label={label[kind][0]}
-            name='query'
-            value={query}
-            onInput={(ev) => setQuery(ev.currentTarget.value)}
-          />
-          {kind === 'cent' && (
-            <>
-              <QueryInput
-                label={label[kind][1]}
-                name='query2'
-                value={query2}
-                onInput={(ev) => setQuery2(ev.currentTarget.value)}
-              />
-            </>
-          )}
-        </div>
-        {(kind === 'name' || kind === 'person') && (
-          <div className={style.radioInputGroup}>
-            <RadioInput
-              label='前方'
-              name='corre'
-              value='forward'
-              checkedValue={match}
-              onInput={handleMatch}
+        <QueryInput
+          label={label[kind][0]}
+          name='query'
+          value={query}
+          onInput={(ev) => setQuery(ev.currentTarget.value)}
+        />
+        {kind === 'cent' && (
+          <>
+            <QueryInput
+              label={label[kind][1]}
+              name='query2'
+              value={query2}
+              onInput={(ev) => setQuery2(ev.currentTarget.value)}
             />
-            <RadioInput
-              label='後方'
-              name='corre'
-              value='backward'
-              checkedValue={match}
-              onInput={handleMatch}
-            />
-            <RadioInput
-              label='部分'
-              name='corre'
-              value='partial'
-              checkedValue={match}
-              onInput={handleMatch}
-            />
-            <RadioInput
-              label='完全'
-              name='corre'
-              value='exact'
-              checkedValue={match}
-              onInput={handleMatch}
-            />
-          </div>
+          </>
         )}
+        {(kind === 'name' || kind === 'person') && (
+          <>
+            <p>一致</p>
+            <div className={style.radioInputGroup}>
+              <RadioInput
+                label='前方'
+                name='corre'
+                value='forward'
+                checkedValue={match}
+                onInput={handleMatch}
+              />
+              <RadioInput
+                label='後方'
+                name='corre'
+                value='backward'
+                checkedValue={match}
+                onInput={handleMatch}
+              />
+              <RadioInput
+                label='部分'
+                name='corre'
+                value='partial'
+                checkedValue={match}
+                onInput={handleMatch}
+              />
+              <RadioInput
+                label='完全'
+                name='corre'
+                value='exact'
+                checkedValue={match}
+                onInput={handleMatch}
+              />
+            </div>
+          </>
+        )}
+        <p>モード</p>
         <div className={style.radioInputGroup}>
           <RadioInput
             label='名前'
@@ -178,7 +178,9 @@ const CommaSearchForm = () => {
             onInput={handleKind}
           />
         </div>
-        <SearchBtn />
+        <div className={style.submit}>
+          <SearchBtn />
+        </div>
       </Form>
     </>
   );
