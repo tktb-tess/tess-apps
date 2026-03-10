@@ -1,5 +1,7 @@
 import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { useId } from 'react';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -19,17 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
+  notFound();
+  const id = useId();
   return (
     <>
-      <div className='flex flex-col items-center *:max-w-full'>
-        <p>コンマを検索できます。</p>
-        <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
-      </div>
-      <section
-        aria-labelledby='about-monzo'
-        className='flex flex-col items-center *:max-w-full'
-      >
-        <h2 id='about-monzo'>– 「モンゾ」検索について –</h2>
+      <p>コンマを検索できます。</p>
+      <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
+      <section aria-labelledby={id}>
+        <h2 id={id}>– 「モンゾ」検索について –</h2>
         <p>
           検索欄に “基底1:指数1,基底2:指数2,基底3:指数3...”
           という形式で入力してください。(例: 2:-4,3:4,5:-1 Syntonic comma)
@@ -40,7 +39,6 @@ export default async function Page() {
           -4,4,-1 = 2:-4,3:4,5:-1)
         </p>
       </section>
-      <div className='h-20'></div>
     </>
   );
 }

@@ -1,0 +1,15 @@
+@reference './globals.css';
+
+@layer components {
+  .notFound {
+    @apply grid place-items-center-safe place-content-center-safe text-center gap-y-8 mt-36 **:m-0;
+
+    h2 {
+      @apply font-extralight text-5xl;
+    }
+
+    p {
+      @apply break-keep;
+    }
+  }
+}

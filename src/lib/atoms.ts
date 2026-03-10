@@ -5,15 +5,15 @@ export const commaQueryAtom = atomWithStorage(storageKeys.commaQuery1, '');
 export const commaQuery2Atom = atomWithStorage(storageKeys.commaQuery2, '');
 export const commaCorrespondenceAtom = atomWithStorage<Correspondence>(
   storageKeys.commaCorrespondence,
-  'forward'
+  'forward',
 );
-
 export const commaKindAtom = atomWithStorage<CommaKind>(
   storageKeys.commaKind,
-  'name'
+  'name',
 );
-
 export const lastLangIdAtom = atomWithStorage<string | null>(
   storageKeys.lastLangID,
-  null
+  null,
 );
+
+

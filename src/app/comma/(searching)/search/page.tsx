@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
 import { Comma } from '@tktb-tess/my-zod-schema';
+import './page.css';
 
 type Props = {
   searchParams: Promise<{

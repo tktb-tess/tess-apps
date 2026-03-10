@@ -3,83 +3,73 @@
 @import './fonts/Charis/font.css';
 
 @theme {
-  --font-sans: 'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
+  --font-sans:
+    'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
     'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
     'Segoe UI', 'Yu Gothic UI', system-ui;
-  --font-serif: 'Charis-Web', 'Times New Roman', 'Noto Serif JP',
-    'BIZ UDPMincho', 'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI',
-    'Yu Gothic UI', system-ui;
+  --font-serif:
+    'Charis-Web', 'Times New Roman', 'Noto Serif JP', 'BIZ UDPMincho',
+    'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI', 'Yu Gothic UI',
+    system-ui;
   --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
-  --color-mnlila-d: oklch(0.18 0.0957 296);
-  --color-mnlila-l: oklch(0.31 0.14518 295.847);
-  --color-llila: oklch(0.91 0.0488 296);
-  --color-llila-2: oklch(0.85 0.0836 296);
-  --link-transition-dur: 120ms;
-  --tracking-ultra: 3rem;
 
-  @keyframes fade-slide-in {
+  --color-body: #000;
+  --color-main: #000;
+  --color-text: #fff;
+  --color-textinv: #000;
+  --color-accent: var(--color-blue-200);
+  --color-border: hsl(0 0 100 / 25%);
+  --color-link: var(--color-cyan-400);
+  --color-link-disabled: hsl(0 0 100 / 60%);
+  --color-input: #fff;
+
+  --spacing-paragraph: 0.75rem;
+  --spacing-heading: 2.5rem;
+  --spacing-title: 5rem;
+  --spacing-figure: 2rem;
+  --spacing-min-side: 14rem;
+  --spacing-max-main: 72rem;
+  --spacing-header: 3rem;
+  --spacing-gutter: 1rem;
+
+  --default-font-feature-settings:
+    'case', 'cv01', 'cv05', 'cv07', 'cv08', 'cv10', 'ss03';
+  --font-feat-tnum: var(--default-font-feature-settings), 'tnum';
+
+  --default-transition-duration: 80ms;
+  --default-transition-timing-function: cubic-bezier(0.25, 0, 0, 1);
+  --ease-in-out-1: cubic-bezier(0.25, 0, 0, 1);
+  --ease-in-out-2: cubic-bezier(0.5, 0, 0.5, 1);
+
+  --shadow-glow: 0 0 4px 1px #fff;
+
+  @keyframes --k-up-down {
     from {
-      transform: translateY(20px);
-      opacity: 0;
+      translate: 0 -15px;
     }
-
     to {
-      transform: translateY(0);
-      opacity: 1;
+      translate: 0 15px;
     }
   }
 
-  @keyframes up-down {
+  @keyframes --k-rot-y {
     from {
-      transform: translateY(-15px);
+      rotate: y 0;
     }
     to {
-      transform: translateY(15px);
+      rotate: y 360deg;
     }
   }
 
-  @keyframes rot-y {
-    from {
-      transform: rotateY(0);
-    }
-    to {
-      transform: rotateY(360deg);
-    }
-  }
+  --animate-not-found:
+    3s var(--ease-in-out-2) alternate infinite --k-up-down,
+    20s linear infinite --k-rot-y;
 
-  @keyframes slide-in {
-    0% {
-      transform: translateY(65px);
-    }
-    31% {
-      transform: translateY(65px);
-    }
-    69% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
+  --animate-spinner: 2.5s linear infinite spin;
+}
 
-  @keyframes thread {
-    0% {
-      visibility: visible;
-      width: 0;
-    }
-    30% {
-      visibility: visible;
-      width: 100%;
-    }
-    70% {
-      visibility: visible;
-      width: 100%;
-    }
-    100% {
-      visibility: visible;
-      width: 0;
-    }
-  }
+@utility font-feat-* {
+  font-feature-settings: --value(--font-feat-*);
 }
 
 @utility user-select-* {
@@ -87,32 +77,35 @@
   -webkit-user-select: --value('none', 'auto', 'all', 'text');
 }
 
-@utility table-container {
-  @apply overflow-x-auto my-8;
-  scrollbar-width: thin;
-}
-
-@utility link-disabled {
-  @apply pointer-events-none text-neutral-600 any-hover:no-underline;
-}
-
 @utility grid-cols-auto-* {
-  grid-template-columns: repeat(--value(integer), auto);
+  grid-template-columns: repeat(--value(integer, [*]), auto);
 }
 
-@utility fade-slide-in {
-  animation: fade-slide-in 250ms cubic-bezier(0, 1, 1, 1);
+@utility cols-auto-fill-* {
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
+
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(--value([*]), 100%), 1fr)
+  );
 }
 
-@utility glow {
-  box-shadow: 0 0 5px 1px white;
+@utility cols-auto-fit-* {
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(calc(var(--spacing) * --value(integer)), 100%), 1fr)
+  );
+
+  grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
 }
 
-@utility btn-1 {
-  @apply bg-linear-to-b from-white to-sky-300 any-hover:opacity-80 transition-opacity rounded px-2 text-lg no-underline text-black;
-
-  &:disabled {
-    @apply opacity-80;
+@layer components {
+  .btn-theme-1 {
+    @apply border border-accent text-accent hover-focus:text-textinv hover-focus:bg-accent transition-colors
+      rounded px-4 py-2 no-underline;
   }
 }
 
@@ -124,58 +117,107 @@
   }
 }
 
-@layer base {
-  * {
-    font-optical-sizing: auto;
+@custom-variant hover-focus {
+  @media (any-hover: hover) {
+    &:hover {
+      @slot;
+    }
   }
 
-  html,
-  :host {
+  &:focus-visible {
+    @slot;
+  }
+}
+
+@layer base {
+  :root,
+  [lang] {
+    word-break: normal;
+  }
+
+  @supports (word-break: auto-phrase) {
+    [lang^='ja'] {
+      word-break: auto-phrase;
+    }
+  }
+
+  :disabled,
+  [inert],
+  [aria-disabled='true'] {
+    @apply opacity-60 pointer-events-none;
+  }
+
+  dialog,
+  dialog::backdrop,
+  [popover],
+  [popover]::backdrop {
+    @apply size-[unset] max-w-[unset] max-h-[unset] inset-[unset];
+  }
+
+  :root {
+    @apply max-sm:text-sm wrap-anywhere font-sans;
     -webkit-tap-highlight-color: revert;
-    font-feature-settings: 'case', 'cv01', 'cv05', 'cv07', 'cv08', 'cv10',
-      'ss03';
-    
-    @apply text-sm md:text-base;
+    line-break: strict;
+    scrollbar-gutter: stable;
   }
 
   body {
-    @apply bg-black text-white antialiased font-sans;
+    @apply max-lg:flow-root lg:grid bg-body text-text antialiased;
+    grid-template-areas:
+      'h h h'
+      '. m .'
+      'f f f';
+    grid-template-columns:
+      minmax(min(var(--spacing-min-side), 50%), 1fr)
+      minmax(0, var(--spacing-max-main))
+      minmax(min(var(--spacing-min-side), 50%), 1fr);
+    grid-template-rows: auto 1fr auto;
   }
 
-  a {
-    @apply text-cyan-300 any-hover:underline;
+  header,
+  main,
+  footer {
+    @apply flow-root;
+  }
+
+  header {
+    grid-area: h;
+    @apply h-header;
+  }
+
+  main {
+    grid-area: m;
+    @apply px-gutter min-h-lvh pb-36;
+  }
+
+  footer {
+    grid-area: f;
+  }
+
+  a:where(:any-link:not([aria-disabled='true'])) {
+    @apply text-link hover-focus:underline;
   }
 
   button,
-  input[type='button'] {
+  input:where([type='button']) {
     @apply cursor-pointer;
-
-    &:disabled {
-      @apply pointer-events-none;
-    }
   }
 
-  input[type='text'],
-  input[type='number'],
-  input[type='url'],
+  input:where(
+    :not([type]),
+    [type='text'],
+    [type='number'],
+    [type='url'],
+    [type='email'],
+    [type='search'],
+    [type='tel']
+  ),
   textarea {
-    @apply font-mono bg-white rounded text-black px-1;
-
-    &:disabled {
-      @apply bg-neutral-500;
-    }
+    @apply font-mono rounded border bg-input text-textinv px-1;
   }
 
   h1 {
-    @apply text-3xl lg:text-4xl xl:text-5xl;
-  }
-
-  h2,
-  h3,
-  p,
-  ul,
-  ol {
-    @apply leading-normal;
+    @apply text-4xl text-center my-title;
   }
 
   li > ul {
@@ -190,24 +232,61 @@
     @apply text-2xl;
   }
 
+  h4 {
+    @apply text-xl;
+  }
+
+  h5,
+  h6 {
+    @apply text-base font-semibold;
+  }
+
+  b,
+  strong,
+  th {
+    @apply font-semibold;
+  }
+
   ul {
-    list-style: '\2023';
+    list-style-type: '-\0020';
   }
 
   ol {
-    list-style: decimal;
+    list-style-type: decimal;
   }
 
-  :is(ul, ol) > li {
-    @apply ms-3 ps-1;
+  :not(li) > :where(p, pre, ul, ol) {
+    @apply mt-paragraph;
   }
 
-  textarea {
-    @apply resize-none;
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply mt-heading text-accent;
+  }
+
+  img,
+  table {
+    @apply my-figure;
+  }
+
+  code {
+    @apply px-px border border-border rounded-sm;
+  }
+
+  ul,
+  ol {
+    @apply ms-5;
+  }
+
+  li > :where(ul, ol) {
+    @apply ms-4;
   }
 
   table {
-    @apply grid wrap-break-word;
+    @apply grid place-content-center-safe overflow-auto max-w-full gap-4;
   }
 
   thead,
@@ -220,10 +299,10 @@
   td,
   th,
   caption {
-    @apply block min-w-0 font-normal;
+    @apply block;
   }
 
-  th {
-    @apply text-green-300;
+  caption {
+    @apply col-span-full;
   }
 }

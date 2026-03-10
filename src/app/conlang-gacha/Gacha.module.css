@@ -1,0 +1,7 @@
+@reference '../globals.css';
+
+@layer components {
+  .gachaBtn {
+    @apply flex justify-center-safe my-figure;
+  }
+}

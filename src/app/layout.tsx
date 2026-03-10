@@ -1,13 +1,15 @@
 import { Metadata, Viewport } from 'next';
 import { env } from '@/lib/mod/decl';
 import './globals.css';
+import styles from './layout.module.css';
 
-type LayoutProps = {
-  readonly children: React.ReactNode;
-};
+interface LayoutProps {
+  children: React.ReactNode;
+}
 
 export const viewport: Viewport = {
-  themeColor: 'black',
+  themeColor: '#000000',
+  colorScheme: 'dark',
 };
 
 export const metadata: Metadata = {
@@ -24,24 +26,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps) {
+const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang='ja'>
-      <body className=''>
-        <nav className='flex border-b border-white/60 justify-center'>
-          <a
-            href='https://tktb-tess.dev'
-            target='_blank'
-            rel='noopener'
-            className='text-white h-12 flex items-center hover:bg-white hover:text-black no-underline transition-colors px-1'
-          >
-            悠久肆方体へ
-          </a>
-        </nav>
-        <div className='px-2 w-full min-h-screen max-w-384 mx-auto flex flex-col gap-2'>
-          {children}
-        </div>
+      <body>
+        <header>
+          <nav className={styles.header}>
+            <a href='https://tktb-tess.dev' target='_blank'>
+              悠久肆方体へ
+            </a>
+          </nav>
+        </header>
+        <main>{children}</main>
+        <footer></footer>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

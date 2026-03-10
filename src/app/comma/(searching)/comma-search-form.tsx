@@ -18,75 +18,60 @@ const label = {
   person: '命名者',
 } as const;
 
-export default function CommaSearchForm() {
+const CommaSearchForm = () => {
   const [query, setQuery] = useAtom(commaQueryAtom);
   const [query2, setQuery2] = useAtom(commaQuery2Atom);
   const [correspondence, setCorrespondence] = useAtom(commaCorrespondenceAtom);
   const [kind, setKind] = useAtom(commaKindAtom);
 
-  const handleCorre: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const { value } = target;
-    setCorrespondence(() => (isCorrespondence(value) ? value : 'forward'));
+  const handleCorre: ChangeEventHandler<HTMLInputElement> = (ev) => {
+    const value = ev.target.value;
+    setCorrespondence(isCorrespondence(value) ? value : 'forward');
   };
 
-  const handleKind: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    const { value } = target;
-    setKind(() => (isKind(value) ? value : 'name'));
+  const handleKind: ChangeEventHandler<HTMLInputElement> = (ev) => {
+    const value = ev.target.value;
+    setKind(isKind(value) ? value : 'name');
   };
 
   return (
     <>
-      <Form
-        action='/comma/search'
-        className='flex flex-col items-stretch md:items-center max-w-full gap-5'
-      >
+      <Form action='/comma/search'>
         {kind === 'cent' ? (
-          <div className='flex *:min-w-0 justify-center gap-2'>
-            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-              <label htmlFor='q-lower' className='text-nowrap'>
-                {label[kind][0]}
-              </label>
-              <input
-                name='query'
-                type='text'
-                value={query}
-                id='q-lower'
-                onChange={(e) => setQuery(() => e.target.value)}
-                className='flex-[1_1_0]'
-              />
-            </span>
-            <span className='flex gap-1 *:min-w-0 flex-[0_1_45%]'>
-              <label htmlFor='q-higher' className='text-nowrap'>
-                {label[kind][1]}
-              </label>
-              <input
-                name='query2'
-                type='text'
-                value={query2}
-                id='q-higher'
-                onChange={(e) => setQuery2(() => e.target.value)}
-                className='flex-[1_1_0]'
-              />
-            </span>
+          <div>
+            <label htmlFor='q-lower'>{label[kind][0]}</label>
+            <input
+              name='query'
+              type='text'
+              value={query}
+              id='q-lower'
+              onChange={(e) => setQuery(e.target.value)}
+            />
+
+            <label htmlFor='q-higher'>{label[kind][1]}</label>
+            <input
+              name='query2'
+              type='text'
+              value={query2}
+              id='q-higher'
+              onChange={(e) => setQuery2(e.target.value)}
+            />
           </div>
         ) : (
-          <div className='flex justify-center gap-1 *:min-w-0'>
-            <label htmlFor='query' className='text-nowrap'>
-              {label[kind]}
-            </label>
+          <div>
+            <label htmlFor='query'>{label[kind]}</label>
             <input
               name='query'
               type='text'
               value={query}
               id='query'
-              onChange={(e) => setQuery(() => e.target.value)}
-              className='flex-[1_1_0]'
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
         )}
 
         {(kind === 'name' || kind === 'person') && (
-          <div className='flex justify-center gap-4'>
+          <div>
             <span>
               <input
                 type='radio'
@@ -133,7 +118,7 @@ export default function CommaSearchForm() {
             </span>
           </div>
         )}
-        <div className='flex justify-center gap-4'>
+        <div>
           <span>
             <input
               type='radio'
@@ -179,8 +164,10 @@ export default function CommaSearchForm() {
             <label htmlFor='btn-8'>命名者</label>
           </span>
         </div>
-        <SearchBtn className='self-center' />
+        <SearchBtn />
       </Form>
     </>
   );
-}
+};
+
+export default CommaSearchForm;

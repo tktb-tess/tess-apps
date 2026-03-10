@@ -1,10 +1,12 @@
 'use client';
+import TessIcon from '@/lib/components/tessIcon';
 import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import { useEffect } from 'react';
+import style from './not-found.module.css';
 
 const ogDesc = 'Something went wrong';
-const ogTitle = '500 Internal Server Error';
+const ogTitle = 'Error';
 
 export const metadata: Metadata = {
   title: ogTitle,
@@ -23,27 +25,25 @@ export const metadata: Metadata = {
 interface ErrorProps {
   error: Error & { digest?: string };
   reset: () => void;
-};
+}
 
-export default function Error({ error, reset }: ErrorProps) {
+const Error = ({ error, reset }: ErrorProps) => {
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
-    <main className='flex flex-col gap-5 justify-center items-center min-h-screen'>
-      <h2 className='font-extralight text-5xl xl:text-6xl'>
-        Something went wrong!
-      </h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-        className='btn-1'
-      >
-        Try again
+    <div className={style.notFound}>
+      <div className='animate-not-found'>
+        <TessIcon />
+      </div>
+      <h2>Hoppla!</h2>
+      <p>問題が発生しました。</p>
+      <button onClick={() => reset()} className='btn-theme-1'>
+        再読み込み
       </button>
-    </main>
+    </div>
   );
-}
+};
+
+export default Error;

@@ -1,0 +1,7 @@
+@reference '../../app/globals.css';
+
+@layer components {
+  .loadingIcon {
+    @apply inline-block w-full h-auto;
+  }
+}

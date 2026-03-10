@@ -1,0 +1,59 @@
+@reference './globals.css';
+
+@layer components {
+  .mainTitle {
+    @apply flex text-6xl justify-center-safe gap-0.5 flex-wrap;
+
+    > span {
+      @apply transition-[opacity,translate] duration-1000 starting:opacity-0;
+    }
+
+    > :first-child {
+      @apply starting:-translate-10;
+    }
+
+    > :nth-child(2) {
+      @apply delay-120 starting:translate-10;
+    }
+
+    > :nth-child(3) {
+      @apply min-w-6;
+    }
+
+    > :nth-child(4) {
+      @apply delay-240 starting:-translate-x-10 starting:translate-y-10;
+    }
+
+    > :nth-child(5) {
+      @apply delay-360 starting:translate-x-10 starting:-translate-y-10;
+    }
+
+    > :nth-child(6) {
+      @apply delay-480 starting:-translate-10;
+    }
+
+    > :nth-child(7) {
+      @apply delay-600 starting:translate-10;
+    }
+
+    > :nth-child(8) {
+      @apply delay-720 starting:-translate-x-10 starting:translate-y-10;
+    }
+
+    > :nth-child(9) {
+      @apply delay-840 starting:translate-x-10 starting:-translate-y-10;
+    }
+
+    > :nth-child(10) {
+      @apply delay-960 starting:-translate-10;
+    }
+
+    > :nth-child(11) {
+      @apply delay-1080 starting:translate-10;
+    }
+
+    > :nth-child(12) {
+      @apply delay-1200 starting:-translate-x-10 starting:translate-y-10;
+    }
+  }
+}

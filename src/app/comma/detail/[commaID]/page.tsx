@@ -7,12 +7,12 @@ import { env } from '@/lib/mod/decl';
 
 interface Props {
   params: Promise<{ commaID: string }>;
-};
+}
 
 type Tag = 'superparticular' | 'no-2';
 type CommaSize = 'unnoticeable' | 'small' | 'medium' | 'large';
 
-export async function generateMetadata({ params }: Props) {
+export const generateMetadata = async ({ params }: Props) => {
   const { commaID } = await params;
 
   const commas = await (async () => {
@@ -45,9 +45,9 @@ export async function generateMetadata({ params }: Props) {
       card: 'summary',
     },
   };
-}
+};
 
-export default async function CommaDetail({ params }: Props) {
+const CommaDetail = async ({ params }: Props) => {
   const { commaID } = await params;
 
   const commas = await (async () => {
@@ -68,7 +68,7 @@ export default async function CommaDetail({ params }: Props) {
     notFound();
   }
 
-  const title = commaData.name[0];
+  const title = commaData.name[0] ?? '';
   const xenWikiUrl = `https://en.xen.wiki/w/${encodeURIComponent(title)}`;
 
   const rows: ReadonlyArray<
@@ -81,7 +81,7 @@ export default async function CommaDetail({ params }: Props) {
               readonly basis: string | null;
               readonly monzo: string;
             }
-        )
+        ),
       ]
     | null
   > = (() => {
@@ -223,67 +223,63 @@ export default async function CommaDetail({ params }: Props) {
 
   return (
     <>
-      <header>
-        <h1 className='font-sans text-center font-extralight my-15'>{title}</h1>
-      </header>
-      <main className='flex flex-col gap-3'>
-        <Link
-          href='/comma'
-          className='btn-1 self-center text-center block text-xl'
-        >
-          戻る
-        </Link>
-        <div className='table-container'>
-          <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
-            <tbody>
-              {rows
-                .filter((r) => r !== null)
-                .map(([key, value]) => (
-                  <tr key={key}>
-                    <th className='md:text-right'>{key}</th>
-                    <td className='text-center md:text-left md:max-w-240 text-balance'>
-                      {typeof value === 'string' ? (
-                        key === 'Xenharmonic wikiへのリンク' ? (
-                          <ExtLink href={value}>{value}</ExtLink>
-                        ) : key === '緩和する10000以下の平均律' ? (
-                          <details>
-                            <summary>展開</summary>
-                            <p>{value}</p>
-                          </details>
-                        ) : key === 'セント' ? (
-                          <>
-                            {(() => {
-                              const matched = value.match(/^(\d\.\d+)e(-\d+)/);
-                              if (!matched) return value;
-                              const num = matched[1];
-                              const exp = matched[2];
-                              return (
-                                <>
-                                  {num} × 10<sup>{exp}</sup> ¢
-                                </>
-                              );
-                            })()}
-                          </>
-                        ) : (
-                          value
-                        )
-                      ) : Array.isArray(value) ? (
-                        <>{value.join(', ')}</>
-                      ) : (
+      <h1 className='font-sans text-center font-extralight my-15'>{title}</h1>
+      <Link
+        href='/comma'
+        className='__g-btn-theme-1 self-center text-center block text-xl'
+      >
+        戻る
+      </Link>
+      <div className='table-container'>
+        <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
+          <tbody>
+            {rows
+              .filter((r) => r !== null)
+              .map(([key, value]) => (
+                <tr key={key}>
+                  <th className='md:text-right'>{key}</th>
+                  <td className='text-center md:text-left md:max-w-240 text-balance'>
+                    {typeof value === 'string' ? (
+                      key === 'Xenharmonic wikiへのリンク' ? (
+                        <ExtLink href={value}>{value}</ExtLink>
+                      ) : key === '緩和する10000以下の平均律' ? (
+                        <details>
+                          <summary>展開</summary>
+                          <p>{value}</p>
+                        </details>
+                      ) : key === 'セント' ? (
                         <>
-                          {value.basis && <p>{value.basis}</p>}
-                          <p>{value.monzo}</p>
+                          {(() => {
+                            const matched = value.match(/^(\d\.\d+)e(-\d+)/);
+                            if (!matched) return value;
+                            const num = matched[1];
+                            const exp = matched[2];
+                            return (
+                              <>
+                                {num} × 10<sup>{exp}</sup> ¢
+                              </>
+                            );
+                          })()}
                         </>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className='h-10'></div>
-      </main>
+                      ) : (
+                        value
+                      )
+                    ) : Array.isArray(value) ? (
+                      <>{value.join(', ')}</>
+                    ) : (
+                      <>
+                        {value.basis && <p>{value.basis}</p>}
+                        <p>{value.monzo}</p>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
-}
+};
+
+export default CommaDetail;

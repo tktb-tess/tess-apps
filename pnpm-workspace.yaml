@@ -2,10 +2,6 @@ minimumReleaseAge: 2880
 
 minimumReleaseAgeExclude:
   - '@tktb-tess/*'
-  - next
-  - react
-  - react-dom
-  - '@next/*'
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
