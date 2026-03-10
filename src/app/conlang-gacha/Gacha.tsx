@@ -4,7 +4,13 @@ import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import GachaView from './GachaView';
-import { MouseEventHandler, useEffect, useState, useTransition } from 'react';
+import {
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import LoadingIcon from '@/lib/components/LoadingIcon';
 import style from './Gacha.module.css';
 
@@ -25,6 +31,7 @@ const FallbackText = () => {
 const Gacha = ({ langs }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [lastId, setLastId] = useAtom(lastLangIdAtom);
+  const btn = useRef<HTMLButtonElement | null>(null);
 
   const handleGachaBtn: MouseEventHandler<HTMLButtonElement> = (ev) => {
     ev.preventDefault();
@@ -33,6 +40,9 @@ const Gacha = ({ langs }: Props) => {
       const newIndex = getRndInt(0, langs.length);
       const newId = langs.at(newIndex)?.id ?? null;
       setLastId(newId);
+      requestAnimationFrame(() => {
+        btn.current?.focus();
+      });
     });
   };
 
@@ -41,11 +51,7 @@ const Gacha = ({ langs }: Props) => {
   return (
     <>
       <div className={style.gachaBtn}>
-        <button
-          onClick={handleGachaBtn}
-          className='btn-theme-1'
-          disabled={isPending}
-        >
+        <button onClick={handleGachaBtn} disabled={isPending} ref={btn}>
           回す!
         </button>
       </div>

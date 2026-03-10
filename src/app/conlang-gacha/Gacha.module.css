@@ -3,5 +3,9 @@
 @layer components {
   .gachaBtn {
     @apply flex justify-center-safe my-figure;
+
+    > button {
+      @apply btn-theme-1;
+    }
   }
 }
