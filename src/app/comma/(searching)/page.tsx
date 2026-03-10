@@ -1,7 +1,7 @@
 import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { useId } from 'react';
+import style from './page.module.css';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -21,7 +21,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  notFound();
   const id = useId();
   return (
     <>

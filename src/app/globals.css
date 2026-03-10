@@ -63,7 +63,7 @@
 
   --animate-not-found:
     3s var(--ease-in-out-2) alternate infinite --k-up-down,
-    20s linear infinite --k-rot-y;
+    15s linear infinite --k-rot-y;
 
   --animate-spinner: 2.5s linear infinite spin;
 }

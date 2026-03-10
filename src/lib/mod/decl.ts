@@ -111,11 +111,11 @@ export type Commas = {
   readonly commas: readonly CommaData[];
 };
 
-export type Correspondence = 'exact' | 'forward' | 'backward' | 'partial';
+export type Match = 'exact' | 'forward' | 'backward' | 'partial';
 
 export type CommaKind = 'name' | 'monzo' | 'cent' | 'person';
 
-export const isCorrespondence = (str: string) => {
+export const isMatch = (str: string) => {
   return (
     str === 'forward' ||
     str === 'backward' ||

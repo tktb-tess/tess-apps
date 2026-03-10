@@ -1,0 +1,42 @@
+@reference '../../globals.css';
+@layer components {
+  .searchForm {
+    @apply flex flex-col gap-4;
+  }
+
+  .searchQueries {
+    @apply grid max-lg:grid-cols-1 lg:grid-cols-[auto_1fr] items-center-safe gap-3;
+
+    > input {
+      @apply min-w-0;
+    }
+
+    > :nth-child(odd) {
+      @apply max-lg:justify-self-center-safe lg:justify-self-end-safe;
+    }
+  }
+
+  .radioInputGroup {
+    @apply flex justify-center-safe gap-2;
+  }
+
+  .radioInput {
+    @apply grid;
+
+    > * {
+      @apply col-span-full row-span-full;
+    }
+
+    > input {
+      @apply appearance-none rounded;
+    }
+
+    > label {
+      @apply cursor-pointer;
+    }
+
+    > input:checked + label {
+      @apply text-textinv bg-accent;
+    }
+  }
+}

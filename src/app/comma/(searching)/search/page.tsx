@@ -1,17 +1,17 @@
-import { CommaKind, Correspondence } from '@/lib/mod/decl';
+import { CommaKind, Match } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
 import { Comma } from '@tktb-tess/my-zod-schema';
-import './page.css';
+import style from './page.module.css';
 
 type Props = {
   searchParams: Promise<{
     query: string;
     query2: string;
-    corre: Correspondence;
+    corre: Match;
     kind: CommaKind;
   }>;
 };
@@ -104,7 +104,7 @@ export default async function Page({ searchParams }: Props) {
           const sliced = new Monzo(
             monzo.getArray().filter(([b]) => {
               return iMonzo.getArray().some(([ib]) => ib === b);
-            })
+            }),
           );
 
           return iMonzo.toString() === sliced.toString();

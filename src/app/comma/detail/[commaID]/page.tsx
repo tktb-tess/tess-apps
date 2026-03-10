@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ExtLink from '@/lib/components/extLink';
 import { env } from '@/lib/mod/decl';
+import style from './page.module.css';
 
 interface Props {
   params: Promise<{ commaID: string }>;
@@ -223,22 +224,17 @@ const CommaDetail = async ({ params }: Props) => {
 
   return (
     <>
-      <h1 className='font-sans text-center font-extralight my-15'>{title}</h1>
-      <Link
-        href='/comma'
-        className='__g-btn-theme-1 self-center text-center block text-xl'
-      >
-        戻る
-      </Link>
-      <div className='table-container'>
-        <table className='grid-cols-1 md:grid-cols-auto-2 mx-auto md:place-content-center gap-x-8 gap-y-3'>
+      <h1>{title}</h1>
+      <Link href='/comma'>戻る</Link>
+      <div>
+        <table>
           <tbody>
             {rows
               .filter((r) => r !== null)
               .map(([key, value]) => (
                 <tr key={key}>
-                  <th className='md:text-right'>{key}</th>
-                  <td className='text-center md:text-left md:max-w-240 text-balance'>
+                  <th>{key}</th>
+                  <td>
                     {typeof value === 'string' ? (
                       key === 'Xenharmonic wikiへのリンク' ? (
                         <ExtLink href={value}>{value}</ExtLink>
