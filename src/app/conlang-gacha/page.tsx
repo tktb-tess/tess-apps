@@ -6,6 +6,7 @@ import Gacha from './Gacha';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import { useId } from 'react';
 import style from './page.module.css';
+import { notFound } from 'next/navigation';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';

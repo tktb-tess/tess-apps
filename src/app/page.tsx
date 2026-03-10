@@ -39,9 +39,10 @@ const Home = () => {
       <LinkBtns
         data={[
           { url: '/conlang-gacha', text: '人工言語ガチャ' },
-          { url: '/comma', text: 'コンマ検索' },
+          // { url: '/comma', text: 'コンマ検索' },
         ]}
       />
+      
     </>
   );
 };
