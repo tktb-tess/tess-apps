@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import GachaView from './GachaView';
-import { MouseEventHandler, useState, useTransition } from 'react';
+import { MouseEventHandler, useEffect, useState, useTransition } from 'react';
 import LoadingIcon from '@/lib/components/LoadingIcon';
 import style from './Gacha.module.css';
 
@@ -15,7 +15,9 @@ interface Props {
 const FallbackText = () => {
   return (
     <div className='mt-paragraph pb-105 flex justify-center-safe'>
-      <LoadingIcon />
+      <div className='max-w-40'>
+        <LoadingIcon />
+      </div>
     </div>
   );
 };
@@ -23,31 +25,24 @@ const FallbackText = () => {
 const Gacha = ({ langs }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [lastId, setLastId] = useAtom(lastLangIdAtom);
-  const [index, setIndex] = useState<number | null>(() => {
-    if (lastId == null) return null;
-    const initIndex = langs.findIndex((l) => l.id === lastId);
-    if (initIndex > -1) return initIndex;
-    return null;
-  });
 
-  const updateIndex: MouseEventHandler<HTMLButtonElement> = (ev) => {
+  const handleGachaBtn: MouseEventHandler<HTMLButtonElement> = (ev) => {
     ev.preventDefault();
     startTransition(async () => {
       await new Promise<void>((res) => setTimeout(res, 1000));
       const newIndex = getRndInt(0, langs.length);
       const newId = langs.at(newIndex)?.id ?? null;
-      setIndex(newIndex);
       setLastId(newId);
     });
   };
 
-  const lang = (index == null ? null : langs.at(index)) ?? null;
+  const lang = langs.find((l) => l.id === lastId) ?? null;
 
   return (
     <>
       <div className={style.gachaBtn}>
         <button
-          onClick={updateIndex}
+          onClick={handleGachaBtn}
           className='btn-theme-1'
           disabled={isPending}
         >

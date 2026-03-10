@@ -43,20 +43,6 @@
 
   --shadow-glow: 0 0 4px 1px #fff;
 
-  @keyframes --k-fade-slide-in {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  --animate-slide-in: --k-fade-slide-in 250ms var(--ease-in-out-1);
-
   @keyframes --k-up-down {
     from {
       translate: 0 -15px;
@@ -78,6 +64,8 @@
   --animate-not-found:
     2s var(--ease-in-out-2) alternate infinite --k-up-down,
     10s linear infinite --k-rot-y;
+
+  --animate-spinner: 2.5s linear infinite spin;
 }
 
 @utility font-feat-* {

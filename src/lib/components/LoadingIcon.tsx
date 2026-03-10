@@ -6,7 +6,7 @@ const LoadingIcon = () => {
       version='1.1'
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 512 512'
-      className={`animate-spin ${style.loadingIcon}`}
+      className={`animate-spinner ${style.loadingIcon}`}
     >
       <g>
         <path
