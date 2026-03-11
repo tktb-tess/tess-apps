@@ -1,6 +1,5 @@
 import styles from './GachaView.module.css';
 import ExtLink from '@/lib/components/extLink';
-import type { CotecJSON } from '@tktb-tess/my-zod-schema';
 import { useId } from 'react';
 import type { LangDetail } from './types';
 

@@ -5,7 +5,7 @@ export type CommaDetail = ReadonlyDeep<
     ['名前', string],
     ['カラーネーム', string],
     ['命名者', string],
-    ['モンゾ', [string | null, string]],
+    ['モンゾ', [string | null, string] | null],
     ['比率', string],
     ['セント', string | [string, string]],
     ['サイズ', string],
