@@ -105,7 +105,7 @@
 @utility btn-theme-1 {
   @apply border border-accent text-accent
   hover-focus:text-textinv hover-focus:bg-accent transition-colors
-    rounded-full px-4 no-underline;
+    rounded px-2 no-underline;
 }
 
 @custom-variant any-hover {

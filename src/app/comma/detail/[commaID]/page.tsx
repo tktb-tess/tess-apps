@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ExtLink from '@/lib/components/extLink';
 import { env } from '@/lib/mod/decl';
-import style from './page.module.css';
 
 interface Props {
   params: Promise<{ commaID: string }>;

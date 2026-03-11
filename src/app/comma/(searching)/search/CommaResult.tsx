@@ -3,6 +3,7 @@ import type { Comma } from '@tktb-tess/my-zod-schema';
 import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import type { CommaData } from './types';
 import CommaResultView from './CommaResultView';
+import { formatCentStr } from '@/lib/mod/funcs';
 
 /**
  * 条件に一致するコンマを抽出
@@ -121,18 +122,7 @@ const formatData = (comma: Comma.Content): CommaData => {
       const monzo = new Monzo(mnz);
       const monzoStr = monzo.getMonzoVector();
       const cents = monzo.getCents();
-      const centsStr = ((): string | [string, string] => {
-        if (cents < 0.1) {
-          const str = cents.toExponential(4);
-          const matched = str.match(/^(\d\.\d+)e(-\d+)/);
-          const num = matched?.[1];
-          const exp = matched?.[2];
-          if (!num || !exp) return str;
-          return [num, exp];
-        } else {
-          return cents.toFixed(4);
-        }
-      })();
+      const centsStr = formatCentStr(cents);
 
       return {
         id,
@@ -144,18 +134,7 @@ const formatData = (comma: Comma.Content): CommaData => {
     }
     case 'irrational': {
       const { id, name, ratio, cents } = comma;
-      const centsStr = ((): string | [string, string] => {
-        if (cents < 0.1) {
-          const str = cents.toExponential(4);
-          const matched = str.match(/^(\d\.\d+)e(-\d+)/);
-          const num = matched?.[1];
-          const exp = matched?.[2];
-          if (!num || !exp) return str;
-          return [num, exp];
-        } else {
-          return cents.toFixed(4);
-        }
-      })();
+      const centsStr = formatCentStr(cents);
 
       return {
         id,
