@@ -2,7 +2,7 @@
 import style from './CommaSearchForm.module.css';
 import Form from 'next/form';
 import { useAtom } from 'jotai';
-import { InputEventHandler, useId } from 'react';
+import { ChangeEventHandler, InputEventHandler, useId } from 'react';
 import SearchBtn from '@/lib/components/SearchBtn';
 import { CommaKind, Match, isMatch as isMatch, isKind } from '@/lib/mod/decl';
 import {
@@ -36,20 +36,21 @@ const QueryInput = ({ label, name, value, onInput }: QueryInputProps) => {
   );
 };
 
-interface MatchInputProps {
+interface BaseInputProps {
   label: string;
-  name: 'corre';
-  value: Match;
-  checkedValue: Match;
-  onInput: InputEventHandler<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-interface KindInputProps {
-  label: string;
+interface MatchInputProps extends BaseInputProps {
+  name: 'match';
+  value: Match;
+  checkedValue: Match;
+}
+
+interface KindInputProps extends BaseInputProps {
   name: 'kind';
   value: CommaKind;
   checkedValue: CommaKind;
-  onInput: InputEventHandler<HTMLInputElement>;
 }
 
 type RadioInputProps = MatchInputProps | KindInputProps;
@@ -59,7 +60,7 @@ const RadioInput = ({
   name,
   value,
   checkedValue,
-  onInput,
+  onChange,
 }: RadioInputProps) => {
   const id = useId();
   return (
@@ -69,8 +70,8 @@ const RadioInput = ({
         name={name}
         value={value}
         id={id}
-        defaultChecked={checkedValue === value}
-        onInput={onInput}
+        checked={checkedValue === value}
+        onChange={onChange}
       />
       <label htmlFor={id}>{label}</label>
     </div>
@@ -83,12 +84,12 @@ const CommaSearchForm = () => {
   const [match, setMatch] = useAtom(commaMatchAtom);
   const [kind, setKind] = useAtom(commaKindAtom);
 
-  const handleMatch: InputEventHandler<HTMLInputElement> = (ev) => {
+  const handleMatch: ChangeEventHandler<HTMLInputElement> = (ev) => {
     const value = ev.currentTarget.value;
     setMatch(isMatch(value) ? value : 'forward');
   };
 
-  const handleKind: InputEventHandler<HTMLInputElement> = (ev) => {
+  const handleKind: ChangeEventHandler<HTMLInputElement> = (ev) => {
     const value = ev.currentTarget.value;
     setKind(isKind(value) ? value : 'name');
   };
@@ -118,31 +119,31 @@ const CommaSearchForm = () => {
             <div className={style.radioInputGroup}>
               <RadioInput
                 label='前方'
-                name='corre'
+                name='match'
                 value='forward'
                 checkedValue={match}
-                onInput={handleMatch}
+                onChange={handleMatch}
               />
               <RadioInput
                 label='後方'
-                name='corre'
+                name='match'
                 value='backward'
                 checkedValue={match}
-                onInput={handleMatch}
+                onChange={handleMatch}
               />
               <RadioInput
                 label='部分'
-                name='corre'
+                name='match'
                 value='partial'
                 checkedValue={match}
-                onInput={handleMatch}
+                onChange={handleMatch}
               />
               <RadioInput
                 label='完全'
-                name='corre'
+                name='match'
                 value='exact'
                 checkedValue={match}
-                onInput={handleMatch}
+                onChange={handleMatch}
               />
             </div>
           </>
@@ -154,28 +155,28 @@ const CommaSearchForm = () => {
             name='kind'
             value='name'
             checkedValue={kind}
-            onInput={handleKind}
+            onChange={handleKind}
           />
           <RadioInput
             label='モンゾ'
             name='kind'
             value='monzo'
             checkedValue={kind}
-            onInput={handleKind}
+            onChange={handleKind}
           />
           <RadioInput
             label='セント'
             name='kind'
             value='cent'
             checkedValue={kind}
-            onInput={handleKind}
+            onChange={handleKind}
           />
           <RadioInput
             label='命名者'
             name='kind'
             value='person'
             checkedValue={kind}
-            onInput={handleKind}
+            onChange={handleKind}
           />
         </div>
         <div className={style.submit}>

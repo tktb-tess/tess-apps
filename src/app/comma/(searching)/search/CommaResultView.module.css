@@ -1,0 +1,11 @@
+@reference '../../../globals.css';
+
+@layer components {
+  .title {
+    @apply text-center;
+  }
+
+  .commaTable {
+    @apply grid-cols-auto-3 **:m-0;
+  }
+}
