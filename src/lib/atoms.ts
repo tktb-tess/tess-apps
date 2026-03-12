@@ -1,9 +1,9 @@
-import { Correspondence, CommaKind, storageKeys } from './mod/decl';
+import { Match, CommaKind, storageKeys } from './mod/decl';
 import { atomWithStorage } from 'jotai/utils';
 
 export const commaQueryAtom = atomWithStorage(storageKeys.commaQuery1, '');
 export const commaQuery2Atom = atomWithStorage(storageKeys.commaQuery2, '');
-export const commaCorrespondenceAtom = atomWithStorage<Correspondence>(
+export const commaMatchAtom = atomWithStorage<Match>(
   storageKeys.commaCorrespondence,
   'forward',
 );

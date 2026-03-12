@@ -1,0 +1,45 @@
+@reference '../../globals.css';
+@layer components {
+  .searchForm {
+    @apply grid max-lg:grid-cols-[auto] lg:grid-cols-[auto_1fr] items-center-safe gap-4 mt-figure max-w-140 mx-auto *:m-0;
+
+    > input {
+      @apply min-w-0;
+    }
+
+    > :nth-child(odd):not(.submit) {
+      @apply max-lg:justify-self-center-safe lg:justify-self-end-safe;
+    }
+  }
+
+  .radioInputGroup {
+    @apply flex justify-center-safe gap-2;
+  }
+
+  .radioInput {
+    > * {
+      @apply block;
+    }
+
+    > input {
+      @apply appearance-none sr-only outline-none;
+    }
+
+    > label {
+      @apply cursor-pointer btn-theme-1;
+    }
+
+    > input:checked + label {
+      @apply text-textinv bg-accent;
+    }
+
+    > input:focus-visible + label {
+      @apply text-textinv bg-accent;
+      outline: auto 1px #fff;
+    }
+  }
+
+  .submit {
+    @apply lg:col-span-full justify-self-center-safe;
+  }
+}

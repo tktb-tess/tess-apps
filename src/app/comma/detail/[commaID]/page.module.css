@@ -1,11 +1,15 @@
-@reference '../globals.css';
+@reference '../../../globals.css';
 
 @layer components {
-  .gachaBtn {
+  .backBtn {
     @apply flex justify-center-safe my-figure;
 
-    > button {
+    > * {
       @apply btn-theme-1;
     }
+  }
+
+  .commaTitle {
+    @apply font-extralight;
   }
 }

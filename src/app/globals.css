@@ -63,7 +63,7 @@
 
   --animate-not-found:
     3s var(--ease-in-out-2) alternate infinite --k-up-down,
-    20s linear infinite --k-rot-y;
+    15s linear infinite --k-rot-y;
 
   --animate-spinner: 2.5s linear infinite spin;
 }
@@ -102,11 +102,10 @@
   grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
 }
 
-@layer components {
-  .btn-theme-1 {
-    @apply border border-accent text-accent hover-focus:text-textinv hover-focus:bg-accent transition-colors
-      rounded px-4 py-2 no-underline;
-  }
+@utility btn-theme-1 {
+  @apply border border-accent text-accent
+  hover-focus:text-textinv hover-focus:bg-accent transition-colors
+    rounded px-2 no-underline;
 }
 
 @custom-variant any-hover {
@@ -127,6 +126,10 @@
   &:focus-visible {
     @slot;
   }
+}
+
+@utility allow-discrete {
+  transition-behavior: allow-discrete;
 }
 
 @layer base {

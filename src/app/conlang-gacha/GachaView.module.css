@@ -2,7 +2,7 @@
 
 @layer components {
   .root {
-    @apply max-w-7xl transition-[translate,opacity] starting:translate-y-5 starting:opacity-0 duration-300;
+    @apply max-w-7xl transition-[translate,opacity] starting:translate-y-5 starting:opacity-0 duration-1500;
   }
 
   .title {
@@ -14,6 +14,10 @@
 
     tr > :first-child {
       @apply max-lg:justify-self-center lg:justify-self-end;
+    }
+
+    .centralised {
+      @apply max-lg:text-center max-lg:text-balance;
     }
   }
 }

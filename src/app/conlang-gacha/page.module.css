@@ -12,9 +12,7 @@
   .backLink {
     @apply flex justify-center-safe;
   }
-  
 
-  
   .totalNum {
     @apply text-center;
   }

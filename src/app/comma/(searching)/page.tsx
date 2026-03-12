@@ -1,7 +1,7 @@
 import { env } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { useId } from 'react';
+import style from './page.module.css';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -21,13 +21,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  notFound();
   const id = useId();
   return (
     <>
       <p>コンマを検索できます。</p>
       <p>名前、モンゾ、セント値、命名者による検索ができます。</p>
-      <section aria-labelledby={id}>
+      <section aria-labelledby={id} className={style.about}>
         <h2 id={id}>– 「モンゾ」検索について –</h2>
         <p>
           検索欄に “基底1:指数1,基底2:指数2,基底3:指数3...”

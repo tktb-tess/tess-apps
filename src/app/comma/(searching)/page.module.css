@@ -1,0 +1,7 @@
+@reference '../../globals.css';
+
+@layer components {
+  .about > h2 {
+    @apply text-center;
+  }
+}
