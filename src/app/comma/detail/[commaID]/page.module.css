@@ -1,5 +1,15 @@
-@reference '../../globals.css';
+@reference '../../../globals.css';
 
 @layer components {
-  
+  .backBtn {
+    @apply flex justify-center-safe my-figure;
+
+    > * {
+      @apply btn-theme-1;
+    }
+  }
+
+  .commaTitle {
+    @apply font-extralight;
+  }
 }

@@ -1,11 +1,11 @@
-export const formatCentStr = (cents: number): string | readonly [string, string] => {
+export const formatCentStr = (cents: number) => {
   if (cents < 0.1) {
     const str = cents.toExponential(4);
-    const matched = str.match(/^(\d\.\d+)e(-\d+)/);
-    const num = matched?.[1];
-    const exp = matched?.[2];
+    const matched = str.match(/^(?<num>\d\.\d+)e(?<exp>-\d+)/);
+    const num = matched?.groups?.num;
+    const exp = matched?.groups?.exp;
     if (!num || !exp) return str;
-    return [num, exp];
+    return [num, exp] as const;
   } else {
     return cents.toFixed(4);
   }

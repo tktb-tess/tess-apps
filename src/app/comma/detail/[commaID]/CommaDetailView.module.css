@@ -1,0 +1,36 @@
+@reference '../../../globals.css';
+
+@layer components {
+  .commaTable {
+    @apply max-lg:grid-cols-[auto] lg:grid-cols-auto-2 **:mt-0;
+
+    tr > :first-child {
+      @apply max-lg:justify-self-center-safe lg:justify-self-end-safe;
+    }
+
+    tr > :last-child {
+      @apply max-lg:text-center max-lg:text-balance;
+    }
+  }
+
+  .edos {
+    > summary {
+      @apply grid grid-cols-[1.5rem_1fr] items-center cursor-pointer;
+
+      &::-webkit-details-marker {
+        @apply hidden;
+      }
+    }
+
+    > summary::before {
+      @apply block size-2 border-r-2 border-b-2 justify-self-center-safe
+      transition-[rotate] duration-300;
+      content: '';
+      transform: translateY(-2px) rotate(45deg);
+    }
+
+    &[open] > summary::before {
+      rotate: x 180deg;
+    }
+  }
+}
