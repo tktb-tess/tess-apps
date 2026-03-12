@@ -9,13 +9,13 @@
     }
 
     tr > :last-child {
-      @apply max-lg:text-center max-lg:text-balance;
+      @apply max-lg:text-center max-lg:text-balance max-lg:justify-self-center-safe;
     }
   }
 
   .edos {
     > summary {
-      @apply grid grid-cols-[1.5rem_1fr] items-center cursor-pointer;
+      @apply grid grid-cols-[1.5rem_auto] items-center max-lg:justify-center-safe cursor-pointer;
 
       &::-webkit-details-marker {
         @apply hidden;

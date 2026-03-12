@@ -1,7 +1,7 @@
 @reference '../../globals.css';
 @layer components {
   .searchForm {
-    @apply grid max-lg:grid-cols-1 lg:grid-cols-[auto_1fr] items-center-safe gap-4 mt-figure max-w-140 mx-auto *:m-0;
+    @apply grid max-lg:grid-cols-[auto] lg:grid-cols-[auto_1fr] items-center-safe gap-4 mt-figure max-w-140 mx-auto *:m-0;
 
     > input {
       @apply min-w-0;
@@ -40,6 +40,6 @@
   }
 
   .submit {
-    @apply col-span-2 justify-self-center-safe;
+    @apply lg:col-span-full justify-self-center-safe;
   }
 }

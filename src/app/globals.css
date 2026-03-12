@@ -132,7 +132,6 @@
   transition-behavior: allow-discrete;
 }
 
-
 @layer base {
   :root,
   [lang] {
