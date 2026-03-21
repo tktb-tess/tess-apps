@@ -10,3 +10,12 @@ export const formatCentStr = (cents: number) => {
     return cents.toFixed(4);
   }
 };
+
+export const createDate = (date: string) => {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) {
+    throw Error('Invalid date', { cause: { input: date } });
+  }
+
+  return d;
+};

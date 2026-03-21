@@ -30,8 +30,8 @@ const Home = () => {
     <>
       <div>
         <h1 aria-hidden='true' className={`${ebGaramond.className} ${style.mainTitle}`}>
-          {[...env.SITE_NAME].map((s, i) => (
-            <span key={`title-${i}`}>{s}</span>
+          {[...env.SITE_NAME].map((s) => (
+            <span key={`title-${s}`}>{s}</span>
           ))}
         </h1>
         <h1 className='sr-only'>{env.SITE_NAME}</h1>

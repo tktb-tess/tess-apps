@@ -1,12 +1,12 @@
 import ExtLink from '@/lib/components/extLink';
-import Link from 'next/link';
 import { env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import Gacha from './Gacha';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import { useId } from 'react';
 import style from './page.module.css';
-import { notFound } from 'next/navigation';
+import BackBtn from '@/lib/components/BackBtn';
+import { createDate } from '@/lib/mod/funcs';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -25,36 +25,38 @@ export const metadata: Metadata = {
   },
 };
 
-const App = async () => {
-  const setsumei = useId();
-  const fetchCtcJson = async () => {
-    const resp = await fetch(env.COTEC_URL, {
-      method: 'GET',
-      next: { revalidate: 7200 },
+const fetchCtcJson = async () => {
+  const resp = await fetch(env.COTEC_URL, {
+    method: 'GET',
+    next: { revalidate: 7200 },
+  });
+
+  if (!resp.ok) {
+    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`, {
+      cause: resp,
     });
-    if (!resp.ok) {
-      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`, {
-        cause: { response: resp },
-      });
-    }
+  }
 
-    const o = await resp.json();
-    return CotecJSON.schema.parse(o);
-  };
-  const { metadata: ctcMetadata, contents: langs } = await fetchCtcJson();
+  const o = await resp.json();
+  return CotecJSON.schema.parse(o);
+};
 
-  const lastUpdate = new Date(ctcMetadata.lastUpdate);
+const App = async () => {
+  const id = useId();
+
+  const { metadata, contents } = await fetchCtcJson();
+  const langs = Map.groupBy(contents, (l) => l.id);
+
+  const lastUpdate = createDate(metadata.lastUpdate);
 
   return (
     <>
       <h1>{ogTitle}</h1>
       <div className={style.backLink}>
-        <Link href='/' className='btn-theme-1'>
-          戻る
-        </Link>
+        <BackBtn />
       </div>
-      <section aria-labelledby={setsumei} className={style.section}>
-        <h2 id={setsumei}>– 説明 –</h2>
+      <section aria-labelledby={id} className={style.section}>
+        <h2 id={id}>– 説明 –</h2>
         <p>
           <ExtLink href='https://github.com/kaeru2193/Conlang-List-Works/'>
             かえる (kaeru2193) さんのリポジトリ
@@ -74,8 +76,8 @@ const App = async () => {
         </p>
       </section>
       <p>最終更新日時: {dateTime.format(lastUpdate)} (日本時間)</p>
-      <p>ライセンス表示: {ctcMetadata.license.content}</p>
-      <h3 className={style.totalNum}>計 {langs.length} 語</h3>
+      <p>ライセンス表示: {metadata.license.content}</p>
+      <h3 className={style.totalNum}>計 {[...langs].length} 語</h3>
       <Gacha langs={langs} />
     </>
   );

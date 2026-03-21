@@ -1,6 +1,6 @@
 import styles from './GachaView.module.css';
-import ExtLink from '@/lib/components/extLink';
 import { useId } from 'react';
+import ExtLink from '@/lib/components/extLink';
 import type { LangDetail } from './types';
 
 interface Props {
@@ -19,8 +19,15 @@ const GachaView = ({ lang }: Props) => {
         <tbody>
           {lang.map(([k, v]) => {
             if (!v) return null;
+            const key = (() => {
+              if (typeof v === 'string') {
+                return `${k}-${v}`;
+              } else {
+                return `${k}-${v.join('-')}`;
+              }
+            })();
             return (
-              <tr key={k}>
+              <tr key={key}>
                 <th>{k}</th>
                 {(() => {
                   if (
@@ -68,7 +75,7 @@ const GachaView = ({ lang }: Props) => {
                       <td>
                         <ul>
                           {v.map((url) => (
-                            <li key={url} className='break-all'>
+                            <li key={url} className='**:break-all'>
                               <ExtLink href={url}>{url}</ExtLink>
                             </li>
                           ))}
@@ -82,7 +89,7 @@ const GachaView = ({ lang }: Props) => {
                           {v.map(([url, name]) => (
                             <li
                               key={`${name ?? url}-${url}`}
-                              className={name ? undefined : 'break-all'}
+                              className={name ? undefined : '**:break-all'}
                             >
                               <ExtLink href={url}>{name ?? url}</ExtLink>
                             </li>

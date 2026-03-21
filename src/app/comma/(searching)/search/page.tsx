@@ -2,7 +2,6 @@ import { CommaKind, Match } from '@/lib/mod/decl';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
-import { Comma } from '@tktb-tess/my-zod-schema';
 import CommaResult from './CommaResult';
 
 const ogTitle = 'コンマ検索';
@@ -20,17 +19,6 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
   },
-};
-
-const fetchComma = async () => {
-  const resp = await fetch(env.COMMAS_URL);
-
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  const o = await resp.json();
-  return Comma.commaDataSchema.parse(o).commas;
 };
 
 interface Props {
@@ -54,9 +42,7 @@ const Page = async ({ searchParams }: Props) => {
     }
   }
 
-  const commas = await fetchComma();
-
-  return <CommaResult params={await searchParams} commas={commas} />;
+  return <CommaResult params={await searchParams} />;
 };
 
 export default Page;

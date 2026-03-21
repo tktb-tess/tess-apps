@@ -13,13 +13,13 @@
     system-ui;
   --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
 
-  --color-body: #000;
-  --color-main: #000;
-  --color-text: #fff;
-  --color-textinv: #000;
-  --color-accent: var(--color-blue-200);
+  --color-body: Canvas;
+  --color-main: Canvas;
+  --color-text: CanvasText;
+  --color-textinv: Canvas;
+  --color-accent: #0f0;
   --color-border: hsl(0 0 100 / 25%);
-  --color-link: var(--color-cyan-400);
+  --color-link: #0ff;
   --color-link-disabled: hsl(0 0 100 / 60%);
   --color-input: #fff;
 
@@ -37,7 +37,7 @@
   --font-feat-tnum: var(--default-font-feature-settings), 'tnum';
 
   --default-transition-duration: 80ms;
-  --default-transition-timing-function: cubic-bezier(0.25, 0, 0, 1);
+  --default-transition-timing-function: cubic-bezier(0.25, 0, 0.1, 1);
   --ease-in-out-1: cubic-bezier(0.25, 0, 0, 1);
   --ease-in-out-2: cubic-bezier(0.5, 0, 0.5, 1);
 
@@ -104,8 +104,8 @@
 
 @utility btn-theme-1 {
   @apply border border-accent text-accent
-  hover-focus:text-textinv hover-focus:bg-accent transition-colors
-    rounded px-2 no-underline;
+    hover-focus:text-textinv hover-focus:bg-accent transition-colors
+    rounded px-3 py-1 no-underline;
 }
 
 @custom-variant any-hover {
@@ -133,17 +133,6 @@
 }
 
 @layer base {
-  :root,
-  [lang] {
-    word-break: normal;
-  }
-
-  @supports (word-break: auto-phrase) {
-    [lang^='ja'] {
-      word-break: auto-phrase;
-    }
-  }
-
   :disabled,
   [inert],
   [aria-disabled='true'] {
@@ -151,17 +140,31 @@
   }
 
   dialog,
-  dialog::backdrop,
-  [popover],
-  [popover]::backdrop {
-    @apply size-[unset] max-w-[unset] max-h-[unset] inset-[unset];
+  [popover] {
+    @apply size-[unset] max-w-[unset] max-h-[unset] inset-[unset] fixed;
+  }
+
+  dialog:where(:not([open])),
+  [popover]:where(:not(:popover-open)) {
+    @apply hidden!;
   }
 
   :root {
-    @apply max-sm:text-sm wrap-anywhere font-sans;
+    @apply max-sm:text-sm wrap-anywhere font-sans scheme-dark;
     -webkit-tap-highlight-color: revert;
     line-break: strict;
     scrollbar-gutter: stable;
+    word-break: normal;
+  }
+
+  @supports (word-break: auto-phrase) {
+    :lang(ja) {
+      word-break: auto-phrase;
+    }
+
+    :not(:lang(ja)) {
+      word-break: normal;
+    }
   }
 
   body {
