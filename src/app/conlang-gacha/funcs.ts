@@ -1,11 +1,14 @@
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import type { LangDetail } from './types';
+import { ReadonlyDeep } from 'type-fest';
 
 export const sleep = (delay: number) => {
   return new Promise<void>((res) => setTimeout(res, delay));
 };
 
-export const formatData = (lang: CotecJSON.Content): LangDetail => {
+export const formatData = (
+  lang: ReadonlyDeep<CotecJSON.Content>,
+): LangDetail => {
   const name = lang.name.concat(lang.kanji).join(', ') || '[NO DATA]';
   const creator = lang.creator.join(', ') || '[NO DATA]';
   const period = lang.period || null;

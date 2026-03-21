@@ -75,7 +75,7 @@ const GachaView = ({ lang }: Props) => {
                       <td>
                         <ul>
                           {v.map((url) => (
-                            <li key={url} className='break-all'>
+                            <li key={url} className='**:break-all'>
                               <ExtLink href={url}>{url}</ExtLink>
                             </li>
                           ))}
@@ -89,7 +89,7 @@ const GachaView = ({ lang }: Props) => {
                           {v.map(([url, name]) => (
                             <li
                               key={`${name ?? url}-${url}`}
-                              className={name ? undefined : 'break-all'}
+                              className={name ? undefined : '**:break-all'}
                             >
                               <ExtLink href={url}>{name ?? url}</ExtLink>
                             </li>

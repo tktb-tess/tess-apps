@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import style from './LinkBtns.module.css';
+import type { ReadonlyDeep } from 'type-fest';
 
 interface Props {
-  data: readonly Readonly<{
-    url: string;
-    text: string;
-  }>[];
+  data: ReadonlyDeep<
+    {
+      url: string;
+      text: string;
+    }[]
+  >;
 }
 
 const LinkBtns = ({ data }: Props) => {
@@ -14,7 +17,9 @@ const LinkBtns = ({ data }: Props) => {
       <ul>
         {data.map(({ url, text }) => (
           <li key={`${url}-${text}`}>
-            <Link className={style.linkItem} href={url}>{text}</Link>
+            <Link className={style.linkItem} href={url}>
+              {text}
+            </Link>
           </li>
         ))}
       </ul>

@@ -5,12 +5,13 @@ import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import GachaView from './GachaView';
-import { MouseEventHandler, useRef, useTransition } from 'react';
+import { MouseEventHandler, useTransition } from 'react';
 import LoadingIcon from '@/lib/components/LoadingIcon';
 import { sleep, formatData } from './funcs';
+import { ReadonlyDeep } from 'type-fest';
 
 interface Props {
-  langs: readonly CotecJSON.Content[];
+  langs: ReadonlyMap<string, ReadonlyDeep<CotecJSON.Content[]>>;
 }
 
 const FallbackText = () => {
@@ -26,12 +27,12 @@ const FallbackText = () => {
 const Gacha = ({ langs }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [lastId, setLastId] = useAtom(lastLangIdAtom);
-  const btn = useRef<HTMLButtonElement | null>(null);
+  const keys = [...langs.keys()];
 
   const handleGachaBtn: MouseEventHandler<HTMLButtonElement> = (ev) => {
     ev.preventDefault();
-    const newIndex = getRndInt(0, langs.length);
-    const newId = langs.at(newIndex)?.id ?? null;
+    const newIndex = getRndInt(0, keys.length);
+    const newId = keys.at(newIndex) ?? null;
     startTransition(async () => {
       setLastId(newId);
       await sleep(1000); // 演出
@@ -39,7 +40,8 @@ const Gacha = ({ langs }: Props) => {
   };
 
   const formatted = (() => {
-    const l = langs.find((l) => l.id === lastId);
+    if (!lastId) return null;
+    const l = langs.get(lastId)?.[0];
     if (!l) return null;
     return formatData(l);
   })();
@@ -47,8 +49,8 @@ const Gacha = ({ langs }: Props) => {
   return (
     <>
       <div className={style.gachaBtn}>
-        <button onClick={handleGachaBtn} disabled={isPending} ref={btn}>
-          回す！
+        <button onClick={handleGachaBtn} disabled={isPending}>
+          {isPending ? '抽選中……' : '回す！'}
         </button>
       </div>
       {isPending ? (
