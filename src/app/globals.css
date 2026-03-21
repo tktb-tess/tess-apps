@@ -150,7 +150,7 @@
   }
 
   :root {
-    @apply max-sm:text-sm wrap-anywhere font-sans;
+    @apply max-sm:text-sm wrap-anywhere font-sans scheme-dark;
     -webkit-tap-highlight-color: revert;
     line-break: strict;
     scrollbar-gutter: stable;

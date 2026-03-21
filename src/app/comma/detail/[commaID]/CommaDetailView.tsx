@@ -16,7 +16,6 @@ const CommaDetailView = ({ comma }: Props) => {
             return (
               <tr key={k}>
                 <th>{k}</th>
-
                 {(() => {
                   if (k === 'モンゾ') {
                     const [basis, vec] = v;
