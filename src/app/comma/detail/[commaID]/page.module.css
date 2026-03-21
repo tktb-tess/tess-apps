@@ -10,6 +10,6 @@
   }
 
   .commaTitle {
-    @apply font-extralight;
+    @apply font-extralight lg:text-5xl;
   }
 }
