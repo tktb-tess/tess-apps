@@ -1,6 +1,6 @@
 import CommaSearchForm from './CommaSearchForm';
-import Link from 'next/link';
 import style from './layout.module.css';
+import BackBtn from '@/lib/components/BackBtn';
 
 type LayoutProps = {
   readonly children: React.ReactNode;
@@ -11,9 +11,7 @@ const Layout = async ({ children }: LayoutProps) => {
     <>
       <h1>コンマ検索</h1>
       <div className={style.backBtn}>
-        <Link className='btn-theme-1' href='/'>
-          戻る
-        </Link>
+        <BackBtn />
       </div>
       <CommaSearchForm />
       {children}

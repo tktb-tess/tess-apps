@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
 import CommaDetailView from './CommaDetailView';
 import { formatData, fetchCommas } from './funcs';
+import BackBtn from '@/lib/components/BackBtn';
 
 interface Props {
   params: Promise<{ commaID: string }>;
@@ -46,7 +47,7 @@ const Page = async ({ params }: Props) => {
     <>
       <h1 className={style.commaTitle}>{title}</h1>
       <div className={style.backBtn}>
-        <Link href='/comma'>戻る</Link>
+        <BackBtn />
       </div>
       <CommaDetailView comma={formatted} />
     </>

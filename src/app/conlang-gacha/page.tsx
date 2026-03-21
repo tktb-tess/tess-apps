@@ -6,6 +6,7 @@ import Gacha from './Gacha';
 import { CotecJSON } from '@tktb-tess/my-zod-schema';
 import { useId } from 'react';
 import style from './page.module.css';
+import BackBtn from '@/lib/components/BackBtn';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -48,9 +49,7 @@ const App = async () => {
     <>
       <h1>{ogTitle}</h1>
       <div className={style.backLink}>
-        <Link href='/' className='btn-theme-1'>
-          戻る
-        </Link>
+        <BackBtn />
       </div>
       <section aria-labelledby={setsumei} className={style.section}>
         <h2 id={setsumei}>– 説明 –</h2>

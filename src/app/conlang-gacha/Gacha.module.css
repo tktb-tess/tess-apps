@@ -8,4 +8,12 @@
       @apply btn-theme-1;
     }
   }
+
+  .fallbackText {
+    @apply mt-paragraph pb-105 flex justify-center-safe;
+  }
+
+  .fallbackIcon {
+    @apply max-w-40;
+  }
 }

@@ -37,7 +37,7 @@
   --font-feat-tnum: var(--default-font-feature-settings), 'tnum';
 
   --default-transition-duration: 80ms;
-  --default-transition-timing-function: cubic-bezier(0.25, 0, 0, 1);
+  --default-transition-timing-function: cubic-bezier(0.25, 0, 0.1, 1);
   --ease-in-out-1: cubic-bezier(0.25, 0, 0, 1);
   --ease-in-out-2: cubic-bezier(0.5, 0, 0.5, 1);
 
