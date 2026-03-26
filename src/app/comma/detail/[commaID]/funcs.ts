@@ -1,14 +1,17 @@
-import { cache } from 'react';
 import { env } from '@/lib/mod/decl';
 import { formatCentStr } from '@/lib/mod/funcs';
 import type { CommaDetail } from './types';
 import { Comma } from '@tktb-tess/my-zod-schema';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
+import { cacheLife } from 'next/cache';
 
 type Tag = 'superparticular' | 'no-2';
 type CommaSize = 'unnoticeable' | 'small' | 'medium' | 'large';
 
-export const fetchCommas = cache(async (commaID: string) => {
+export const fetchCommas = async (commaID: string) => {
+  'use cache';
+  cacheLife('hours');
+
   const resp = await fetch(env.COMMAS_URL);
 
   if (!resp.ok) {
@@ -18,7 +21,7 @@ export const fetchCommas = cache(async (commaID: string) => {
   const o = await resp.json();
   const { commas } = Comma.commaDataSchema.parse(o);
   return commas.find((c) => c.id === commaID) ?? null;
-});
+};
 
 const detectSize = (cents: number): CommaSize => {
   if (cents < 3.5) return 'unnoticeable';
@@ -30,9 +33,10 @@ const detectSize = (cents: number): CommaSize => {
 const formatHeightStr = (height: number) => {
   if (height >= 100) {
     const str = height.toExponential(4);
-    const matched = str.match(/^(?<num>\d\.\d+)e\+(?<exp>\d+)/);
-    const num = matched?.groups?.num;
-    const exp = matched?.groups?.exp;
+    const regex = /^(?<num>\d\.\d+)e\+(?<exp>\d+)/;
+    const matched = regex.exec(str)?.groups;
+    const num = matched?.num;
+    const exp = matched?.exp;
     if (!num || !exp) return str;
     return [num, exp] as const;
   }

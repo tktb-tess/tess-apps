@@ -3,9 +3,9 @@ import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  expireTime: 86400,
   reactStrictMode: true,
   reactCompiler: true,
+  cacheComponents: true,
 };
 
 const withMDX = createMDX({

@@ -1,6 +1,6 @@
 import { CommaKind, Match } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';
 
@@ -30,19 +30,16 @@ interface Props {
   }>;
 }
 
-const Page = async ({ searchParams }: Props) => {
-  const { query, kind, query2 } = await searchParams;
-  if (kind === 'cent' || kind === 'monzo') {
-    if (!query && !query2) {
-      redirect('/comma');
-    }
-  } else {
-    if (!query) {
-      redirect('/comma');
-    }
-  }
+const Loading = () => {
+  return <p>Loading...</p>;
+};
 
-  return <CommaResult params={await searchParams} />;
+const Page = async ({ searchParams }: Props) => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <CommaResult params={searchParams} />
+    </Suspense>
+  );
 };
 
 export default Page;

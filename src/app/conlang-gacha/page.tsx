@@ -7,6 +7,7 @@ import { useId } from 'react';
 import style from './page.module.css';
 import BackBtn from '@/lib/components/BackBtn';
 import { createDate } from '@/lib/mod/funcs';
+import { cacheLife } from 'next/cache';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';
@@ -26,10 +27,10 @@ export const metadata: Metadata = {
 };
 
 const fetchCtcJson = async () => {
-  const resp = await fetch(env.COTEC_URL, {
-    method: 'GET',
-    next: { revalidate: 7200 },
-  });
+  'use cache';
+  cacheLife('hours');
+
+  const resp = await fetch(env.COTEC_URL);
 
   if (!resp.ok) {
     throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`, {
@@ -41,7 +42,7 @@ const fetchCtcJson = async () => {
   return CotecJSON.schema.parse(o);
 };
 
-const App = async () => {
+const Page = async () => {
   const id = useId();
 
   const { metadata, contents } = await fetchCtcJson();
@@ -83,4 +84,4 @@ const App = async () => {
   );
 };
 
-export default App;
+export default Page;
