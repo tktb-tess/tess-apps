@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function Page() {
+const Page = async () => {
   const id = useId();
   return (
     <>
@@ -40,4 +40,6 @@ export default async function Page() {
       </section>
     </>
   );
-}
+};
+
+export default Page;

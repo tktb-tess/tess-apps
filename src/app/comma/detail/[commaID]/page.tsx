@@ -1,10 +1,11 @@
 import style from './page.module.css';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { env } from '@/lib/mod/decl';
 import CommaDetailView from './CommaDetailView';
 import { formatData, fetchCommas } from './funcs';
 import BackBtn from '@/lib/components/BackBtn';
+import LoadingText from '@/lib/components/LoadingText';
+import { Suspense } from 'react';
 
 interface Props {
   params: Promise<{ commaID: string }>;
@@ -12,7 +13,6 @@ interface Props {
 
 export const generateMetadata = async ({ params }: Props) => {
   const { commaID } = await params;
-
   const commaData = await fetchCommas(commaID);
   const title = commaData?.name.at(0) ?? '[NO TITLE]';
   const description = commaData?.name.concat(commaData.colorName).join(', ');
@@ -32,7 +32,7 @@ export const generateMetadata = async ({ params }: Props) => {
   };
 };
 
-const Page = async ({ params }: Props) => {
+const CommaDetail = async ({ params }: Props) => {
   const { commaID } = await params;
   const commaData = await fetchCommas(commaID);
 
@@ -51,6 +51,22 @@ const Page = async ({ params }: Props) => {
       </div>
       <CommaDetailView comma={formatted} />
     </>
+  );
+};
+
+const Loading = () => {
+  return (
+    <div className='grid place-items-center-safe min-h-lvh'>
+      <LoadingText />
+    </div>
+  );
+};
+
+const Page = async ({ params }: Props) => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <CommaDetail params={params} />
+    </Suspense>
   );
 };
 

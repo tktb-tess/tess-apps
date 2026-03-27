@@ -1,7 +1,11 @@
 @reference '../../globals.css';
 
 @layer components {
-  .backBtn {
+  .topBtnWr {
     @apply flex justify-center-safe;
+  }
+
+  .topBtn {
+    @apply btn-theme-1;
   }
 }

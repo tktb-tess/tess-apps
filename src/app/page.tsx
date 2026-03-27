@@ -29,9 +29,12 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1 aria-hidden='true' className={`${ebGaramond.className} ${style.mainTitle}`}>
-          {[...env.SITE_NAME].map((s) => (
-            <span key={`title-${s}`}>{s}</span>
+        <h1
+          aria-hidden='true'
+          className={`${ebGaramond.className} ${style.mainTitle}`}
+        >
+          {[...env.SITE_NAME].map((s, i) => (
+            <span key={`title-${s}-${i}`}>{s}</span>
           ))}
         </h1>
         <h1 className='sr-only'>{env.SITE_NAME}</h1>
@@ -42,7 +45,6 @@ const Home = () => {
           { url: '/comma', text: 'コンマ検索' },
         ]}
       />
-      
     </>
   );
 };

@@ -4,23 +4,25 @@ import type { CommaKind, Match } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import type { CommaData } from './types';
 import { formatCentStr } from '@/lib/mod/funcs';
-import { cache } from 'react';
 
-export const fetchComma = cache(
-  async (query: string, query2: string, kind: CommaKind, match: Match) => {
-    const resp = await fetch(env.COMMAS_URL);
+export const fetchComma = async (
+  query: string,
+  query2: string,
+  kind: CommaKind,
+  match: Match,
+) => {
+  const resp = await fetch(env.COMMAS_URL);
 
-    if (!resp.ok) {
-      throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-    }
+  if (!resp.ok) {
+    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
+  }
 
-    const o = await resp.json();
-    const { commas } = Comma.commaDataSchema.parse(o);
+  const o = await resp.json();
+  const { commas } = Comma.commaDataSchema.parse(o);
 
-    const filtered = filterComma(commas, query, query2, kind, match);
-    return filtered.map(formatData);
-  },
-);
+  const filtered = filterComma(commas, query, query2, kind, match);
+  return filtered.map(formatData);
+};
 
 /**
  * 条件に一致するコンマを抽出

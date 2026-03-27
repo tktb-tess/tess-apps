@@ -1,8 +1,11 @@
 import { CommaKind, Match } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';
+import LoadingText from '@/lib/components/LoadingText';
+import Link from 'next/link';
+import style from './page.module.css';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -30,19 +33,20 @@ interface Props {
   }>;
 }
 
-const Page = async ({ searchParams }: Props) => {
-  const { query, kind, query2 } = await searchParams;
-  if (kind === 'cent' || kind === 'monzo') {
-    if (!query && !query2) {
-      redirect('/comma');
-    }
-  } else {
-    if (!query) {
-      redirect('/comma');
-    }
-  }
+const Loading = () => {
+  return (
+    <div className={style.loadingWr}>
+      <LoadingText />
+    </div>
+  );
+};
 
-  return <CommaResult params={await searchParams} />;
+const Page = async ({ searchParams }: Props) => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <CommaResult params={searchParams} />
+    </Suspense>
+  );
 };
 
 export default Page;

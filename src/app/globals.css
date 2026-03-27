@@ -6,12 +6,11 @@
   --font-sans:
     'Inter-Variable', 'Arial', 'Helvetica Neue', 'Noto Sans JP',
     'BIZ UDPGothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif,
-    'Segoe UI', 'Yu Gothic UI', system-ui;
+    'Segoe UI';
   --font-serif:
     'Charis-Web', 'Times New Roman', 'Noto Serif JP', 'BIZ UDPMincho',
-    'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI', 'Yu Gothic UI',
-    system-ui;
-  --font-ipa: 'Charis-Web', 'Times New Roman', serif, system-ui;
+    'Hiragino Mincho', 'Hiragino Serif', serif, 'Segoe UI';
+  --font-ipa: var(--font-serif);
 
   --color-body: Canvas;
   --color-main: Canvas;
@@ -141,11 +140,14 @@
 
   dialog,
   [popover] {
-    @apply size-[unset] max-w-[unset] max-h-[unset] inset-[unset] fixed;
+    @apply size-[unset] max-inline-[unset] max-block-[unset] inset-[unset] fixed;
   }
 
-  dialog:where(:not([open])),
-  [popover]:where(:not(:popover-open)) {
+  ::backdrop {
+    @apply size-[unset] max-inline-[unset] max-block-[unset] inset-0 fixed;
+  }
+
+  :where(dialog:not([open]):not([popover]), [popover]:not(:popover-open)) {
     @apply hidden!;
   }
 
@@ -157,13 +159,13 @@
     word-break: normal;
   }
 
-  @supports (word-break: auto-phrase) {
-    :lang(ja) {
-      word-break: auto-phrase;
-    }
+  [lang] {
+    word-break: normal;
+  }
 
-    :not(:lang(ja)) {
-      word-break: normal;
+  @supports (word-break: auto-phrase) {
+    [lang^='ja'] {
+      word-break: auto-phrase;
     }
   }
 
@@ -171,7 +173,7 @@
     @apply max-lg:flow-root lg:grid bg-body text-text antialiased;
     grid-template-areas:
       'h h h'
-      '. m .'
+      'l m r'
       'f f f';
     grid-template-columns:
       minmax(min(var(--spacing-min-side), 50%), 1fr)
@@ -258,7 +260,7 @@
   }
 
   ol {
-    list-style-type: decimal;
+    @apply list-decimal;
   }
 
   :not(li) > :where(p, pre, ul, ol) {
@@ -282,8 +284,7 @@
     @apply px-px border border-border rounded-sm;
   }
 
-  ul,
-  ol {
+  :not(li) > :where(ul, ol) {
     @apply ms-5;
   }
 
@@ -292,7 +293,7 @@
   }
 
   table {
-    @apply grid place-content-center-safe overflow-auto max-w-full gap-4;
+    @apply grid place-content-center-safe max-w-full gap-4;
   }
 
   thead,
