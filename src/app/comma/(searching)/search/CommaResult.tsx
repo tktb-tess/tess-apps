@@ -14,6 +14,7 @@ interface Props {
 
 const CommaResult = async ({ params }: Props) => {
   const { query, query2, match, kind } = await params;
+
   if (kind === 'cent' || kind === 'monzo') {
     if (!query && !query2) {
       redirect('/comma');
@@ -23,6 +24,7 @@ const CommaResult = async ({ params }: Props) => {
       redirect('/comma');
     }
   }
+
   const commaData = await fetchComma(query, query2, kind, match);
 
   return <CommaResultView commaData={commaData} />;

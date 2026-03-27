@@ -54,9 +54,17 @@ const CommaDetail = async ({ params }: Props) => {
   );
 };
 
+const Loading = () => {
+  return (
+    <div className='grid place-items-center-safe min-h-lvh'>
+      <LoadingText />
+    </div>
+  );
+};
+
 const Page = async ({ params }: Props) => {
   return (
-    <Suspense fallback={<LoadingText />}>
+    <Suspense fallback={<Loading />}>
       <CommaDetail params={params} />
     </Suspense>
   );

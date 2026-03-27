@@ -4,7 +4,6 @@ import type { CommaKind, Match } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool';
 import type { CommaData } from './types';
 import { formatCentStr } from '@/lib/mod/funcs';
-import { cacheLife } from 'next/cache';
 
 export const fetchComma = async (
   query: string,
@@ -12,9 +11,6 @@ export const fetchComma = async (
   kind: CommaKind,
   match: Match,
 ) => {
-  'use cache';
-  cacheLife('hours');
-
   const resp = await fetch(env.COMMAS_URL);
 
   if (!resp.ok) {

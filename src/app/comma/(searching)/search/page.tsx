@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';
+import LoadingText from '@/lib/components/LoadingText';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -31,7 +32,11 @@ interface Props {
 }
 
 const Loading = () => {
-  return <p>Loading...</p>;
+  return (
+    <div className='grid place-items-center-safe min-h-lvh'>
+      <LoadingText />
+    </div>
+  );
 };
 
 const Page = async ({ searchParams }: Props) => {
