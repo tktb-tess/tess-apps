@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';
 import LoadingText from '@/lib/components/LoadingText';
+import Link from 'next/link';
+import style from './page.module.css';
 
 const ogTitle = 'コンマ検索';
 const ogDesc = 'コンマの検索';
@@ -33,7 +35,7 @@ interface Props {
 
 const Loading = () => {
   return (
-    <div className='grid place-items-center-safe min-h-lvh'>
+    <div className={style.loadingWr}>
       <LoadingText />
     </div>
   );
