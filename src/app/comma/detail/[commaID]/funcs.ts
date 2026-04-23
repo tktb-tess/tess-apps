@@ -1,7 +1,7 @@
 import { env } from '@/lib/mod/decl';
 import { formatCentStr } from '@/lib/mod/funcs';
 import type { CommaDetail } from './types';
-import { Comma } from '@tktb-tess/my-zod-schema';
+import * as S from '@tktb-tess/my-zod-schema/comma_data';
 import { Monzo, getTemperOutEdos } from '@tktb-tess/xenharmonic-tool';
 import { cacheLife } from 'next/cache';
 
@@ -19,7 +19,7 @@ export const fetchCommas = async (commaID: string) => {
   }
 
   const o = await resp.json();
-  const { commas } = Comma.commaDataSchema.parse(o);
+  const { commas } = S.commaDataSchema.parse(o);
   return commas.find((c) => c.id === commaID) ?? null;
 };
 
@@ -43,7 +43,7 @@ const formatHeightStr = (height: number) => {
   return height.toFixed(4);
 };
 
-export const formatData = (comma: Comma.Content): CommaDetail => {
+export const formatData = (comma: S.Content): CommaDetail => {
   const { name: _na, colorName, namedBy: _by } = comma;
 
   const encoded = encodeURIComponent(_na[0] ?? '');

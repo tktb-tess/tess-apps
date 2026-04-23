@@ -1,14 +1,14 @@
 'use client';
 import style from './Gacha.module.css';
-import { getRndInt } from '@tktb-tess/util-fns';
+import { getRndInt } from '@tktb-tess/util-fns/math';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
-import { CotecJSON } from '@tktb-tess/my-zod-schema';
-import GachaView from './GachaView';
+import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
 import { MouseEventHandler, useTransition } from 'react';
-import LoadingIcon from '@/lib/components/LoadingIcon';
 import { sleep, formatData } from './funcs';
 import { ReadonlyDeep } from 'type-fest';
+import LoadingIcon from '@/lib/components/LoadingIcon';
+import GachaView from './GachaView';
 
 interface Props {
   langs: ReadonlyMap<string, ReadonlyDeep<CotecJSON.Content[]>>;

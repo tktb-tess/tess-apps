@@ -1,13 +1,13 @@
-import ExtLink from '@/lib/components/extLink';
+import style from './page.module.css';
 import { env, dateTime } from '@/lib/mod/decl';
 import { Metadata } from 'next';
-import Gacha from './Gacha';
-import { CotecJSON } from '@tktb-tess/my-zod-schema';
+import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
 import { useId } from 'react';
-import style from './page.module.css';
-import BackBtn from '@/lib/components/BackBtn';
 import { createDate } from '@/lib/mod/funcs';
 import { cacheLife } from 'next/cache';
+import BackBtn from '@/lib/components/BackBtn';
+import ExtLink from '@/lib/components/extLink';
+import Gacha from './Gacha';
 
 const ogTitle = '人工言語ガチャ';
 const ogDesc = 'wiki掲載の人工言語のガチャ。';

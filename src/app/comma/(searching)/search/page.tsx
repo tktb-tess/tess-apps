@@ -4,7 +4,6 @@ import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';
 import LoadingText from '@/lib/components/LoadingText';
-import Link from 'next/link';
 import style from './page.module.css';
 
 const ogTitle = 'コンマ検索';

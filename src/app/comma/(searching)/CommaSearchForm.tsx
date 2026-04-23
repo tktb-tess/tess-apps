@@ -1,16 +1,11 @@
 'use client';
 import style from './CommaSearchForm.module.css';
-import Form from 'next/form';
 import { useAtom } from 'jotai';
 import { ChangeEventHandler, InputEventHandler, useId } from 'react';
+import { CommaKind, Match, isMatch, isKind } from '@/lib/mod/decl';
+import * as Atoms from '@/lib/atoms';
 import SearchBtn from '@/lib/components/SearchBtn';
-import { CommaKind, Match, isMatch as isMatch, isKind } from '@/lib/mod/decl';
-import {
-  commaQueryAtom,
-  commaQuery2Atom,
-  commaMatchAtom,
-  commaKindAtom,
-} from '@/lib/atoms';
+import Form from 'next/form';
 
 const label = {
   name: ['名前'],
@@ -79,10 +74,10 @@ const RadioInput = ({
 };
 
 const CommaSearchForm = () => {
-  const [query, setQuery] = useAtom(commaQueryAtom);
-  const [query2, setQuery2] = useAtom(commaQuery2Atom);
-  const [match, setMatch] = useAtom(commaMatchAtom);
-  const [kind, setKind] = useAtom(commaKindAtom);
+  const [query, setQuery] = useAtom(Atoms.commaQueryAtom);
+  const [query2, setQuery2] = useAtom(Atoms.commaQuery2Atom);
+  const [match, setMatch] = useAtom(Atoms.commaMatchAtom);
+  const [kind, setKind] = useAtom(Atoms.commaKindAtom);
 
   const handleMatch: ChangeEventHandler<HTMLInputElement> = (ev) => {
     const value = ev.currentTarget.value;

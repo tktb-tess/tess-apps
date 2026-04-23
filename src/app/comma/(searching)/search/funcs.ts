@@ -1,7 +1,7 @@
-import { Comma } from '@tktb-tess/my-zod-schema';
+import * as Comma from '@tktb-tess/my-zod-schema/comma_data';
 import { env } from '@/lib/mod/decl';
 import type { CommaKind, Match } from '@/lib/mod/decl';
-import { Monzo } from '@tktb-tess/xenharmonic-tool';
+import { Monzo } from '@tktb-tess/xenharmonic-tool/monzo';
 import type { CommaData } from './types';
 import { formatCentStr } from '@/lib/mod/funcs';
 

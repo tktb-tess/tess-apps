@@ -1,4 +1,4 @@
-import { CotecJSON } from '@tktb-tess/my-zod-schema';
+import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
 import type { LangDetail } from './types';
 import { ReadonlyDeep } from 'type-fest';
 
