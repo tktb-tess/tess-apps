@@ -1,5 +1,4 @@
 import * as Comma from '@tktb-tess/my-zod-schema/comma_data';
-import { env } from '@/lib/mod/decl';
 import type { CommaKind, Match } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool/monzo';
 import type { CommaData } from './types';
@@ -11,15 +10,8 @@ export const fetchComma = async (
   kind: CommaKind,
   match: Match,
 ) => {
-  const resp = await fetch(env.COMMAS_URL);
-
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  const o = await resp.json();
-  const { commas } = Comma.commaDataSchema.parse(o);
-
+  const json = (await import('@/lib/assets/commas.json')).default;
+  const { commas } = Comma.commaDataSchema.parse(json);
   const filtered = filterComma(commas, query, query2, kind, match);
   return filtered.map(formatData);
 };
@@ -40,6 +32,7 @@ const filterComma = (
         return commas.filter(({ name }) => {
           const cNames = name.map((s) => s.toLowerCase());
           const qName = query.toLowerCase();
+
           return cNames.some((cName) => {
             switch (match) {
               case 'exact': {
@@ -66,7 +59,7 @@ const filterComma = (
             return false;
           }
 
-          const monzo = new Monzo(comma.monzo);
+          const monzo = Monzo.parse(comma.monzo);
 
           if (monzo.getArray().length < iMonzo.getArray().length) {
             return false;
@@ -95,7 +88,7 @@ const filterComma = (
             const { cents } = comma;
             return lower <= cents && cents < upper;
           }
-          const monzo = new Monzo(comma.monzo);
+          const monzo = Monzo.parse(comma.monzo);
           const cents = monzo.getCents();
           return lower <= cents && cents < upper;
         });
@@ -138,7 +131,7 @@ const formatData = (comma: Comma.Content): CommaData => {
   switch (comma.commaType) {
     case 'rational': {
       const { id, name, monzo: mnz } = comma;
-      const monzo = new Monzo(mnz);
+      const monzo = Monzo.parse(mnz);
       const monzoStr = monzo.getMonzoVector();
       const cents = monzo.getCents();
       const centsStr = formatCentStr(cents);

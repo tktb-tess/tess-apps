@@ -1,5 +1,5 @@
-import { CommaKind, Match } from '@/lib/mod/decl';
-import { Metadata } from 'next';
+import type { CommaKind, Match } from '@/lib/mod/decl';
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { env } from '@/lib/mod/decl';
 import CommaResult from './CommaResult';

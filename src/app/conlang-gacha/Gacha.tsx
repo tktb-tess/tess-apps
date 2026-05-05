@@ -1,12 +1,12 @@
 'use client';
 import style from './Gacha.module.css';
-import { getRndInt } from '@tktb-tess/util-fns/math';
+import { getRndInt } from '@tktb-tess/util-fns/random';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
-import { MouseEventHandler, useTransition } from 'react';
+import { type MouseEventHandler, useTransition } from 'react';
 import { sleep, formatData } from './funcs';
-import { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep } from 'type-fest';
 import LoadingIcon from '@/lib/components/LoadingIcon';
 import GachaView from './GachaView';
 

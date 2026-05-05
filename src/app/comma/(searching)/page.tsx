@@ -1,5 +1,5 @@
 import { env } from '@/lib/mod/decl';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { useId } from 'react';
 import style from './page.module.css';
 

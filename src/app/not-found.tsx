@@ -1,6 +1,6 @@
 import TessIcon from '@/lib/components/tessIcon';
 import { env } from '@/lib/mod/decl';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import style from './not-found.module.css';
 
@@ -29,7 +29,9 @@ const NotFound = () => {
       </div>
       <h2>Hoppla!</h2>
       <p>
-        お探しのページは見つかりませんでした。<wbr />移動または削除された可能性があります。
+        お探しのページは見つかりませんでした。
+        <wbr />
+        移動または削除された可能性があります。
       </p>
       <Link href='/' className='btn-theme-1'>
         トップに戻る

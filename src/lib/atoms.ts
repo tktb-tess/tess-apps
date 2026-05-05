@@ -1,4 +1,5 @@
-import { Match, CommaKind, storageKeys } from './mod/decl';
+import { storageKeys } from './mod/decl';
+import type { Match, CommaKind } from './mod/decl';
 import { atomWithStorage } from 'jotai/utils';
 
 export const commaQueryAtom = atomWithStorage(storageKeys.commaQuery1, '');
@@ -15,5 +16,3 @@ export const lastLangIdAtom = atomWithStorage<string | null>(
   storageKeys.lastLangID,
   null,
 );
-
-

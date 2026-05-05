@@ -1,4 +1,3 @@
-import { env } from '@/lib/mod/decl';
 import { formatCentStr } from '@/lib/mod/funcs';
 import type { CommaDetail } from './types';
 import * as S from '@tktb-tess/my-zod-schema/comma_data';
@@ -12,14 +11,8 @@ export const fetchCommas = async (commaID: string) => {
   'use cache';
   cacheLife('hours');
 
-  const resp = await fetch(env.COMMAS_URL);
-
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  const o = await resp.json();
-  const { commas } = S.commaDataSchema.parse(o);
+  const json = (await import('@/lib/assets/commas.json')).default;
+  const { commas } = S.commaDataSchema.parse(json);
   return commas.find((c) => c.id === commaID) ?? null;
 };
 
@@ -65,7 +58,7 @@ export const formatData = (comma: S.Content): CommaDetail => {
 
   switch (comma.commaType) {
     case 'rational': {
-      const monzo = new Monzo(comma.monzo);
+      const monzo = Monzo.parse(comma.monzo);
       const monzoArray = (() => {
         const s = monzo.getMonzoVector();
         return [s.basis, s.monzo] as const;
