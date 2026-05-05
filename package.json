@@ -16,7 +16,7 @@
     "@next/mdx": "^16.2.4",
     "@tktb-tess/my-zod-schema": "^0.6.0",
     "@tktb-tess/util-fns": "^0.13.3",
-    "@tktb-tess/xenharmonic-tool": "^0.6.0",
+    "@tktb-tess/xenharmonic-tool": "^0.6.1",
     "babel-plugin-react-compiler": "19.1.0-rc.3",
     "jotai": "^2.19.1",
     "mathjs": "^15.2.0",

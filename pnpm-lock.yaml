@@ -24,8 +24,8 @@ importers:
         specifier: ^0.13.3
         version: 0.13.3
       '@tktb-tess/xenharmonic-tool':
-        specifier: ^0.6.0
-        version: 0.6.0
+        specifier: ^0.6.1
+        version: 0.6.1
       babel-plugin-react-compiler:
         specifier: 19.1.0-rc.3
         version: 19.1.0-rc.3
@@ -620,8 +620,8 @@ packages:
     resolution: {integrity: sha512-HAiJEoDwiIVslAkhktncoCFDInnWD60s1fyN3QZtxI8cDdZkcP6Ikqefj4IAt1O8RyEv/xef1RxImJ32pwzOsw==}
     engines: {node: '>=22', pnpm: '>=10'}
 
-  '@tktb-tess/xenharmonic-tool@0.6.0':
-    resolution: {integrity: sha512-1jTbNZltjrm02RRFne80OYthq0kvFm4ZPOjk1YTCwi4zcICoR7Y7Ow4Q2bKQowjMUwUX+efFn8pJLgxmLGvzTA==}
+  '@tktb-tess/xenharmonic-tool@0.6.1':
+    resolution: {integrity: sha512-N0V39u/jojOgGgNUMZ+pVMeU/inlVROP0zt3IA7pnnEQivZ1RiXfY4JTenqRtmvK1OEVt9rmwzWIYFN2GosTpw==}
     engines: {node: '>=22', pnpm: '>=10'}
 
   '@tybys/wasm-util@0.10.1':
@@ -2929,7 +2929,7 @@ snapshots:
 
   '@tktb-tess/util-fns@0.13.3': {}
 
-  '@tktb-tess/xenharmonic-tool@0.6.0': {}
+  '@tktb-tess/xenharmonic-tool@0.6.1': {}
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
