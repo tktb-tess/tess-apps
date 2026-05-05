@@ -1,6 +1,6 @@
 'use client';
 import style from './Gacha.module.css';
-import { getRndInt } from '@tktb-tess/util-fns/math';
+import { getRndInt } from '@tktb-tess/util-fns/random';
 import { useAtom } from 'jotai';
 import { lastLangIdAtom } from '@/lib/atoms';
 import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
