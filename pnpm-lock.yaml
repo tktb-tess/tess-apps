@@ -18,8 +18,8 @@ importers:
         specifier: ^16.2.4
         version: 16.2.4(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.5))
       '@tktb-tess/my-zod-schema':
-        specifier: ^0.5.0
-        version: 0.5.0(zod@4.3.6)
+        specifier: ^0.6.0
+        version: 0.6.0(zod@4.3.6)
       '@tktb-tess/util-fns':
         specifier: ^0.13.0
         version: 0.13.0
@@ -610,8 +610,8 @@ packages:
   '@tailwindcss/postcss@4.2.3':
     resolution: {integrity: sha512-MehdHOQRVFf300r8F430s4cf2QL+nSjFUNIndX5ZMqDLyMwTnyL4RDZsoDsDU+ThzT5eCj1+erSDKBWdn462Nw==}
 
-  '@tktb-tess/my-zod-schema@0.5.0':
-    resolution: {integrity: sha512-igUghPuhxXId5liAKBliRJzIIt9ibkemCsvluEoVWbum55omveCX6CVnBQsiCYdhwlhJk8MdCdSjcv41ENFELw==}
+  '@tktb-tess/my-zod-schema@0.6.0':
+    resolution: {integrity: sha512-4p1RaMXYXI3buVu2u/28OUpl3re1vLrufl3kxcznHNQ58NovRnsIR3jKdtljv5vE4B5YumZeiCW1JLUL6NN3QQ==}
     engines: {node: '>=22.0.0', pnpm: '>=10.0.0'}
     peerDependencies:
       zod: ^3.0.0 || ^4.0.0
@@ -2923,7 +2923,7 @@ snapshots:
       postcss: 8.5.10
       tailwindcss: 4.2.3
 
-  '@tktb-tess/my-zod-schema@0.5.0(zod@4.3.6)':
+  '@tktb-tess/my-zod-schema@0.6.0(zod@4.3.6)':
     dependencies:
       zod: 4.3.6
 

@@ -58,7 +58,7 @@ export const formatData = (comma: S.Content): CommaDetail => {
 
   switch (comma.commaType) {
     case 'rational': {
-      const monzo = new Monzo(comma.monzo);
+      const monzo = Monzo.parse(comma.monzo);
       const monzoArray = (() => {
         const s = monzo.getMonzoVector();
         return [s.basis, s.monzo] as const;

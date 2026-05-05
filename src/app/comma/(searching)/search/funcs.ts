@@ -59,7 +59,7 @@ const filterComma = (
             return false;
           }
 
-          const monzo = new Monzo(comma.monzo);
+          const monzo = Monzo.parse(comma.monzo);
 
           if (monzo.getArray().length < iMonzo.getArray().length) {
             return false;
@@ -88,7 +88,7 @@ const filterComma = (
             const { cents } = comma;
             return lower <= cents && cents < upper;
           }
-          const monzo = new Monzo(comma.monzo);
+          const monzo = Monzo.parse(comma.monzo);
           const cents = monzo.getCents();
           return lower <= cents && cents < upper;
         });
@@ -131,7 +131,7 @@ const formatData = (comma: Comma.Content): CommaData => {
   switch (comma.commaType) {
     case 'rational': {
       const { id, name, monzo: mnz } = comma;
-      const monzo = new Monzo(mnz);
+      const monzo = Monzo.parse(mnz);
       const monzoStr = monzo.getMonzoVector();
       const cents = monzo.getCents();
       const centsStr = formatCentStr(cents);
