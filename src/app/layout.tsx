@@ -1,4 +1,4 @@
-import { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { env } from '@/lib/mod/decl';
 import './globals.css';
 import styles from './layout.module.css';

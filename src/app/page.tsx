@@ -1,5 +1,5 @@
 import style from './page.module.css';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { EB_Garamond } from 'next/font/google';
 import { env } from '@/lib/mod/decl';
 import LinkBtns from '@/lib/components/LinkBtns';

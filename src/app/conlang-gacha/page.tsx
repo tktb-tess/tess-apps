@@ -1,6 +1,6 @@
 import style from './page.module.css';
 import { env, dateTime } from '@/lib/mod/decl';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
 import { useId } from 'react';
 import { createDate } from '@/lib/mod/funcs';

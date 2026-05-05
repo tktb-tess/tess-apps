@@ -1,6 +1,6 @@
 import * as CotecJSON from '@tktb-tess/my-zod-schema/cotec_json';
 import type { LangDetail } from './types';
-import { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep } from 'type-fest';
 
 export const sleep = (delay: number) => {
   return new Promise<void>((res) => setTimeout(res, delay));

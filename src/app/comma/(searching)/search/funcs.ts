@@ -40,6 +40,7 @@ const filterComma = (
         return commas.filter(({ name }) => {
           const cNames = name.map((s) => s.toLowerCase());
           const qName = query.toLowerCase();
+
           return cNames.some((cName) => {
             switch (match) {
               case 'exact': {

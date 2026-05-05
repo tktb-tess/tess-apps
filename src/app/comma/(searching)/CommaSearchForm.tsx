@@ -1,8 +1,10 @@
 'use client';
 import style from './CommaSearchForm.module.css';
 import { useAtom } from 'jotai';
-import { ChangeEventHandler, InputEventHandler, useId } from 'react';
-import { CommaKind, Match, isMatch, isKind } from '@/lib/mod/decl';
+import type { ChangeEventHandler, InputEventHandler } from 'react';
+import { useId } from 'react';
+import { isMatch, isKind } from '@/lib/mod/decl';
+import type { CommaKind, Match } from '@/lib/mod/decl';
 import * as Atoms from '@/lib/atoms';
 import SearchBtn from '@/lib/components/SearchBtn';
 import Form from 'next/form';

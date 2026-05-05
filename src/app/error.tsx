@@ -2,7 +2,7 @@
 
 import TessIcon from '@/lib/components/tessIcon';
 import { env } from '@/lib/mod/decl';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { useEffect } from 'react';
 import style from './not-found.module.css';
 
