@@ -1,5 +1,4 @@
 import * as Comma from '@tktb-tess/my-zod-schema/comma_data';
-import { env } from '@/lib/mod/decl';
 import type { CommaKind, Match } from '@/lib/mod/decl';
 import { Monzo } from '@tktb-tess/xenharmonic-tool/monzo';
 import type { CommaData } from './types';
@@ -11,15 +10,8 @@ export const fetchComma = async (
   kind: CommaKind,
   match: Match,
 ) => {
-  const resp = await fetch(env.COMMAS_URL);
-
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  const o = await resp.json();
-  const { commas } = Comma.commaDataSchema.parse(o);
-
+  const json = (await import('../../commas.json')).default;
+  const { commas } = Comma.commaDataSchema.parse(json);
   const filtered = filterComma(commas, query, query2, kind, match);
   return filtered.map(formatData);
 };

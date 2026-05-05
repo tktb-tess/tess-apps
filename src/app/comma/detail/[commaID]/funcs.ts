@@ -1,4 +1,3 @@
-import { env } from '@/lib/mod/decl';
 import { formatCentStr } from '@/lib/mod/funcs';
 import type { CommaDetail } from './types';
 import * as S from '@tktb-tess/my-zod-schema/comma_data';
@@ -12,14 +11,8 @@ export const fetchCommas = async (commaID: string) => {
   'use cache';
   cacheLife('hours');
 
-  const resp = await fetch(env.COMMAS_URL);
-
-  if (!resp.ok) {
-    throw Error(`failed to fetch: ${resp.status} ${resp.statusText}`);
-  }
-
-  const o = await resp.json();
-  const { commas } = S.commaDataSchema.parse(o);
+  const json = (await import('../../commas.json')).default;
+  const { commas } = S.commaDataSchema.parse(json);
   return commas.find((c) => c.id === commaID) ?? null;
 };
 
