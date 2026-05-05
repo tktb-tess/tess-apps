@@ -10,7 +10,7 @@ export const fetchComma = async (
   kind: CommaKind,
   match: Match,
 ) => {
-  const json = (await import('../../commas.json')).default;
+  const json = (await import('@/lib/assets/commas.json')).default;
   const { commas } = Comma.commaDataSchema.parse(json);
   const filtered = filterComma(commas, query, query2, kind, match);
   return filtered.map(formatData);

@@ -11,7 +11,7 @@ export const fetchCommas = async (commaID: string) => {
   'use cache';
   cacheLife('hours');
 
-  const json = (await import('../../commas.json')).default;
+  const json = (await import('@/lib/assets/commas.json')).default;
   const { commas } = S.commaDataSchema.parse(json);
   return commas.find((c) => c.id === commaID) ?? null;
 };

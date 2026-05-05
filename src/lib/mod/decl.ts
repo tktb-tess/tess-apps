@@ -30,7 +30,6 @@ export const env = {
   BASE_URL: 'https://apps.tktb-tess.dev',
   COTEC_URL:
     'https://tktb-tess.github.io/cotec-json-data/out/conlinguistics-wiki-list-cotec.json',
-  COMMAS_URL: 'https://tktb-tess.github.io/commas/out/commas.json',
 } as const;
 
 export const dateTime = Intl.DateTimeFormat('ja-JP', {
