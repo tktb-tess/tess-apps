@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   cacheComponents: true,
+  partialPrefetching: true,
 };
 
 const withMDX = createMDX({
